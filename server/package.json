@@ -1,0 +1,12 @@
+{
+  "name": "tasker",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/sahinurn/tasker.git",
+  "author": "sahinurn & m3Rzy",
+  "license": "Apache License 2.0",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.3"
+  }
+}
