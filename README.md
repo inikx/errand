@@ -14,8 +14,8 @@ https://dbdiagram.io/d/6213e73a485e433543f0b6db
 ``create database tasker;``
 
 ### Redis
-``docker run --name redis -p 6379:6379 redis``
+``docker run --name tasker-redis -p 6379:6379 redis``
 
-``docker exec -it redis redis-cli``
+``docker exec -it tasker-redis redis-cli``
 
-``config set requirepass``
+``config set requirepass Kr8_pLf67-Km@``
