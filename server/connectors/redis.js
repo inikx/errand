@@ -34,5 +34,5 @@ async function del(key) {
 module.exports = {
     saveWithTtl,
     get,
-    del,
+    del
 };
