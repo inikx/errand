@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
-const User = require("../models/user")
+const User = require("../models/user");
 const Sequelize = require("sequelize");
 const Op = Sequelize.Op;
 
@@ -50,7 +50,9 @@ const login = async (req, res) => {
             user.token = token;
 
             // return user
-            res.status(200).json(user);
+            res.status(200).json({
+                token,
+            });
         }
         res.status(400).json("invalid credentials");
     } catch (error) {
