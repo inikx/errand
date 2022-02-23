@@ -6,11 +6,6 @@ const Group = require("./group");
 const UsersInGroup = s.define(
     "users_in_group",
     {
-        title: {
-            // category title
-            type: Sequelize.STRING,
-            allowNull: false,
-        },
     },
     {
         timestamps: false,
