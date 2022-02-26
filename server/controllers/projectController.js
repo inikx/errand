@@ -1,63 +1,61 @@
 const Sequelize = require("sequelize");
 const Op = Sequelize.Op;
-const Group = require("../models/group");
-const UsersInGroup = require("../models/usersInGroup");
+const Project = require("../models/project");
+const UsersInProject = require("../models/usersInProject");
 const User = require("../models/user");
 
-const getGroups = async (req, res) => {
+const getProjects = async (req, res) => {
     try {
-        const groups = await UsersInGroup.findAll(
+        const projects = await UsersInProject.findAll(
             {
                 where: {
                     user_id: req.user.user_id,
                 },
                 include: [
                     { model: User, required: true },
-                    { model: Group, required: true },
+                    { model: Project, required: true },
                 ],
             },
             { raw: true }
         );
-        const mappedGroups = groups.map((group) => {
-            return { id: group.group_id, title: group.group.title };
+        const mappedProjects = projects.map((project) => {
+            return { id: project.project_id, title: project.project.title };
         });
-        res.status(200).json(mappedGroups);
+        res.status(200).json(mappedProjects);
     } catch (error) {
         console.error(error);
     }
 };
 
-const getAllUsersInTheGroup = async (req, res) => {};
-
-const createGroup = async (req, res) => {
+const createProject = async (req, res) => {
     try {
-        const group = new Group({
+        const project = new Project({
             title: req.body.title,
             creator: req.user.username,
         });
 
-        await group.save();
-        const addUserToGroup = new UsersInGroup({
-            group_id: group.id,
+        await project.save();
+        const addUserToProject = new UsersInProject({
+            project_id: project.id,
             user_id: req.user.user_id,
         });
 
-        addUserToGroup.save();
-        res.status(200).json("group successfully created");
+        addUserToProject.save();
+        res.status(200).json("project successfully created");
     } catch (error) {
         console.error(error);
     }
 };
 
-const updateGroup = async (req, res) => {
+const updateProject = async (req, res) => {
     try {
         const { id, title } = req.body;
-        const group = await Group.findOne({
+        const project = await Project.findOne({
             where: { creator: req.user.username },
         });
 
-        if (group) {
-            await Group.update({ title }, { where: { id } });
+        if (project) {
+            await Project.update({ title }, { where: { id } });
             res.status(200).json("group successfully updated");
         } else {
             res.status(403).json("u can't edit this group");
@@ -67,37 +65,37 @@ const updateGroup = async (req, res) => {
     }
 };
 
-const addUserToGroup = async (req, res) => {
+const addUserToProject = async (req, res) => {
     try {
-        const { user_id, group_id } = req.body;
+        const { user_id, project_id } = req.body;
         if (user_id === req.user.user_id) {
             res.status(409).json("this is your group");
         } else {
-            const group = await Group.findOne({
-                where: { creator: req.user.username, id: group_id },
+            const project = await Project.findOne({
+                where: { creator: req.user.username, id: project_id },
             });
-            console.log(group);
-            if (group) {
+            console.log(project);
+            if (project) {
                 const user = await User.findOne({ where: { id: user_id } });
                 if (user) {
-                    const userInGroup = await UsersInGroup.findOne({
-                        where: { user_id, group_id },
+                    const userInProject = await UsersInProject.findOne({
+                        where: { user_id, project_id },
                     });
-                    if (!userInGroup) {
-                        const userInGroup = new UsersInGroup({
+                    if (!userInProject) {
+                        const userInProject = new UsersInProject({
                             group_id,
                             user_id,
                         });
-                        userInGroup.save();
+                        userInProject.save();
                         res.status(200).json("user added");
                     } else {
-                        res.status(409).json("user already in this group");
+                        res.status(409).json("user already in this project");
                     }
                 } else {
                     res.status(404).json("user not found");
                 }
             } else {
-                res.status(403).json("this is not your group");
+                res.status(403).json("this is not your project");
             }
         }
     } catch (error) {
@@ -105,7 +103,7 @@ const addUserToGroup = async (req, res) => {
     }
 };
 
-const removeGroup = async (req, res) => {
+const removeProject = async (req, res) => {
     try {
     } catch (error) {
         console.error(error);
@@ -113,9 +111,9 @@ const removeGroup = async (req, res) => {
 };
 
 module.exports = {
-    getGroups,
-    createGroup,
-    updateGroup,
-    addUserToGroup,
-    removeGroup,
+    getProjects,
+    createProject,
+    updateProject,
+    addUserToProject,
+    removeProject,
 };

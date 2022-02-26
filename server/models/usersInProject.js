@@ -1,10 +1,10 @@
 const Sequelize = require("sequelize");
 var s = require("../connectors/postgres");
 const User = require("./user");
-const Group = require("./group");
+const Project = require("./project");
 
-const UsersInGroup = s.define(
-    "users_in_group",
+const UsersInProject = s.define(
+    "users_in_project",
     {
     },
     {
@@ -13,16 +13,16 @@ const UsersInGroup = s.define(
     }
 );
 
-UsersInGroup.belongsTo(Group, {
-    foreignKey: { name: "group_id", allowNull: false },
+UsersInProject.belongsTo(Project, {
+    foreignKey: { name: "project_id", allowNull: false },
     onDelete: "CASCADE",
 });
 
-UsersInGroup.belongsTo(User, {
+UsersInProject.belongsTo(User, {
     foreignKey: { name: "user_id", allowNull: false },
     onDelete: "CASCADE",
 });
 
-UsersInGroup.sync();
+UsersInProject.sync();
 
-module.exports = UsersInGroup;
+module.exports = UsersInProject;

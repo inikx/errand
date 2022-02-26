@@ -9,6 +9,11 @@ const Project = s.define(
             type: Sequelize.STRING,
             allowNull: false,
         },
+        creator: {
+            // creator username
+            type: Sequelize.STRING,
+            allowNull: false,
+        },
     },
     {
         timestamps: false,

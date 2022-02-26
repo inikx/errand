@@ -1,7 +1,6 @@
 const Sequelize = require("sequelize");
 var s = require("../connectors/postgres");
 const User = require("./user");
-const Group = require("./group");
 const Project = require("./project");
 
 const Task = s.define(
@@ -17,8 +16,8 @@ const Task = s.define(
             type: Sequelize.DATE,
             allowNull: true,
         },
-        finished: {
-            type: Sequelize.BOOLEAN,
+        status: {
+            type: Sequelize.STRING,
             allowNull: false,
         },
     },
@@ -33,13 +32,13 @@ Task.belongsTo(User, {
     onDelete: "CASCADE",
 });
 
-Task.belongsTo(Project, {
-    foreignKey: { name: "project_id", allowNull: true },
+Task.belongsTo(User, {
+    foreignKey: { name: "creator_id", allowNull: false },
     onDelete: "CASCADE",
 });
 
-Task.belongsTo(Group, {
-    foreignKey: { name: "group_id", allowNull: true },
+Task.belongsTo(Project, {
+    foreignKey: { name: "project_id", allowNull: true },
     onDelete: "CASCADE",
 });
 

@@ -4,7 +4,7 @@ const cors = require("cors");
 const compression = require("compression");
 const userRoutes = require("./routes/userRoutes");
 const taskRoutes = require("./routes/taskRoutes");
-const groupRoutes = require("./routes/groupRoutes");
+const projectRoutes = require("./routes/projectRoutes");
 
 const app = express();
 
@@ -16,7 +16,7 @@ app.use(cors({ credentials: true, origin: true }));
 // Routes
 app.use("/api", userRoutes);
 app.use("/api/task", taskRoutes);
-app.use("/api/group", groupRoutes);
+app.use("/api/project", projectRoutes);
 
 // Handle undefined Routes
 app.use("*", (req, res, next) => {
