@@ -1,6 +1,8 @@
 # TASKER
 ## Database
 https://dbdiagram.io/d/6213e73a485e433543f0b6db
+## Figma
+https://www.figma.com/file/rgzkJ9Ux9VU2akSqkpKI35/Untitled?node-id=0%3A1
 
 ## Server
 ``yarn install``
