@@ -4,17 +4,22 @@ const User = require("../models/user");
 const Sequelize = require("sequelize");
 const Op = Sequelize.Op;
 
+const { check, validationResult } = require('express-validator/check');
+
 const register = async (req, res) => {
     try {
         const { username, email, password } = req.body;
         var user = await User.findOne({
             where: { [Op.or]: [{ username: username }, { email: email }] },
         });
-
-        if (user) {
-            res.status(409).json("user already exists");
+        //var pass_filter = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{5,25}$/;
+        if (user /*|| pass_filter.test(password.value)*/) {
+            res.status(409).json("user already exists or invalid password");
         }
-
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
         var encryptedPassword = await bcrypt.hash(password, 10);
         user = new User({
             username,
@@ -23,7 +28,9 @@ const register = async (req, res) => {
         });
         await user.save();
 
+
         res.status(201).json(user);
+
     } catch (error) {
         console.error(error);
     }
