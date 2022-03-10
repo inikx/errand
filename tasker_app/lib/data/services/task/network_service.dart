@@ -62,7 +62,7 @@ class TaskNetworkService {
 
   delete_task(int id) async {
     String? token = await storage.read(key: 'token');
-    final response = await http.delete(Uri.parse('$BASE_URL/api/task/update'),
+    final response = await http.delete(Uri.parse('$BASE_URL/api/task/remove'),
         headers: {
           "Content-Type": "application/json",
           "x-access-token": token.toString()
