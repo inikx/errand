@@ -10,6 +10,7 @@ class LogInPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var _controller = TextEditingController();
     return BlocListener<LogInCubit, LogInState>(
       listener: (context, state) {
         switch (state.runtimeType) {
@@ -21,9 +22,16 @@ class LogInPage extends StatelessWidget {
       child: Scaffold(
           body: SafeArea(
         child: Container(
-          decoration: const BoxDecoration(
-            image: DecorationImage(
-                image: AssetImage("assets/img/wall.png"), fit: BoxFit.cover),
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+                colors: [
+                  const Color(0xFF151B2B).withOpacity(0.8),
+                  const Color(0xFF1B1E21),
+                ],
+                begin: const FractionalOffset(0.0, 0.0),
+                end: const FractionalOffset(0.0, 0.9),
+                stops: const [0.0, 1.0],
+                tileMode: TileMode.clamp),
           ),
           child: SafeArea(
               child: Container(
@@ -54,7 +62,7 @@ class LogInPage extends StatelessWidget {
                           fontWeight: FontWeight.normal)),
                 ),
                 Container(
-                    margin: EdgeInsets.only(top: 29),
+                    margin: const EdgeInsets.only(top: 29),
                     child: GestureDetector(
                       onTap: () {
                         Navigator.pushNamed(context, REGISTER);
@@ -73,22 +81,28 @@ class LogInPage extends StatelessWidget {
                     margin: const EdgeInsets.only(top: 100),
                     width: 270,
                     child: TextField(
+                      controller: _controller,
                       onChanged: (String value) async {
                         context.read<LogInCubit>().updateUsername(value);
                       },
-                      style: TextStyle(
+                      style: const TextStyle(
                           color: Colors.white,
                           fontFamily: 'Rubik',
-                          fontSize: 14),
+                          fontSize: 16),
                       cursorColor: Colors.white,
                       decoration: InputDecoration(
-                        enabledBorder: UnderlineInputBorder(
+                        suffixIcon: IconButton(
+                          icon: const Icon(Icons.clear, size: 16),
+                          color: Colors.white,
+                          onPressed: _controller.clear,
+                        ),
+                        enabledBorder: const UnderlineInputBorder(
                           borderSide: BorderSide(
                               color: Colors.white,
                               width: 1.0,
                               style: BorderStyle.solid),
                         ),
-                        labelStyle: TextStyle(
+                        labelStyle: const TextStyle(
                           color: Color(0x80FFFFFF),
                           fontFamily: 'Rubik',
                         ),
@@ -103,12 +117,12 @@ class LogInPage extends StatelessWidget {
                         context.read<LogInCubit>().updatePassword(value);
                       },
                       obscureText: true,
-                      style: TextStyle(
+                      style: const TextStyle(
                           color: Colors.white,
                           fontFamily: 'Rubik',
-                          fontSize: 14),
+                          fontSize: 16),
                       cursorColor: Colors.white,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         enabledBorder: UnderlineInputBorder(
                           borderSide: BorderSide(
                               color: Colors.white,
@@ -128,7 +142,7 @@ class LogInPage extends StatelessWidget {
                   margin: const EdgeInsets.only(top: 40),
                   child: ElevatedButton(
                       child: const Text('Войти',
-                          style: TextStyle(fontFamily: 'Rubik', fontSize: 17)),
+                          style: TextStyle(fontFamily: 'Rubik', fontSize: 16)),
                       onPressed: () async {
                         print(context.read<LogInCubit>().state);
                         BlocProvider.of<LogInCubit>(context)
@@ -142,7 +156,7 @@ class LogInPage extends StatelessWidget {
                                   RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(15),
                           )))),
-                )
+                ),
               ]),
             ),
           )),
