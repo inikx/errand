@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tasker_app/route.dart';
 
 void main() {
+  Paint.enableDithering = true;
   runApp(ErrandApp(router: AppRouter()));
 }
 

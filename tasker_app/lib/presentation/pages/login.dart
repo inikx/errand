@@ -10,6 +10,7 @@ class LogInPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    
     var _controller = TextEditingController();
     return BlocListener<LogInCubit, LogInState>(
       listener: (context, state) {
@@ -22,15 +23,15 @@ class LogInPage extends StatelessWidget {
       child: Scaffold(
           body: SafeArea(
         child: Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             gradient: LinearGradient(
                 colors: [
-                  const Color(0xFF151B2B).withOpacity(0.8),
-                  const Color(0xFF1B1E21),
+                  Color(0xFF151B2B),
+                  Color(0xFF22282E),
                 ],
-                begin: const FractionalOffset(0.0, 0.0),
-                end: const FractionalOffset(0.0, 0.9),
-                stops: const [0.0, 1.0],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                stops: [0.0, 1.0],
                 tileMode: TileMode.clamp),
           ),
           child: SafeArea(
