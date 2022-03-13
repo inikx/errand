@@ -4,7 +4,7 @@ const User = require("../models/user");
 const Sequelize = require("sequelize");
 const Op = Sequelize.Op;
 
-const { check, validationResult } = require('express-validator/check');
+const { check, validationResult } = require("express-validator/check");
 
 const register = async (req, res) => {
     try {
@@ -28,9 +28,7 @@ const register = async (req, res) => {
         });
         await user.save();
 
-
         res.status(201).json(user);
-
     } catch (error) {
         console.error(error);
     }
@@ -42,6 +40,7 @@ const login = async (req, res) => {
 
         if (!(username && password)) {
             res.status(400).json("all inputs is required");
+            return;
         }
 
         const user = await User.findOne({ where: { username: username } });
@@ -60,6 +59,7 @@ const login = async (req, res) => {
             res.status(200).json({
                 token,
             });
+            return;
         }
         res.status(400).json("invalid credentials");
     } catch (error) {
