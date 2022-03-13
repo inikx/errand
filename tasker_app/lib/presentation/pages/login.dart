@@ -55,16 +55,20 @@ class LogInPage extends StatelessWidget {
                 ),
                 Container(
                     margin: EdgeInsets.only(top: 29),
-                    child: const Text('Создать аккаунт',
-                        //вставить ссылку на другую страницу
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontFamily: 'Rubik',
-                          color: Color(0xff908FEC),
-                          fontSize: 14,
-                          fontWeight: FontWeight.normal,
-                          decoration: TextDecoration.underline,
-                        ))),
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, REGISTER);
+                      },
+                      child: const Text('Создать аккаунт',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontFamily: 'Rubik',
+                            color: Color(0xff908FEC),
+                            fontSize: 14,
+                            fontWeight: FontWeight.normal,
+                            decoration: TextDecoration.underline,
+                          )),
+                    )),
                 Container(
                     margin: const EdgeInsets.only(top: 100),
                     width: 270,

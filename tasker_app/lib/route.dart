@@ -6,6 +6,7 @@ import 'package:tasker_app/data/services/login/network_service.dart';
 import 'package:tasker_app/data/services/login/repository.dart';
 import 'package:tasker_app/presentation/pages/home.dart';
 import 'package:tasker_app/presentation/pages/login.dart';
+import 'package:tasker_app/presentation/pages/registration.dart';
 
 class AppRouter {
   late LoginRepository loginRepository;
@@ -25,6 +26,10 @@ class AppRouter {
       case HOME:
         return MaterialPageRoute(
           builder: (_) => HomePage(),
+        );
+      case REGISTER:
+        return MaterialPageRoute(
+          builder: (_) => RegistrationPage(),
         );
       default:
         return null;
