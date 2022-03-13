@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tasker_app/bloc/login/login_cubit.dart';
@@ -28,7 +29,7 @@ class AppRouter {
           builder: (_) => HomePage(),
         );
       case REGISTER:
-        return MaterialPageRoute(
+        return CupertinoPageRoute(
           builder: (_) => RegistrationPage(),
         );
       default:
