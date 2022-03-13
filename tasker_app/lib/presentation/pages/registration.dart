@@ -12,15 +12,15 @@ class RegistrationPage extends StatelessWidget {
         body: Scaffold(
       body: SafeArea(
         child: Container(
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               gradient: LinearGradient(
                   colors: [
-                    Color(0xFF151B2B),
-                    Color(0xFF22282E),
+                    const Color(0xFF151B2B).withOpacity(0.8),
+                    const Color(0xFF1B1E21),
                   ],
-                  begin: FractionalOffset(0.0, 0.0),
-                  end: FractionalOffset(0.0, 0.9),
-                  stops: [0.0, 1.0],
+                  begin: const FractionalOffset(0.0, 0.0),
+                  end: const FractionalOffset(0.0, 0.9),
+                  stops: const [0.0, 1.0],
                   tileMode: TileMode.clamp),
             ),
             child: Container(
