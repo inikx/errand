@@ -13,6 +13,8 @@ class ErrandApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      title: 'Errand',
+      theme: ThemeData(fontFamily: 'Rubik'),
       onGenerateRoute: router.generateRoute,
     );
   }
