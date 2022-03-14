@@ -9,7 +9,8 @@ class RegistrationPage extends StatelessWidget {
     var _controller = TextEditingController();
 
     return Scaffold(
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        floatingActionButtonLocation:
+            FloatingActionButtonLocation.miniCenterFloat,
         floatingActionButton: Column(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
@@ -173,8 +174,4 @@ class RegistrationPage extends StatelessWidget {
           ),
         ));
   }
-}
-
-Widget _createFloating() {
-  return Scaffold();
 }
