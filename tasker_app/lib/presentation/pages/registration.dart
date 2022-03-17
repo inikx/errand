@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tasker_app/bloc/register/register_cubit.dart';
 import 'package:tasker_app/constants/strings.dart';
 import 'package:tasker_app/presentation/pages/registration2.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 class RegistrationPage extends StatelessWidget {
   const RegistrationPage({Key? key}) : super(key: key);
@@ -15,7 +17,22 @@ class RegistrationPage extends StatelessWidget {
       listener: (context, state) {
         switch (state.runtimeType) {
           case UserRegistered:
+          showTopSnackBar(
+              context,
+              CustomSnackBar.success(
+                message: "account created!",
+              ),
+            );
             Navigator.pushNamed(context, LOGIN);
+            return;
+          case RegisterError:
+            showTopSnackBar(
+              context,
+              CustomSnackBar.error(
+                message: "registration error",
+              ),
+            );
+            return;
         }
       },
       child: Scaffold(
