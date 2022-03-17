@@ -12,6 +12,7 @@ class LogInPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isKeyboard = MediaQuery.of(context).viewInsets.bottom != 0;
     var _controller = TextEditingController();
     return BlocListener<LogInCubit, LogInState>(
       listener: (context, state) {
@@ -20,8 +21,7 @@ class LogInPage extends StatelessWidget {
             showTopSnackBar(
               context,
               CustomSnackBar.success(
-                message:
-                    "logged in",
+                message: "logged in",
               ),
             );
             Navigator.pushNamedAndRemoveUntil(context, HOME, (r) => false);
@@ -30,112 +30,92 @@ class LogInPage extends StatelessWidget {
             showTopSnackBar(
               context,
               CustomSnackBar.error(
-                message:
-                    "loggin error",
+                message: "loggin error",
               ),
             );
         }
       },
       child: Scaffold(
-          floatingActionButtonLocation:
-              FloatingActionButtonLocation.centerFloat,
-          floatingActionButton:
-              Column(mainAxisAlignment: MainAxisAlignment.end, children: [
-            Container(
-              width: 270,
-              height: 50,
-              margin: const EdgeInsets.only(top: 40),
-              child: ElevatedButton(
-                  child: const Text('Войти',
-                      style: TextStyle(fontFamily: 'Rubik', fontSize: 16)),
-                  onPressed: () async {
-                    BlocProvider.of<LogInCubit>(context)
-                        .loginUser(context.read<LogInCubit>().state.data);
-                  },
-                  style: ButtonStyle(
-                      backgroundColor:
-                          MaterialStateProperty.all(const Color(0xff7A79CD)),
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15),
-                      )))),
-            ),
-          ]),
-          body: Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                  colors: [
-                    const Color(0xFF151B2B).withOpacity(0.8),
-                    const Color(0xFF1B1E21),
-                  ],
-                  begin: const FractionalOffset(0.0, 0.0),
-                  end: const FractionalOffset(0.0, 0.9),
-                  stops: const [0.0, 1.0],
-                  tileMode: TileMode.clamp),
-            ),
-            child: SafeArea(
-                child: Container(
+        body: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+                colors: [
+                  const Color(0xFF151B2B).withOpacity(0.8),
+                  const Color(0xFF1B1E21),
+                ],
+                begin: const FractionalOffset(0.0, 0.0),
+                end: const FractionalOffset(0.0, 0.9),
+                stops: const [0.0, 1.0],
+                tileMode: TileMode.clamp),
+          ),
+          child: SafeArea(
+            child: Container(
               padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
               child: Center(
                 child: Column(children: [
-                  Container(
-                    margin: const EdgeInsets.only(top: 75),
-                    child: const Text(
-                      'Errand',
-                      style: TextStyle(
-                        fontFamily: 'Rubik',
-                        color: Colors.white,
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold,
-                      ),
+                  if (!isKeyboard)
+                    Column(
+                      children: [
+                        Container(
+                          margin: const EdgeInsets.only(top: 35),
+                          child: const Text(
+                            'Errand',
+                            style: TextStyle(
+                              fontFamily: 'Rubik',
+                              color: Colors.white,
+                              fontSize: 30,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 270,
+                          child: Text(
+                              'Планируй задачи для большей продуктивности уже сейчас.',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontFamily: 'Rubik',
+                                  color: Color(0x80FFFFFF),
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.normal)),
+                        ),
+                        Container(
+                            margin: const EdgeInsets.only(top: 29),
+                            child: GestureDetector(
+                              onTap: () {
+                                Navigator.pushNamed(context, REGISTER);
+                              },
+                              child: const Text('Создать аккаунт',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontFamily: 'Rubik',
+                                    color: Color(0xff908FEC),
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.normal,
+                                    decoration: TextDecoration.underline,
+                                  )),
+                            )),
+                        Container(
+                            margin: const EdgeInsets.only(top: 29),
+                            child: GestureDetector(
+                              onTap: () {
+                                Navigator.pushNamed(context, HOME);
+                              },
+                              child: const Text(
+                                  'ДЛЯ РАЗРАБОТЧИКОВ - НА ДОМАШНЮЮ СТРАНИЦУ',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontFamily: 'Rubik',
+                                    color: Color(0xff908FEC),
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.normal,
+                                    decoration: TextDecoration.underline,
+                                  )),
+                            )),
+                      ],
                     ),
-                  ),
-                  const SizedBox(
-                    width: 270,
-                    child: Text(
-                        'Планируй задачи для большей продуктивности уже сейчас.',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontFamily: 'Rubik',
-                            color: Color(0x80FFFFFF),
-                            fontSize: 14,
-                            fontWeight: FontWeight.normal)),
-                  ),
                   Container(
-                      margin: const EdgeInsets.only(top: 29),
-                      child: GestureDetector(
-                        onTap: () {
-                          Navigator.pushNamed(context, REGISTER);
-                        },
-                        child: const Text('Создать аккаунт',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontFamily: 'Rubik',
-                              color: Color(0xff908FEC),
-                              fontSize: 14,
-                              fontWeight: FontWeight.normal,
-                              decoration: TextDecoration.underline,
-                            )),
-                      )),
-                  Container(
-                      margin: const EdgeInsets.only(top: 29),
-                      child: GestureDetector(
-                        onTap: () {
-                          Navigator.pushNamed(context, HOME);
-                        },
-                        child: const Text(
-                            'ДЛЯ РАЗРАБОТЧИКОВ - НА ДОМАШНЮЮ СТРАНИЦУ',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontFamily: 'Rubik',
-                              color: Color(0xff908FEC),
-                              fontSize: 14,
-                              fontWeight: FontWeight.normal,
-                              decoration: TextDecoration.underline,
-                            )),
-                      )),
-                  Container(
-                      margin: const EdgeInsets.only(top: 100),
+                      margin: const EdgeInsets.only(top: 50),
                       width: 270,
                       child: TextField(
                         controller: _controller,
@@ -193,10 +173,32 @@ class LogInPage extends StatelessWidget {
                           labelText: 'Пароль',
                         ),
                       )),
+                  Container(
+                    width: 270,
+                    height: 50,
+                    margin: const EdgeInsets.only(top: 100),
+                    child: ElevatedButton(
+                        child: const Text('Войти',
+                            style:
+                                TextStyle(fontFamily: 'Rubik', fontSize: 16)),
+                        onPressed: () async {
+                          BlocProvider.of<LogInCubit>(context)
+                              .loginUser(context.read<LogInCubit>().state.data);
+                        },
+                        style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all(
+                                const Color(0xff7A79CD)),
+                            shape: MaterialStateProperty.all<
+                                RoundedRectangleBorder>(RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15),
+                            )))),
+                  ),
                 ]),
               ),
-            )),
-          )),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

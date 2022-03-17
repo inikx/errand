@@ -7,6 +7,7 @@ class RegistrationPage2 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var _controller = TextEditingController();
+    final isKeyboard = MediaQuery.of(context).viewInsets.bottom != 0;
     return Scaffold(
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         floatingActionButton: Column(
@@ -19,7 +20,7 @@ class RegistrationPage2 extends StatelessWidget {
                   child: const Text('Продолжить',
                       style: TextStyle(fontFamily: 'Rubik', fontSize: 16)),
                   onPressed: () async {
-                    Navigator.pushNamed(context,LOGIN);
+                    Navigator.pushNamed(context, LOGIN);
                   },
                   style: ButtonStyle(
                       backgroundColor:
@@ -57,7 +58,8 @@ class RegistrationPage2 extends StatelessWidget {
                                   Icons.arrow_back_ios_new_outlined,
                                   color: Colors.white,
                                 ),
-                                onPressed: () => Navigator.pop(context)), //сделать возворат на страницу авторизации
+                                onPressed: () => Navigator.pop(
+                                    context)), //сделать возворат на страницу авторизации
                           ],
                         ),
                         ClipOval(

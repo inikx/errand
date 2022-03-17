@@ -1,6 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:tasker_app/presentation/pages/profile.dart';
 import 'package:tasker_app/presentation/widgets/my_projects.dart';
 import 'package:tasker_app/presentation/widgets/my_tasks.dart';
 
@@ -108,7 +110,14 @@ class _HomePageState extends State<HomePage> {
                                       border: Border.all(color: Colors.white),
                                       shape: BoxShape.circle),
                                   child: IconButton(
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        Navigator.push(
+                                            context,
+                                            CupertinoPageRoute(
+                                                builder: (context) =>
+                                                    const Profile()));
+                                        //rebuild button to profile.dart *vladICK
+                                      },
                                       icon: const Icon(Icons.person,
                                           size: 30, color: Colors.white)),
                                 ) //add profile image
@@ -186,7 +195,9 @@ class _HomePageState extends State<HomePage> {
                               ),
                             ],
                           ),
-                          _TasksIsPressed ? const MyTasks() : const MyProjects(),
+                          _TasksIsPressed
+                              ? const MyTasks()
+                              : const MyProjects(),
                         ])))));
   }
 }
