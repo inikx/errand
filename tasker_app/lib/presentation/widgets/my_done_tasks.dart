@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:tasker_app/presentation/widgets/tasks_list.dart';
+import 'package:tasker_app/data/models/task.dart';
+import 'package:tasker_app/presentation/widgets/task.dart';
 
-class MyDoneTasks extends StatefulWidget {
-  const MyDoneTasks({Key? key}) : super(key: key);
+class MyDoneTasks extends StatelessWidget {
+  List<Task> tasks;
+  MyDoneTasks({Key? key, required this.tasks}) : super(key: key);
 
-  @override
-  State<MyDoneTasks> createState() => _MyDoneTasksState();
-}
-
-class _MyDoneTasksState extends State<MyDoneTasks> {
   @override
   Widget build(BuildContext context) {
     return ListView(
@@ -29,11 +26,10 @@ class _MyDoneTasksState extends State<MyDoneTasks> {
                   fontWeight: FontWeight.normal,
                 ),
               ),
-              children: [
-                TasksList(done: true),
-              ],
+              children: tasks.map((task) => TaskWidget(task: task)).toList(),
             ),
           ),
         ]);
   }
+  
 }
