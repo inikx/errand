@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tasker_app/bloc/login/login_cubit.dart';
 import 'package:tasker_app/bloc/register/register_cubit.dart';
@@ -28,23 +27,23 @@ class AppRouter {
         return CupertinoPageRoute(
           builder: (_) => BlocProvider(
             create: (context) => LogInCubit(repository: loginRepository),
-            child: LogInPage(),
+            child: const LogInPage(),
           ),
         );
       case HOME:
         return CupertinoPageRoute(
-          builder: (_) => HomePage(),
+          builder: (_) => const HomePage(),
         );
       case REGISTER:
         return CupertinoPageRoute(
           builder: (_) => BlocProvider(
             create: (context) => RegisterCubit(repository: registerRepository),
-            child: RegistrationPage(),
+            child: const RegistrationPage(),
           ),
         );
       case REGISTER_2ND:
         return CupertinoPageRoute(
-          builder: (_) => RegistrationPage2(),
+          builder: (_) => const RegistrationPage2(),
         );
       default:
         return null;
