@@ -65,7 +65,7 @@ class TasksList extends StatelessWidget {
             deadline: DateTime(2020 - 10 - 10),
           ),
           if (done == false) ...[
-            MyDoneTasks(),
+            const MyDoneTasks(),
           ]
         ]));
   }
@@ -106,7 +106,7 @@ class _TaskState extends State<Task> {
       child: SizedBox(
         child: Expanded(
           child: Card(
-            color: Color(0x26C4C4C4),
+            color: const Color(0x26C4C4C4),
             elevation: 0,
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
@@ -132,12 +132,12 @@ class _TaskState extends State<Task> {
                             widget.status
                                 ? Icons.check_box_outlined
                                 : Icons.check_box_outline_blank,
-                            color: Color(0xFFDADADA),
+                            color: const Color(0xFFDADADA),
                             size: 28)),
                     Expanded(
                       child: Text(widget.title,
                           overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontFamily: 'Rubik',
                               color: Colors.white,
                               fontSize: 14,

@@ -13,14 +13,14 @@ class _MyDoneTasksState extends State<MyDoneTasks> {
   Widget build(BuildContext context) {
     return ListView(
         shrinkWrap: true,
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         children: <Widget>[
           Theme(
             data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
             child: ExpansionTile(
-              iconColor: Color(0xFF7A79CD),
-              collapsedIconColor: Color(0xFF7A79CD),
-              title: Text(
+              iconColor: const Color(0xFF7A79CD),
+              collapsedIconColor: const Color(0xFF7A79CD),
+              title: const Text(
                 'Выполненные',
                 style: TextStyle(
                   fontFamily: 'Rubik',

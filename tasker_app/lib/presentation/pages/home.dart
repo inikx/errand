@@ -75,9 +75,9 @@ class _HomePageState extends State<HomePage> {
                                                 fontWeight: FontWeight.bold,
                                               ),
                                             ),
-                                            Text(
+                                            const Text(
                                               'Человек',
-                                              style: TextStyle(
+                                              style: const TextStyle(
                                                   fontFamily: 'Rubik',
                                                   color: Colors.white,
                                                   fontSize: 28,
@@ -96,7 +96,7 @@ class _HomePageState extends State<HomePage> {
                                           ],
                                         ),
                                       ),
-                                      Text('Хорошего дня.',
+                                      const Text('Хорошего дня.',
                                           style: TextStyle(
                                               fontFamily: 'Rubik',
                                               color: Color(0x80FFFFFF),
@@ -109,19 +109,19 @@ class _HomePageState extends State<HomePage> {
                                       shape: BoxShape.circle),
                                   child: IconButton(
                                       onPressed: () {},
-                                      icon: Icon(Icons.person,
+                                      icon: const Icon(Icons.person,
                                           size: 30, color: Colors.white)),
                                 ) //add profile image
                               ],
                             ),
                           ),
                           Text(dateFormat.format(dateTime),
-                              style: TextStyle(
+                              style: const TextStyle(
                                   fontFamily: 'Rubik',
                                   color: Colors.white,
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold)),
-                          SizedBox(height: 20),
+                          const SizedBox(height: 20),
                           Row(
                             children: [
                               SizedBox(
@@ -153,7 +153,7 @@ class _HomePageState extends State<HomePage> {
                                                 ? FontWeight.bold
                                                 : FontWeight.normal))),
                               ),
-                              SizedBox(width: 20),
+                              const SizedBox(width: 20),
                               SizedBox(
                                 width: 100,
                                 child: ElevatedButton(
@@ -186,7 +186,7 @@ class _HomePageState extends State<HomePage> {
                               ),
                             ],
                           ),
-                          _TasksIsPressed ? MyTasks() : MyProjects(),
+                          _TasksIsPressed ? const MyTasks() : const MyProjects(),
                         ])))));
   }
 }

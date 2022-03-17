@@ -9,7 +9,7 @@ class MyProjects extends StatelessWidget {
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text("Мои проекты",
+          const Text("Мои проекты",
               style: TextStyle(
                   fontFamily: 'Rubik',
                   color: Colors.white,
@@ -21,12 +21,12 @@ class MyProjects extends StatelessWidget {
                   onPressed: () {
                     //add project button
                   },
-                  icon: Icon(Icons.add, color: Colors.white)),
+                  icon: const Icon(Icons.add, color: Colors.white)),
               IconButton(
                   onPressed: () {
                     //sort projects button
                   },
-                  icon: Icon(Icons.filter_list,
+                  icon: const Icon(Icons.filter_list,
                       color: Colors.white)), //mb another icon
             ],
           ),
