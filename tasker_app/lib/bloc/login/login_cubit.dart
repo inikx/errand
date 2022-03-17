@@ -34,7 +34,6 @@ class LogInCubit extends Cubit<LogInState> {
           else if (response.statusCode == 400)
             {
               emit(LogInError(
-                  errors: jsonDecode(response.body)['errors'],
                   data: currentState.data))
             }
         });

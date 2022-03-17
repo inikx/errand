@@ -4,6 +4,8 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tasker_app/bloc/login/login_cubit.dart';
 import 'package:tasker_app/constants/strings.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 class LogInPage extends StatelessWidget {
   const LogInPage({Key? key}) : super(key: key);
@@ -15,8 +17,23 @@ class LogInPage extends StatelessWidget {
       listener: (context, state) {
         switch (state.runtimeType) {
           case LoggedIn:
-            Navigator.pop(context);
-            Navigator.pushNamed(context, HOME);
+            showTopSnackBar(
+              context,
+              CustomSnackBar.success(
+                message:
+                    "logged in",
+              ),
+            );
+            Navigator.pushNamedAndRemoveUntil(context, HOME, (r) => false);
+            return;
+          case LogInError:
+            showTopSnackBar(
+              context,
+              CustomSnackBar.error(
+                message:
+                    "loggin error",
+              ),
+            );
         }
       },
       child: Scaffold(
