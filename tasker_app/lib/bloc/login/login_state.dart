@@ -19,7 +19,6 @@ class LogInChanged extends LogInState {
 }
 
 class LogInError extends LogInState {
-  final List<dynamic> errors;
   final LogInData data;
-  LogInError({required this.errors, required this.data});
+  LogInError({required this.data});
 }
