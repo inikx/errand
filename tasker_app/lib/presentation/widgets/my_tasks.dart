@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tasker_app/data/models/task.dart';
 import 'package:tasker_app/presentation/widgets/tasks_list.dart';
 
 class MyTasks extends StatelessWidget {
@@ -37,7 +38,14 @@ class MyTasks extends StatelessWidget {
       SizedBox(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height - 360, //?
-          child: TasksList(done: false)),
+          child: TasksList(tasks: [
+            Task(date: DateTime.now(), title: "поиграть с мамой игоря", status: 0),
+            Task(date: DateTime.now(), title: "подарить илье ручку", status: 0),
+            Task(date: DateTime.now(), title: "Собрать весь assdosers и ываолдывл аорывлоралыовр аолрыfdddddddddddddddваолрsddddd", status: 0),
+          ], doneTasks: [
+            Task(date: DateTime.now(), title: "done task", status: 1),
+            
+          ])),
     ]);
   }
 }
