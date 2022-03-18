@@ -16,8 +16,11 @@ class ErrandApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Errand',
       theme: ThemeData(
-        fontFamily: 'Rubik',
-      ),
+          fontFamily: 'Rubik',
+          primaryColor: const Color(0xff7A79CD),
+          focusColor: const Color(0xff7A79CD),
+          colorScheme: ColorScheme.fromSwatch()
+              .copyWith(primary: const Color(0xff7A79CD))),
       onGenerateRoute: router.generateRoute,
     );
   }

@@ -17,6 +17,7 @@ class LogInPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var _controller = TextEditingController();
+    bool isPasswordVisible = false;
     return BlocListener<LogInCubit, LogInState>(
       listener: (context, state) {
         switch (state.runtimeType) {
@@ -31,10 +32,8 @@ class LogInPage extends StatelessWidget {
             Navigator.pushNamedAndRemoveUntil(context, HOME, (r) => false);
             return;
           case LogInError:
-            showTopSnackBar(
-              context,
-              const ExceptionWidget(info: "Ошибка входа, попробуйте позже")
-            );
+            showTopSnackBar(context,
+                const ExceptionWidget(info: "Ошибка входа, попробуйте позже"));
         }
       },
       child: Scaffold(
@@ -121,14 +120,14 @@ class LogInPage extends StatelessWidget {
                                 fontFamily: 'Rubik',
                                 fontSize: 16),
                             cursorColor: Colors.white,
-                            decoration: InputDecoration(
-                              enabledBorder: const UnderlineInputBorder(
+                            decoration: const InputDecoration(
+                              enabledBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(
                                     color: Colors.white,
                                     width: 1.0,
                                     style: BorderStyle.solid),
                               ),
-                              labelStyle: const TextStyle(
+                              labelStyle: TextStyle(
                                 color: Color(0x80FFFFFF),
                                 fontFamily: 'Rubik',
                               ),
@@ -192,5 +191,11 @@ class LogInPage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  @override
+  State<StatefulWidget> createState() {
+    // TODO: implement createState
+    throw UnimplementedError();
   }
 }
