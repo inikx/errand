@@ -7,6 +7,7 @@ class MyTasks extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double sheet = 0;
     return Column(children: [
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -21,7 +22,7 @@ class MyTasks extends StatelessWidget {
             children: [
               IconButton(
                   onPressed: () {
-                    //add tasks button
+                    sheet = 500;
                   },
                   icon: const Icon(Icons.add, color: Colors.white)),
               IconButton(
@@ -39,12 +40,18 @@ class MyTasks extends StatelessWidget {
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height - 360, //?
           child: TasksList(tasks: [
-            Task(date: DateTime.now(), title: "поиграть с мамой игоря", status: 0),
+            Task(
+                date: DateTime.now(),
+                title: "поиграть с мамой игоря",
+                status: 0),
             Task(date: DateTime.now(), title: "подарить илье ручку", status: 0),
-            Task(date: DateTime.now(), title: "Собрать весь assdosers и ываолдывл аорывлоралыовр аолрыfdddddddddddddddваолрsddddd", status: 0),
+            Task(
+                date: DateTime.now(),
+                title:
+                    "Собрать весь assdosers и ываолдывл аорывлоралыовр аолрыfdddddddddddddddваолрsddddd",
+                status: 0),
           ], doneTasks: [
             Task(date: DateTime.now(), title: "done task", status: 1),
-            
           ])),
     ]);
   }
