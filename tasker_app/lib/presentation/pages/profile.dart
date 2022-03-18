@@ -1,5 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
+
+import 'package:tasker_app/presentation/pages/app_settings.dart';
 
 class Profile extends StatelessWidget {
   const Profile({Key? key}) : super(key: key);
@@ -142,8 +145,12 @@ class Profile extends StatelessWidget {
                             size: 20,
                             color: Colors.white,
                           ),
-                          onPressed: () => print(
-                              'Настройки профиля - page ')), //to do settings info
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                CupertinoPageRoute(
+                                    builder: (context) => const AppSettings()));
+                          }), //to do settings info
                     ),
                   ],
                 ),

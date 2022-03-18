@@ -56,6 +56,7 @@ class RegistrationPage2 extends StatelessWidget {
                             IconButton(
                                 icon: const Icon(
                                   Icons.arrow_back_ios_new_outlined,
+                                  size: 20,
                                   color: Colors.white,
                                 ),
                                 onPressed: () => Navigator.pop(
