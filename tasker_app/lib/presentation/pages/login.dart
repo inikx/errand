@@ -137,7 +137,6 @@ class LogInPage extends StatelessWidget {
                           margin: const EdgeInsets.only(top: 50),
                           width: 270,
                           child: TextField(
-                            controller: _controller,
                             onChanged: (String value) async {
                               context.read<LogInCubit>().updateUsername(value);
                             },
@@ -147,11 +146,7 @@ class LogInPage extends StatelessWidget {
                                 fontSize: 16),
                             cursorColor: Colors.white,
                             decoration: InputDecoration(
-                              suffixIcon: IconButton(
-                                icon: const Icon(Icons.clear, size: 16),
-                                color: Colors.white,
-                                onPressed: _controller.clear,
-                              ),
+                              
                               enabledBorder: const UnderlineInputBorder(
                                 borderSide: BorderSide(
                                     color: Colors.white,
