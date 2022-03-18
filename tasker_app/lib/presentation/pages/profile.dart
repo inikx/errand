@@ -227,25 +227,26 @@ class Profile extends StatelessWidget {
                       ),
                     ],
                   ),
-                  Align(
-                      alignment: Alignment.bottomCenter,
-                      child: Container(
-                          margin: const EdgeInsets.only(top: 80),
-                          child: GestureDetector(
-                            child: const Text(
-                              'Выйти',
-                              style: TextStyle(
-                                color: Colors.red,
-                                fontSize: 18,
-                                fontFamily: 'Rubik',
-                              ),
-                            ),
-                            onTap: () => print('Выйти'),
-                          ))),
                 ],
               ),
             ),
           )),
+          Align(
+              alignment: FractionalOffset.bottomCenter,
+              child: Container(
+                margin: const EdgeInsets.only(bottom: 40),
+                child: GestureDetector(
+                  child: const Text(
+                    'Выйти',
+                    style: TextStyle(
+                      color: Colors.red,
+                      fontSize: 18,
+                      fontFamily: 'Rubik',
+                    ),
+                  ),
+                  onTap: () => print('Выйти'),
+                ),
+              )),
         ],
       ),
     );
