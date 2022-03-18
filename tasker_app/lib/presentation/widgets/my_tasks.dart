@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tasker_app/data/models/task.dart';
 import 'package:tasker_app/presentation/widgets/tasks_list.dart';
+import 'dart:math';
 
 class MyTasks extends StatelessWidget {
   const MyTasks({Key? key}) : super(key: key);
@@ -22,7 +23,132 @@ class MyTasks extends StatelessWidget {
             children: [
               IconButton(
                   onPressed: () {
-                    sheet = 500;
+                    showModalBottomSheet(
+                      context: context,
+                      backgroundColor: Colors.transparent,
+                      builder: (context) => Container(
+                        height: 600,
+                        decoration: const BoxDecoration(
+                            gradient: LinearGradient(
+                                colors: [
+                                  Color(0xff252934),
+                                  Color.fromARGB(255, 17, 17, 17),
+                                ],
+                                begin: FractionalOffset(0.0, 0.0),
+                                end: FractionalOffset(0.0, 0.9),
+                                stops: [0.0, 1.0],
+                                tileMode: TileMode.clamp),
+                            borderRadius: BorderRadius.vertical(
+                                top: Radius.circular(40))),
+                        child: Center(
+                          child: Column(children: [
+                            Transform.rotate(
+                              angle: 90 * pi / 180,
+                              child: IconButton(
+                                  icon: const Icon(
+                                    Icons.arrow_forward_ios_sharp,
+                                    size: 20,
+                                    color: Colors.grey,
+                                  ),
+                                  onPressed: () => Navigator.pop(context)),
+                            ),
+                            const Text(
+                              'Создать задачу',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                  fontFamily: 'Rubik',
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            Container(
+                                margin: const EdgeInsets.only(top: 30),
+                                decoration: BoxDecoration(
+                                    color: const Color(0xffC4C4C4)
+                                        .withOpacity(0.15),
+                                    borderRadius: BorderRadius.circular(8)),
+                                width: 330,
+                                height: 55,
+                                child: Center(
+                                  child: Padding(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(20, 4, 20, 5),
+                                    child: TextField(
+                                      onChanged: (String value) async {
+                                        //название задачи
+                                      },
+                                      style: const TextStyle(
+                                          color: Colors.white,
+                                          fontFamily: 'Rubik',
+                                          fontSize: 14),
+                                      cursorColor: Colors.white,
+                                      decoration: const InputDecoration(
+                                          border: InputBorder.none,
+                                          labelStyle: TextStyle(
+                                            color: Color(0x80FFFFFF),
+                                            fontFamily: 'Rubik',
+                                          ),
+                                          hintText: 'Введите название задачи',
+                                          hintStyle:
+                                              TextStyle(color: Colors.grey)),
+                                    ),
+                                  ),
+                                )),
+                            Container(
+                                margin: const EdgeInsets.only(top: 30),
+                                decoration: BoxDecoration(
+                                    color: const Color(0xffC4C4C4)
+                                        .withOpacity(0.15),
+                                    borderRadius: BorderRadius.circular(8)),
+                                width: 330,
+                                height: 100,
+                                child: Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(20, 4, 20, 5),
+                                  child: TextField(
+                                    onChanged: (String value) async {
+                                      //описаниезадачи
+                                    },
+                                    style: const TextStyle(
+                                        color: Colors.white,
+                                        fontFamily: 'Rubik',
+                                        fontSize: 14),
+                                    cursorColor: Colors.white,
+                                    decoration: const InputDecoration(
+                                        border: InputBorder.none,
+                                        labelStyle: TextStyle(
+                                          color: Color(0x80FFFFFF),
+                                          fontFamily: 'Rubik',
+                                        ),
+                                        hintText: 'Введите описание',
+                                        hintStyle:
+                                            TextStyle(color: Colors.grey)),
+                                  ),
+                                )),
+                            Container(
+                              width: 270,
+                              height: 50,
+                              margin: const EdgeInsets.only(top: 50),
+                              child: ElevatedButton(
+                                  child: const Text('Создать задачу',
+                                      style: TextStyle(
+                                          fontFamily: 'Rubik', fontSize: 16)),
+                                  onPressed: () async {
+                                    print('Создать задачу');
+                                  },
+                                  style: ButtonStyle(
+                                      backgroundColor:
+                                          MaterialStateProperty.all(
+                                              const Color(0xff7A79CD)),
+                                      shape: MaterialStateProperty.all<
+                                              RoundedRectangleBorder>(
+                                          RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(15),
+                                      )))),
+                            ),
+                          ]),
+                        ),
+                      ),
+                    );
                   },
                   icon: const Icon(Icons.add, color: Colors.white)),
               IconButton(

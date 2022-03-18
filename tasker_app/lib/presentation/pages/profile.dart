@@ -4,6 +4,7 @@ import 'package:tasker_app/constants/strings.dart';
 import 'dart:math' as math;
 
 import 'package:tasker_app/presentation/pages/app_settings.dart';
+import 'package:tasker_app/presentation/pages/profile_settings.dart';
 import 'package:tasker_app/presentation/widgets/wallpaper.dart';
 
 class Profile extends StatelessWidget {
@@ -143,7 +144,7 @@ class Profile extends StatelessWidget {
                                   context,
                                   CupertinoPageRoute(
                                       builder: (context) =>
-                                          const AppSettings()));
+                                          const ProfileSettings()));
                             }), //to do settings info
                       ),
                     ],
@@ -190,8 +191,11 @@ class Profile extends StatelessWidget {
                               size: 20,
                               color: Colors.white,
                             ),
-                            onPressed: () => print(
-                                'Настройки приложения - page ')), //to do settings info
+                            onPressed: () => Navigator.push(
+                                  context,
+                                  CupertinoPageRoute(
+                                      builder: (context) =>
+                                          const AppSettings()))), //to do settings info
                       ),
                     ],
                   ),
