@@ -45,14 +45,14 @@ class LogInPage extends StatelessWidget {
               child: SingleChildScrollView(
                 reverse: true,
                 child: Container(
-                  padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
+                  padding: const EdgeInsets.fromLTRB(30, 30, 30, 0),
                   child: Center(
                     child: Column(children: [
                       // if (!isKeyboard)
                       Column(
                         children: [
                           Container(
-                            margin: const EdgeInsets.only(top: 35),
+                            margin: const EdgeInsets.only(top: 50),
                             child: const Text(
                               'Errand',
                               style: TextStyle(
@@ -75,7 +75,7 @@ class LogInPage extends StatelessWidget {
                                     fontWeight: FontWeight.normal)),
                           ),
                           Container(
-                              margin: const EdgeInsets.only(top: 29),
+                              margin: const EdgeInsets.only(top: 40),
                               child: GestureDetector(
                                 onTap: () {
                                   Navigator.pushNamed(context, REGISTER);

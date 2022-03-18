@@ -24,7 +24,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     initializeDateFormatting();
-    dateFormat = new DateFormat.yMMMMd('ru');
+    dateFormat = DateFormat.yMMMMd('ru');
   }
 
   void _myCallback() {
@@ -48,7 +48,7 @@ class _HomePageState extends State<HomePage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
-                        padding: const EdgeInsets.fromLTRB(0, 0, 0, 40),
+                        padding: const EdgeInsets.only(bottom: 50),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -59,8 +59,8 @@ class _HomePageState extends State<HomePage> {
                                   Container(
                                     margin: const EdgeInsets.only(top: 50),
                                     child: Row(
-                                      children: [
-                                        const Text(
+                                      children: const [
+                                        Text(
                                           'Привет, ',
                                           style: TextStyle(
                                             fontFamily: 'Rubik',
@@ -69,15 +69,15 @@ class _HomePageState extends State<HomePage> {
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
-                                        const Text(
-                                          'Человек',
-                                          style: const TextStyle(
+                                        Text(
+                                          'ВладЫк',
+                                          style: TextStyle(
                                               fontFamily: 'Rubik',
-                                              color: Colors.white,
+                                              color: Color(0xff7A79CD),
                                               fontSize: 28,
-                                              fontWeight: FontWeight.normal),
+                                              fontWeight: FontWeight.w300),
                                         ), //add profile name
-                                        const Text(
+                                        Text(
                                           '!',
                                           style: TextStyle(
                                             fontFamily: 'Rubik',

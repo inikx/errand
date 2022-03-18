@@ -17,7 +17,7 @@ class AppSettings extends StatelessWidget {
           child: SingleChildScrollView(
             reverse: true,
             child: Container(
-              padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
+              padding: const EdgeInsets.fromLTRB(30, 30, 30, 0),
               child: Center(
                 child: Column(
                   children: [

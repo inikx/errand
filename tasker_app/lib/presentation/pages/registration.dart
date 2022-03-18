@@ -40,13 +40,13 @@ class RegistrationPage extends StatelessWidget {
             child: SingleChildScrollView(
               reverse: true,
               child: Container(
-                padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
+                padding: const EdgeInsets.fromLTRB(30, 30, 30, 0),
                 child: Center(
                   child: Padding(
                     padding: const EdgeInsets.only(top: 30.0),
                     child: Column(
                       children: [
-                        Row(
+                        Stack(
                           children: [
                             IconButton(
                                 icon: const Icon(
@@ -56,15 +56,21 @@ class RegistrationPage extends StatelessWidget {
                                 ),
                                 onPressed: () => Navigator.pop(
                                     context)), //сделать возворат на страницу авторизации
+
+                            Container(
+                              margin: const EdgeInsets.only(top: 14),
+                              child: const Align(
+                                child: Text(
+                                  'Регистрация',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                      fontFamily: 'Rubik',
+                                      fontWeight: FontWeight.normal),
+                                ),
+                              ),
+                            ),
                           ],
-                        ),
-                        const Text(
-                          'Errand',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 35,
-                              fontFamily: 'Rubik',
-                              fontWeight: FontWeight.bold),
                         ),
                         Container(
                             margin: const EdgeInsets.only(top: 50),
@@ -162,7 +168,7 @@ class RegistrationPage extends StatelessWidget {
                           height: 50,
                           margin: const EdgeInsets.only(top: 90),
                           child: ElevatedButton(
-                              child: const Text('Регистрация',
+                              child: const Text('Продолжить',
                                   style: TextStyle(
                                       fontFamily: 'Rubik', fontSize: 16)),
                               onPressed: () async {

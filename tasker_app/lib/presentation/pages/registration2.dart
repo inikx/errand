@@ -13,10 +13,10 @@ class RegistrationPage2 extends StatelessWidget {
       children: [
         const Wallpaper(),
         Container(
-            padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
+            padding: const EdgeInsets.fromLTRB(30, 30, 30, 0),
             child: Center(
               child: Padding(
-                padding: const EdgeInsets.only(top: 30.0),
+                padding: const EdgeInsets.only(top: 70),
                 child: Column(
                   children: [
                     Row(
