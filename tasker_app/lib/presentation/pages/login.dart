@@ -4,6 +4,10 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tasker_app/bloc/login/login_cubit.dart';
 import 'package:tasker_app/constants/strings.dart';
+import 'package:tasker_app/presentation/widgets/Bars/exception_widget.dart';
+import 'package:tasker_app/presentation/widgets/Bars/info_widget.dart';
+import 'package:tasker_app/presentation/widgets/Bars/success_widget.dart';
+import 'package:tasker_app/presentation/widgets/wallpaper.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
@@ -12,7 +16,6 @@ class LogInPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isKeyboard = MediaQuery.of(context).viewInsets.bottom != 0;
     var _controller = TextEditingController();
     return BlocListener<LogInCubit, LogInState>(
       listener: (context, state) {
@@ -23,48 +26,21 @@ class LogInPage extends StatelessWidget {
               // CustomSnackBar.success(
               //   message: "logged in",
               // ),
-              Expanded(
-                flex: 1,
-                child: Container(
-                  color: const Color(0xffDCF3EB),
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                        color: const Color(0xff34A770),
-                        width: 0.5,
-                      ),
-                      borderRadius: const BorderRadius.all(Radius.circular(8))),
-                ),
-              ),
+              const SuccessWidget(info: "Вы успешно авторизовались!"),
             );
             Navigator.pushNamedAndRemoveUntil(context, HOME, (r) => false);
             return;
           case LogInError:
             showTopSnackBar(
               context,
-              CustomSnackBar.error(
-                message: "loggin error",
-              ),
+              const ExceptionWidget(info: "Ошибка входа, попробуйте позже")
             );
         }
       },
       child: Scaffold(
         body: Stack(
           children: [
-            Container(
-              width: double.infinity,
-              height: double.infinity,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                    colors: [
-                      const Color(0xFF151B2B).withOpacity(0.8),
-                      const Color(0xFF1B1E21),
-                    ],
-                    begin: const FractionalOffset(0.0, 0.0),
-                    end: const FractionalOffset(0.0, 0.9),
-                    stops: const [0.0, 1.0],
-                    tileMode: TileMode.clamp),
-              ),
-            ),
+            const Wallpaper(),
             SafeArea(
               child: SingleChildScrollView(
                 reverse: true,
@@ -146,7 +122,6 @@ class LogInPage extends StatelessWidget {
                                 fontSize: 16),
                             cursorColor: Colors.white,
                             decoration: InputDecoration(
-                              
                               enabledBorder: const UnderlineInputBorder(
                                 borderSide: BorderSide(
                                     color: Colors.white,

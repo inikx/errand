@@ -3,8 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tasker_app/bloc/register/register_cubit.dart';
 import 'package:tasker_app/constants/strings.dart';
 import 'package:tasker_app/presentation/pages/registration2.dart';
+import 'package:tasker_app/presentation/widgets/Bars/exception_widget.dart';
+import 'package:tasker_app/presentation/widgets/Bars/success_widget.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
+
+import '../widgets/wallpaper.dart';
 
 class RegistrationPage extends StatelessWidget {
   const RegistrationPage({Key? key}) : super(key: key);
@@ -12,45 +16,26 @@ class RegistrationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var _controller = TextEditingController();
-    final isKeyboard = MediaQuery.of(context).viewInsets.bottom != 0;
     return BlocListener<RegisterCubit, RegisterState>(
       listener: (context, state) {
         switch (state.runtimeType) {
           case UserRegistered:
             showTopSnackBar(
               context,
-              CustomSnackBar.success(
-                message: "account created!",
-              ),
+              const SuccessWidget(info: "Вы успешно зарегистрировались!"),
             );
             Navigator.pushNamed(context, LOGIN);
             return;
           case RegisterError:
             showTopSnackBar(
-              context,
-              CustomSnackBar.error(
-                message: "registration error",
-              ),
-            );
+                context, const ExceptionWidget(info: "Попробуйте повторно"));
             return;
         }
       },
       child: Scaffold(
           body: Stack(
         children: [
-          Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                  colors: [
-                    const Color(0xFF151B2B).withOpacity(0.8),
-                    const Color(0xFF1B1E21),
-                  ],
-                  begin: const FractionalOffset(0.0, 0.0),
-                  end: const FractionalOffset(0.0, 0.9),
-                  stops: const [0.0, 1.0],
-                  tileMode: TileMode.clamp),
-            ),
-          ),
+          const Wallpaper(),
           SafeArea(
             child: SingleChildScrollView(
               reverse: true,
