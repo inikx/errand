@@ -17,7 +17,7 @@ const Task = s.define(
             allowNull: true,
         },
         status: {
-            type: Sequelize.STRING,
+            type: Sequelize.INTEGER,
             allowNull: false,
         },
     },

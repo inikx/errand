@@ -38,6 +38,7 @@ const createProject = async (req, res) => {
         const addUserToProject = new UsersInProject({
             project_id: project.id,
             user_id: req.user.user_id,
+            status: 0,
         });
 
         addUserToProject.save();
@@ -85,6 +86,7 @@ const addUserToProject = async (req, res) => {
                         const userInProject = new UsersInProject({
                             group_id,
                             user_id,
+                            status: 0,
                         });
                         userInProject.save();
                         res.status(200).json("user added");

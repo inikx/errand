@@ -6,6 +6,10 @@ const Project = require("./project");
 const UsersInProject = s.define(
     "users_in_project",
     {
+        status: {
+            type: Sequelize.INTEGER,
+            allowNull: false,
+        }  
     },
     {
         timestamps: false,

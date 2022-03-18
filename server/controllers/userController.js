@@ -12,9 +12,14 @@ const register = async (req, res) => {
         var user = await User.findOne({
             where: { [Op.or]: [{ username: username }, { email: email }] },
         });
-        //var pass_filter = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{5,25}$/;
-        if (user /*|| pass_filter.test(password.value)*/) {
-            res.status(409).json("user already exists or invalid password");
+        var nickname_filter = /^[A-Za-z0-9]+([A-Za-z0-9]*|[._-]?[A-Za-z0-9]+)*$/;
+        if (user) {
+            res.status(409).json("user already exists");
+            return;
+        }
+        if (!nickname_filter.test(username)){
+            res.status(409).json({errors: "vi dolbaeb"});
+            return;
         }
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
