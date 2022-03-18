@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:tasker_app/constants/strings.dart';
 import 'dart:math' as math;
 
 import 'package:tasker_app/presentation/pages/app_settings.dart';
@@ -244,7 +245,9 @@ class Profile extends StatelessWidget {
                       fontFamily: 'Rubik',
                     ),
                   ),
-                  onTap: () => print('Выйти'),
+                  onTap: () => {
+                    Navigator.pushNamedAndRemoveUntil(context, LOGIN, (r) => false)
+                  },
                 ),
               )),
         ],

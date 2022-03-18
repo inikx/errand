@@ -24,9 +24,6 @@ class LogInPage extends StatelessWidget {
           case LoggedIn:
             showTopSnackBar(
               context,
-              // CustomSnackBar.success(
-              //   message: "logged in",
-              // ),
               const SuccessWidget(info: "Вы успешно авторизовались!"),
             );
             Navigator.pushNamedAndRemoveUntil(context, HOME, (r) => false);
@@ -191,11 +188,5 @@ class LogInPage extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  @override
-  State<StatefulWidget> createState() {
-    // TODO: implement createState
-    throw UnimplementedError();
   }
 }
