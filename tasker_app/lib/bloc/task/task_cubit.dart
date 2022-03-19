@@ -25,11 +25,11 @@ class TaskCubit extends Cubit<TaskState> {
     });
   }
 
-  void create_task(String title, DateTime date, String description, int status,
+  void addTask(String title, DateTime date, String description, int status,
       int user_id, int project_id) {
     emit(TaskCreating());
     repository
-        .create_task(title, date, description, status, user_id, project_id)
+        .addTask(title, date, description, status, user_id, project_id)
         .then((response) {
       if (response.statusCode == 200) {
         emit(TaskCreated());
