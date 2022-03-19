@@ -14,7 +14,6 @@ import 'package:tasker_app/presentation/pages/home.dart';
 import 'package:tasker_app/presentation/pages/login.dart';
 import 'package:tasker_app/presentation/pages/profile.dart';
 import 'package:tasker_app/presentation/pages/registration.dart';
-import 'package:tasker_app/presentation/pages/registration2.dart';
 
 class AppRouter {
   late LoginRepository loginRepository;
@@ -53,10 +52,6 @@ class AppRouter {
       case PROFILE:
         return CupertinoPageRoute(
           builder: (_) => const Profile(),
-        );
-      case REGISTER_2ND:
-        return CupertinoPageRoute(
-          builder: (_) => const RegistrationPage2(),
         );
       default:
         return null;
