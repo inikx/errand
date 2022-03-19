@@ -12,6 +12,7 @@ import 'package:tasker_app/data/services/task/network_service.dart';
 import 'package:tasker_app/data/services/task/repository.dart';
 import 'package:tasker_app/presentation/pages/home.dart';
 import 'package:tasker_app/presentation/pages/login.dart';
+import 'package:tasker_app/presentation/pages/profile.dart';
 import 'package:tasker_app/presentation/pages/registration.dart';
 import 'package:tasker_app/presentation/pages/registration2.dart';
 
@@ -24,8 +25,7 @@ class AppRouter {
     loginRepository = LoginRepository(networkService: LoginNetworkService());
     registerRepository =
         RegisterRepository(networkService: RegisterNetworkService());
-    taskRepository =
-        TaskRepository(networkService: TaskNetworkService());
+    taskRepository = TaskRepository(networkService: TaskNetworkService());
   }
   Route? generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -49,6 +49,10 @@ class AppRouter {
             create: (context) => RegisterCubit(repository: registerRepository),
             child: const RegistrationPage(),
           ),
+        );
+      case PROFILE:
+        return CupertinoPageRoute(
+          builder: (_) => const Profile(),
         );
       case REGISTER_2ND:
         return CupertinoPageRoute(
