@@ -5,8 +5,8 @@ import 'package:tasker_app/constants/storage.dart';
 import 'package:tasker_app/constants/strings.dart';
 
 class TaskNetworkService {
-  create_task(String title, DateTime date, String description, int status,
-      int user_id, int project_id) async {
+  addTask(String title, DateTime date, String description, int status,
+      int? user_id, int? project_id) async {
     String? token = await storage.read(key: 'token');
     final response = await http.post(Uri.parse('$BASE_URL/api/task/create'),
         headers: {
@@ -15,7 +15,7 @@ class TaskNetworkService {
         },
         body: jsonEncode({
           "title": title,
-          "date": date,
+          "date": date.toString(),
           "description": description,
           "status": status,
           "user_id": user_id,
@@ -48,7 +48,7 @@ class TaskNetworkService {
           "x-access-token": token.toString()
         },
         body: jsonEncode({
-          "id":id,
+          "id": id,
           "title": title,
           "date": date,
           "description": description,
@@ -69,6 +69,6 @@ class TaskNetworkService {
         },
         body: jsonEncode({"task_id": id}));
 
-    return response;  
+    return response;
   }
 }
