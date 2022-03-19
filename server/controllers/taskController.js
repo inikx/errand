@@ -41,25 +41,34 @@ const getAllTasks = async (req, res) => {
 
 const createTask = async (req, res) => {
     try {
-        const { title, date, status, project_id, creator_id, user_id } =
-            req.body;
+        const {
+            title,
+            description,
+            date,
+            status,
+            project_id,
+            creator_id,
+            user_id,
+        } = req.body;
         const cacheKey = `user_tasks_${req.user.user_id}`;
         if (!(project_id && user_id)) {
             var task = new Task({
                 title,
+                description,
                 date,
                 status,
                 project_id,
-                creator_id,
+                creator_id: req.user.user_id,
                 user_id: creator_id,
             });
         } else {
             var task = new Task({
                 title,
+                description,
                 date,
                 status,
                 project_id,
-                creator_id,
+                creator_id: req.user.user_id,
                 user_id,
             });
         }
