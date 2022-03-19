@@ -1,14 +1,10 @@
-import 'package:assorted_layout_widgets/assorted_layout_widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tasker_app/bloc/login/login_cubit.dart';
 import 'package:tasker_app/constants/strings.dart';
-import 'package:tasker_app/presentation/widgets/Bars/exception_widget.dart';
-import 'package:tasker_app/presentation/widgets/Bars/info_widget.dart';
-import 'package:tasker_app/presentation/widgets/Bars/success_widget.dart';
+import 'package:tasker_app/presentation/widgets/snackbars/exception_widget.dart';
+import 'package:tasker_app/presentation/widgets/snackbars/success_widget.dart';
 import 'package:tasker_app/presentation/widgets/wallpaper.dart';
-import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 class LogInPage extends StatelessWidget {
@@ -24,13 +20,13 @@ class LogInPage extends StatelessWidget {
           case LoggedIn:
             showTopSnackBar(
               context,
-              const SuccessWidget(info: "Вы успешно авторизовались!"),
+              const SuccessSnackbar(info: "Вы успешно авторизовались!"),
             );
             Navigator.pushNamedAndRemoveUntil(context, HOME, (r) => false);
             return;
           case LogInError:
             showTopSnackBar(context,
-                const ExceptionWidget(info: "Ошибка входа, попробуйте позже"));
+                const ErrorSnackbar(info: "Ошибка входа, попробуйте позже"));
         }
       },
       child: Scaffold(

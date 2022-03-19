@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-class InfoWidget extends StatelessWidget {
+class InfoSnackbar extends StatelessWidget {
   final String info;
-  const InfoWidget({
+  const InfoSnackbar({
     Key? key,
     required this.info,
   }) : super(key: key);

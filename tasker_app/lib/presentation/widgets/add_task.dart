@@ -5,8 +5,8 @@ import 'dart:math';
 import 'package:tasker_app/bloc/add%20task/add_task_cubit.dart';
 import 'package:tasker_app/data/services/task/network_service.dart';
 import 'package:tasker_app/data/services/task/repository.dart';
-import 'package:tasker_app/presentation/widgets/Bars/exception_widget.dart';
-import 'package:tasker_app/presentation/widgets/Bars/success_widget.dart';
+import 'package:tasker_app/presentation/widgets/snackbars/exception_widget.dart';
+import 'package:tasker_app/presentation/widgets/snackbars/success_widget.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 Future<dynamic> AddTaskBottomSheet(BuildContext context) {
@@ -35,13 +35,13 @@ class BottomSheet extends StatelessWidget {
           case AddingTaskSuccess:
             showTopSnackBar(
               context,
-              const SuccessWidget(info: "Задача успешно добавлена!"),
+              const SuccessSnackbar(info: "Задача успешно добавлена!"),
             );
             return;
           case AddingTaskError:
             showTopSnackBar(
               context,
-              const ExceptionWidget(info: "Не удалось добавить задачу"),
+              const ErrorSnackbar(info: "Не удалось добавить задачу"),
             );
             return;
         }

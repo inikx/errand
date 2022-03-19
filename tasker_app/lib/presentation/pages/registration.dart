@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tasker_app/bloc/register/register_cubit.dart';
 import 'package:tasker_app/constants/strings.dart';
-import 'package:tasker_app/presentation/pages/registration2.dart';
-import 'package:tasker_app/presentation/widgets/Bars/exception_widget.dart';
-import 'package:tasker_app/presentation/widgets/Bars/success_widget.dart';
-import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:tasker_app/presentation/widgets/snackbars/exception_widget.dart';
+import 'package:tasker_app/presentation/widgets/snackbars/success_widget.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import '../widgets/wallpaper.dart';
@@ -22,13 +20,13 @@ class RegistrationPage extends StatelessWidget {
           case UserRegistered:
             showTopSnackBar(
               context,
-              const SuccessWidget(info: "Вы успешно зарегистрировались!"),
+              const SuccessSnackbar(info: "Вы успешно зарегистрировались!"),
             );
             Navigator.pushNamed(context, LOGIN);
             return;
           case RegisterError:
             showTopSnackBar(
-                context, const ExceptionWidget(info: "Попробуйте повторно"));
+                context, const ErrorSnackbar(info: "Попробуйте еще раз"));
             return;
         }
       },

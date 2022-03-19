@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-class ExceptionWidget extends StatelessWidget {
+class SuccessSnackbar extends StatelessWidget {
   final String info;
-  const ExceptionWidget({
+  const SuccessSnackbar({
     Key? key,
     required this.info,
   }) : super(key: key);
@@ -14,9 +14,9 @@ class ExceptionWidget extends StatelessWidget {
       child: Container(
           height: 65,
           decoration: BoxDecoration(
-              color: const Color(0xffFFF8F8),
+              color: const Color(0xffDCF3EB),
               border: Border.all(
-                color: const Color(0xffF85640),
+                color: const Color(0xff34A770),
                 width: 0.5,
               ),
               borderRadius: const BorderRadius.all(Radius.circular(8))),
@@ -26,16 +26,16 @@ class ExceptionWidget extends StatelessWidget {
                 margin: const EdgeInsets.only(left: 25),
                 child: ClipOval(
                   child: Material(
-                    color: const Color(0xffF85640), // Button color
+                    color: const Color(0xff34A770), // Button color
                     child: InkWell(
-                      splashColor: const Color(0xffF85640), // Splash color
+                      splashColor: const Color(0xff34A770), // Splash color
                       onTap: () {},
                       child: const SizedBox(
                           width: 26,
                           height: 26,
                           child: Icon(
-                            Icons.dangerous_outlined,
-                            size: 20,
+                            Icons.check_rounded,
+                            size: 15,
                             color: Colors.white,
                           )),
                     ),
@@ -51,9 +51,9 @@ class ExceptionWidget extends StatelessWidget {
                       child: Align(
                         alignment: Alignment.topLeft,
                         child: Text(
-                          'Что-то пошло не так',
+                          'Успешно',
                           style: TextStyle(
-                              color: Color(0xffF85640),
+                              color: Color(0xff13854E),
                               fontSize: 13,
                               fontFamily: 'Rubik',
                               fontWeight: FontWeight.bold),
@@ -66,7 +66,7 @@ class ExceptionWidget extends StatelessWidget {
                       child: Text(
                         info,
                         style: TextStyle(
-                            color: Color(0xff79170A),
+                            color: Color(0xff10673E),
                             fontSize: 12,
                             fontFamily: 'Rubik',
                             fontWeight: FontWeight.normal),

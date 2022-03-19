@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tasker_app/presentation/widgets/Bars/info_widget.dart';
-
-import '../widgets/Bars/success_widget.dart';
-import '../widgets/wallpaper.dart';
+import 'package:tasker_app/presentation/widgets/wallpaper.dart';
 
 class ProfileSettings extends StatelessWidget {
   const ProfileSettings({Key? key}) : super(key: key);
