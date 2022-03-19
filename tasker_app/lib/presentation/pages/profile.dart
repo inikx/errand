@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:tasker_app/constants/storage.dart';
 import 'package:tasker_app/constants/strings.dart';
 import 'dart:math' as math;
 
@@ -192,10 +193,10 @@ class Profile extends StatelessWidget {
                               color: Colors.white,
                             ),
                             onPressed: () => Navigator.push(
-                                  context,
-                                  CupertinoPageRoute(
-                                      builder: (context) =>
-                                          const AppSettings()))), //to do settings info
+                                context,
+                                CupertinoPageRoute(
+                                    builder: (context) =>
+                                        const AppSettings()))), //to do settings info
                       ),
                     ],
                   ),
@@ -249,8 +250,10 @@ class Profile extends StatelessWidget {
                       fontFamily: 'Rubik',
                     ),
                   ),
-                  onTap: () => {
-                    Navigator.pushNamedAndRemoveUntil(context, LOGIN, (r) => false)
+                  onTap: () async {
+                    await storage.deleteAll();
+                    Navigator.pushNamedAndRemoveUntil(
+                        context, LOGIN, (r) => false);
                   },
                 ),
               )),
