@@ -70,7 +70,11 @@ class ProfileSettings extends StatelessWidget {
                     Container(
                         margin: const EdgeInsets.only(top: 50),
                         width: 270,
-                        child: TextField(
+                        child: TextFormField(
+                          initialValue: 'Владик',
+                          onSaved: (value) {
+                            value;
+                          },
                           onChanged: (String value) async {
                             //context.read<LogInCubit>().updateUsername(value);
                           },
@@ -96,7 +100,11 @@ class ProfileSettings extends StatelessWidget {
                     Container(
                         margin: const EdgeInsets.only(top: 50),
                         width: 270,
-                        child: TextField(
+                        child: TextFormField(
+                          initialValue: 'bigboyvlad@kreml.ru',
+                          onSaved: (value) {
+                            value;
+                          },
                           onChanged: (String value) async {
                             //context.read<LogInCubit>().updateUsername(value);
                           },
@@ -122,7 +130,11 @@ class ProfileSettings extends StatelessWidget {
                     Container(
                         margin: const EdgeInsets.only(top: 50),
                         width: 270,
-                        child: TextField(
+                        child: TextFormField(
+                          initialValue: 'test123',
+                          onSaved: (value) {
+                            value;
+                          },
                           onChanged: (String value) async {
                             //context.read<LogInCubit>().updatePassword(value);
                           },

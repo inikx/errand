@@ -24,10 +24,13 @@ class MyTasks extends StatelessWidget {
               IconButton(
                   onPressed: () {
                     showModalBottomSheet(
+                      isScrollControlled: true,
                       context: context,
                       backgroundColor: Colors.transparent,
                       builder: (context) => Container(
-                        height: 600,
+                        height: MediaQuery.of(context).copyWith().size.height *
+                            (3 / 4),
+                        //height: 600,
                         decoration: const BoxDecoration(
                             gradient: LinearGradient(
                                 colors: [
@@ -124,10 +127,43 @@ class MyTasks extends StatelessWidget {
                                             TextStyle(color: Colors.grey)),
                                   ),
                                 )),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.fromLTRB(30, 30, 30, 30),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  IconButton(
+                                      icon: const Icon(
+                                        Icons.calendar_today_rounded,
+                                        size: 35,
+                                        color: Colors.grey,
+                                      ),
+                                      onPressed: () =>
+                                          print('Календарь работает')),
+                                  IconButton( 
+                                      icon: const Icon(
+                                        Icons.notification_add_rounded,
+                                        size: 35,
+                                        color: Colors.grey,
+                                      ),
+                                      onPressed: () =>
+                                          print('Уведомления работают')),
+                                          IconButton(
+                                      icon: const Icon(
+                                        Icons.format_color_fill_rounded,
+                                        size: 35,
+                                        color: Colors.grey,
+                                      ),
+                                      onPressed: () =>
+                                          print('Заливка работает')),
+                                ],
+                              ),
+                            ),
                             Container(
                               width: 270,
                               height: 50,
-                              margin: const EdgeInsets.only(top: 50),
+                              margin: const EdgeInsets.only(top: 30),
                               child: ElevatedButton(
                                   child: const Text('Создать задачу',
                                       style: TextStyle(
