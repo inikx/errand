@@ -14,6 +14,7 @@ const getTask = async (req, res) => {
         }
     } catch (error) {
         console.error(error);
+        res.status(500).json("server error");
     }
 };
 
@@ -25,7 +26,12 @@ const getAllTasks = async (req, res) => {
             res.status(200).json(cachedData);
         } else {
             const tasks = await Task.findAll({
-                where: { user_id: req.user.user_id },
+                where: {
+                    [Op.or]: [
+                        { user_id: req.user.user_id },
+                        { creator_id: req.user.user_id },
+                    ],
+                },
             });
             if (tasks) {
                 await redis.saveWithTtl(cacheKey, tasks, 300);
@@ -36,6 +42,7 @@ const getAllTasks = async (req, res) => {
         }
     } catch (error) {
         console.error(error);
+        res.status(500).json("server error");
     }
 };
 
@@ -78,6 +85,7 @@ const createTask = async (req, res) => {
         res.status(200).json(task);
     } catch (error) {
         console.error(error);
+        res.status(500).json("server error");
     }
 };
 
@@ -99,6 +107,7 @@ const updateTask = async (req, res) => {
         }
     } catch (error) {
         console.error(error);
+        res.status(500).json("server error");
     }
 };
 
@@ -118,6 +127,7 @@ const removeTask = async (req, res) => {
         }
     } catch (error) {
         console.error(error);
+        res.status(500).json("server error");
     }
 };
 

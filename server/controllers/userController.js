@@ -36,6 +36,7 @@ const register = async (req, res) => {
         res.status(201).json(user);
     } catch (error) {
         console.error(error);
+        res.status(500).json("server error");
     }
 };
 
@@ -69,6 +70,7 @@ const login = async (req, res) => {
         res.status(400).json("invalid credentials");
     } catch (error) {
         console.error(error);
+        res.status(500).json("server error");
     }
 };
 
