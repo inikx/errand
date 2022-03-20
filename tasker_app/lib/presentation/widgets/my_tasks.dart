@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tasker_app/bloc/task/task_cubit.dart';
 import 'package:tasker_app/data/models/task.dart';
 import 'package:tasker_app/presentation/widgets/add_task.dart';
 import 'package:tasker_app/presentation/widgets/tasks_list.dart';
@@ -8,6 +10,7 @@ class MyTasks extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    BlocProvider.of<TaskCubit>(context).fetchTasks();
     double sheet = 0;
     return Column(children: [
       Row(
@@ -40,20 +43,19 @@ class MyTasks extends StatelessWidget {
       SizedBox(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height - 360, //?
-          child: TasksList(tasks: [
-            Task(
-                date: DateTime.now(),
-                title: "поиграть с мамой игоря",
-                status: 0),
-            Task(date: DateTime.now(), title: "подарить илье ручку", status: 0),
-            Task(
-                date: DateTime.now(),
-                title:
-                    "Собрать весь assdosers и ываолдывл аорывлоралыовр аолрыfdddddddddddddddваолрsddddd",
-                status: 0),
-          ], doneTasks: [
-            Task(date: DateTime.now(), title: "done task", status: 1),
-          ])),
+          child: BlocBuilder<TaskCubit, TaskState>(
+            builder: (context, state) {
+              if (state is TasksLoaded) {
+                return TasksList(tasks: state.tasks, doneTasks: [
+                  Task(date: DateTime.now(), title: "done task", status: 1),
+                ]);
+              } else if (state is TasksLoading) {
+                return CircularProgressIndicator();
+              } else {
+                return Center(child: Text("Error"));
+              }
+            },
+          )),
     ]);
   }
 }

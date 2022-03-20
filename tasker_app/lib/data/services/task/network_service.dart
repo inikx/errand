@@ -5,7 +5,7 @@ import 'package:tasker_app/constants/storage.dart';
 import 'package:tasker_app/constants/strings.dart';
 
 class TaskNetworkService {
-  addTask(String title, DateTime date, String description, int status,
+  addTask(String title, DateTime? date, String? description, int status,
       int? user_id, int? project_id) async {
     String? token = await storage.read(key: 'token');
     final response = await http.post(Uri.parse('$BASE_URL/api/task/create'),

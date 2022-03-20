@@ -7,7 +7,7 @@ class TaskRepository {
   final TaskNetworkService networkService;
   TaskRepository({required this.networkService});
 
-  Future<Response> addTask(String title, DateTime date, String description,
+  Future<Response> addTask(String title, DateTime? date, String? description,
       int status, int? user_id, int? project_id) async {
     return await networkService.addTask(
         title, date, description, status, user_id, project_id);

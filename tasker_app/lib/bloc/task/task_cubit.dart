@@ -15,17 +15,17 @@ class TaskCubit extends Cubit<TaskState> {
     emit(TasksLoading());
     repository.get_all_tasks().then((response) {
       if (response.statusCode == 200) {
-        emit(TasksLoaded(
-            tasks: jsonDecode(response.body)
-                .map((task) => Task.fromJson(task))
-                .toList()));
+        var rawTasks = jsonDecode(response.body) as List;
+        List<Task> tasks =
+            rawTasks.map((task) => Task.fromJson((task))).toList();
+        emit(TasksLoaded(tasks: tasks));
       } else {
         emit(TasksLoadingError());
       }
     });
   }
 
-  void addTask(String title, DateTime date, String description, int status,
+  void addTask(String title, DateTime? date, String? description, int status,
       int user_id, int project_id) {
     emit(TaskCreating());
     repository
