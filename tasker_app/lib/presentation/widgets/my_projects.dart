@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:tasker_app/presentation/widgets/projects_list.dart';
 
 class MyProjects extends StatelessWidget {
   const MyProjects({Key? key}) : super(key: key);
@@ -10,12 +10,20 @@ class MyProjects extends StatelessWidget {
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          const Text("Мои проекты",
-              style: TextStyle(
-                  fontFamily: 'Rubik',
-                  color: Colors.white,
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold)),
+          Row(children: [
+            const Text("Мои проекты",
+                style: TextStyle(
+                    fontFamily: 'Rubik',
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold)),
+            IconButton(
+                onPressed: () {
+                  //notifications button
+                },
+                icon: const Icon(Icons.notifications_outlined,
+                    color: Colors.white)),
+          ]),
           Row(
             children: [
               IconButton(
@@ -27,12 +35,16 @@ class MyProjects extends StatelessWidget {
                   onPressed: () {
                     //sort projects button
                   },
-                  icon: const Icon(Icons.filter_list,
-                      color: Colors.white)), //mb another icon
+                  icon: const Icon(Icons.filter_list, color: Colors.white)),
             ],
           ),
         ],
       ),
+      const SizedBox(height: 10),
+      SizedBox(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height - 445,
+          child: const ProjectsList()),
     ]);
   }
 }
