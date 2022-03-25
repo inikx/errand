@@ -41,7 +41,7 @@ const register = async (req, res) => {
 
 const authenticate = async (req, res) => {
     try {
-        
+        res.status(200).json("authenticated!");
     } catch (error) {
         console.error(error);
     }
