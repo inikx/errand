@@ -14,7 +14,6 @@ const getTask = async (req, res) => {
         }
     } catch (error) {
         console.error(error);
-        res.status(500).json("server error");
     }
 };
 
@@ -42,7 +41,6 @@ const getAllTasks = async (req, res) => {
         }
     } catch (error) {
         console.error(error);
-        res.status(500).json("server error");
     }
 };
 
@@ -85,7 +83,6 @@ const createTask = async (req, res) => {
         res.status(200).json(task);
     } catch (error) {
         console.error(error);
-        res.status(500).json("server error");
     }
 };
 
@@ -107,7 +104,6 @@ const updateTask = async (req, res) => {
         }
     } catch (error) {
         console.error(error);
-        res.status(500).json("server error");
     }
 };
 
@@ -127,7 +123,6 @@ const removeTask = async (req, res) => {
         }
     } catch (error) {
         console.error(error);
-        res.status(500).json("server error");
     }
 };
 

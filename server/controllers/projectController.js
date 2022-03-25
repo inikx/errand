@@ -24,7 +24,6 @@ const getProjects = async (req, res) => {
         res.status(200).json(mappedProjects);
     } catch (error) {
         console.error(error);
-        res.status(500).json("server error");
     }
 };
 
@@ -46,7 +45,6 @@ const createProject = async (req, res) => {
         res.status(200).json("project successfully created");
     } catch (error) {
         console.error(error);
-        res.status(500).json("server error");
     }
 };
 
@@ -65,7 +63,6 @@ const updateProject = async (req, res) => {
         }
     } catch (error) {
         console.error(error);
-        res.status(500).json("server error");
     }
 };
 
@@ -105,7 +102,6 @@ const addUserToProject = async (req, res) => {
         }
     } catch (error) {
         console.error(error);
-        res.status(500).json("server error");
     }
 };
 
@@ -125,7 +121,6 @@ const removeProject = async (req, res) => {
         }
     } catch (error) {
         console.error(error);
-        res.status(500).json("server error");
     }
 };
 
