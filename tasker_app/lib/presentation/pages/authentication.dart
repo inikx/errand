@@ -35,9 +35,9 @@ class AuthenticationPage extends StatelessWidget {
                 child: BlocBuilder<AuthenticationCubit, AuthenticationState>(
                   builder: (context, state) {
                     if (state is AuthenticationChecking) {
-                      return Row(
-                        children: [
-                          const Text(
+                      return Column(
+                        children: const [
+                          Text(
                             'Errand',
                             style: TextStyle(
                               fontFamily: 'Rubik',
