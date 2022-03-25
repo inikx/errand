@@ -13,6 +13,7 @@ class ErrandApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      initialRoute: "/auth",
       debugShowCheckedModeBanner: false,
       title: 'Errand',
       theme: ThemeData(
