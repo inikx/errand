@@ -43,7 +43,7 @@ class MyProjects extends StatelessWidget {
       const SizedBox(height: 10),
       SizedBox(
           width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height*0.4,
+          height: MediaQuery.of(context).size.height * 0.54,
           child: const ProjectsList()),
     ]);
   }

@@ -42,7 +42,7 @@ class MyTasks extends StatelessWidget {
       const SizedBox(height: 10),
       SizedBox(
           width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height - 360, //?
+          height: MediaQuery.of(context).size.height * 0.54, //?
           child: BlocBuilder<TaskCubit, TaskState>(
             builder: (context, state) {
               if (state is TasksLoaded) {

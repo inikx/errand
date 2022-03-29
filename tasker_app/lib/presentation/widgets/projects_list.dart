@@ -11,7 +11,7 @@ class ProjectsList extends StatelessWidget {
 
     return GridView.count(
         crossAxisCount: 2,
-        scrollDirection: Axis.horizontal,
+        scrollDirection: Axis.vertical,
         physics: const BouncingScrollPhysics(),
         controller: controller,
         children: const [
