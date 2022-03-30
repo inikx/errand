@@ -1,7 +1,9 @@
 part of 'task_cubit.dart';
 
 @immutable
-abstract class TaskState {}
+abstract class TaskState {
+  late List<Task> tasks;
+}
 
 class TaskInitial extends TaskState {}
 

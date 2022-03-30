@@ -26,10 +26,10 @@ class TaskCubit extends Cubit<TaskState> {
   }
 
   void addTask(String title, DateTime? date, String? description, int status,
-      int user_id, int project_id) {
+      int userId, int projectId) {
     emit(TaskCreating());
     repository
-        .addTask(title, date, description, status, user_id, project_id)
+        .addTask(title, date, description, status, userId, projectId)
         .then((response) {
       if (response.statusCode == 200) {
         emit(TaskCreated());
@@ -40,15 +40,17 @@ class TaskCubit extends Cubit<TaskState> {
     });
   }
 
-  void update_task(int id, String title, DateTime date, String description,
-      int status, int user_id, int project_id) {
-    emit(TaskUpdating());
+  void update_task(int id, String title, DateTime? date, String? description,
+      int? status, int? userId, int? projectId) {
     repository
-        .update_task(id, title, date, description, status, user_id, project_id)
+        .update_task(id, title, date, description, status, userId, projectId)
         .then((response) {
       if (response.statusCode == 200) {
-        emit(TaskUpdated());
-        emit(TaskInitial());
+        if (state is TasksLoaded) {
+          var currentTasks = state.tasks;
+          emit(TaskUpdated());
+          emit(TasksLoaded(tasks: currentTasks));
+        }
       } else {
         emit(TaskUpdatingError());
       }

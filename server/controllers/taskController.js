@@ -90,15 +90,21 @@ const updateTask = async (req, res) => {
     try {
         const { id, title, status, project_id, creator_id, user_id } = req.body;
         const task = await Task.findOne({
-            where: { id: id, user_id: req.user.user_id },
+            where: {
+                id: id,
+                [Op.or]: [
+                    { user_id: req.user.user_id },
+                    { creator_id: req.user.user_id },
+                ],
+            },
         });
         if (task) {
-            await Task.update(
+            var updatedtask = await Task.update(
                 { title, status, project_id, creator_id, user_id },
                 { where: { id } }
             );
 
-            res.status(200).json("task updated successfully");
+            res.status(200).json(updatedtask);
         } else {
             res.status(404).json("task not found");
         }

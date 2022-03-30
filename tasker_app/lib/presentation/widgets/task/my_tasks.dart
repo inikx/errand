@@ -46,9 +46,26 @@ class MyTasks extends StatelessWidget {
           child: BlocBuilder<TaskCubit, TaskState>(
             builder: (context, state) {
               if (state is TasksLoaded) {
-                return TasksList(tasks: state.tasks, doneTasks: [
-                  Task(date: DateTime.now(), title: "done task", status: 1),
-                ]);
+                var tasks = state.tasks;
+                List<Task> allTasks = [];
+                List<Task> doneTasks = [];
+
+                print(allTasks);
+                for (var task in tasks) {
+                  if (task.status == 2) {
+                    doneTasks.add(task);
+                  } else {
+                    allTasks.add(task);
+                  }
+                }
+                print("ALL TASKS");
+                print(allTasks);
+                print("DONE TASKS");
+                print(doneTasks);
+                return BlocProvider.value(
+                  value: BlocProvider.of<TaskCubit>(context),
+                  child: TasksList(tasks: allTasks, doneTasks: doneTasks),
+                );
               } else if (state is TasksLoading) {
                 return Center(child: CircularProgressIndicator());
               } else {
