@@ -1,12 +1,9 @@
-import 'package:expandable_bottom_sheet/expandable_bottom_sheet.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:tasker_app/constants/strings.dart';
-import 'package:tasker_app/presentation/pages/profile.dart';
-import 'package:tasker_app/presentation/widgets/my_projects.dart';
-import 'package:tasker_app/presentation/widgets/my_tasks.dart';
+import 'package:tasker_app/presentation/widgets/project/my_projects.dart';
+import 'package:tasker_app/presentation/widgets/task/my_tasks.dart';
 
 import '../widgets/wallpaper.dart';
 

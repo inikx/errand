@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tasker_app/bloc/task/task_cubit.dart';
 import 'package:tasker_app/data/models/task.dart';
-import 'package:tasker_app/presentation/widgets/add_task.dart';
-import 'package:tasker_app/presentation/widgets/tasks_list.dart';
+import 'package:tasker_app/presentation/widgets/bottom_sheets/task.dart';
+import 'package:tasker_app/presentation/widgets/task/tasks_list.dart';
 
 class MyTasks extends StatelessWidget {
   const MyTasks({Key? key}) : super(key: key);

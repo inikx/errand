@@ -39,7 +39,8 @@ class AppRouter {
         return CupertinoPageRoute(
           builder: (_) => BlocProvider(
             create: (context) =>
-                AuthenticationCubit(repository: authecticationRepository)..auth(),
+                AuthenticationCubit(repository: authecticationRepository)
+                  ..auth(),
             child: AuthenticationPage(),
           ),
         );
