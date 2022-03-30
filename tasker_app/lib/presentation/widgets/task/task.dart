@@ -32,7 +32,7 @@ class TaskWidget extends StatelessWidget {
                             task.title,
                             task.date,
                             task.description,
-                            2,
+                            task.status == 2 ? 1 : 2,
                             task.user_id,
                             task.project_id);
                       },
