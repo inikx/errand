@@ -3,8 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tasker_app/bloc/project%20creating/project_creating_cubit.dart';
-import 'package:tasker_app/data/services/project/network_service.dart';
-import 'package:tasker_app/data/services/project/repository.dart';
+import 'package:tasker_app/constants/locator.dart';
 
 class AddProjectBottomSheet extends StatelessWidget {
   const AddProjectBottomSheet({
@@ -14,9 +13,7 @@ class AddProjectBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => ProjectCreatingCubit(
-          repository:
-              ProjectRepository(networkService: ProjectNetworkService())),
+      create: (context) => getIt<ProjectCreatingCubit>(),
       child: BottomSheet(),
     );
   }

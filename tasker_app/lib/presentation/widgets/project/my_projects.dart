@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tasker_app/bloc/project%20creating/project_creating_cubit.dart';
 import 'package:tasker_app/bloc/projects/projects_cubit.dart';
+import 'package:tasker_app/constants/locator.dart';
 import 'package:tasker_app/data/services/project/network_service.dart';
 import 'package:tasker_app/data/services/project/repository.dart';
 import 'package:tasker_app/presentation/widgets/bottom_sheets/project.dart';
@@ -39,9 +40,7 @@ class MyProjects extends StatelessWidget {
                       context: context,
                       backgroundColor: Colors.transparent,
                       builder: (context) => BlocProvider(
-                        create: (context) => ProjectCreatingCubit(
-                            repository: ProjectRepository(
-                                networkService: ProjectNetworkService())),
+                        create: (context) => getIt<ProjectCreatingCubit>(),
                         child: AddProjectBottomSheet(),
                       ),
                     );

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tasker_app/bloc/task/task_cubit.dart';
+import 'package:tasker_app/constants/locator.dart';
 import 'package:tasker_app/data/models/task.dart';
 import 'package:tasker_app/presentation/widgets/bottom_sheets/task.dart';
 import 'package:tasker_app/presentation/widgets/task/tasks_list.dart';
@@ -46,18 +47,32 @@ class MyTasks extends StatelessWidget {
           height: MediaQuery.of(context).size.height * 0.54, //?
           child: BlocBuilder<TaskCubit, TaskState>(
             builder: (context, state) {
-              if (state is TasksLoaded && project_id == -1) {
-                return TasksList(tasks: state.tasks, doneTasks: [
-                  Task(date: DateTime.now(), title: "done task", status: 1),
-                ]);
-              } else if (state is TasksLoaded && project_id != -1) {
-                return TasksList(
-                    tasks: state.tasks
-                        .where((task) => task.project_id == project_id)
-                        .toList(),
-                    doneTasks: [
-                      Task(date: DateTime.now(), title: "done task", status: 1),
-                    ]);
+              // if (state is TasksLoaded && project_id == -1) {
+              // //   return TasksList(tasks: state.tasks, doneTasks: [
+              // //     Task(date: DateTime.now(), title: "done task", status: 1),
+              // //   ]);
+              // // } else if (state is TasksLoaded && project_id != -1) {
+              // //   return TasksList(
+              // //       tasks: state.tasks
+              // //           .where((task) => task.project_id == project_id)
+              // //           .toList(),
+              // //       doneTasks: [
+              // //         Task(date: DateTime.now(), title: "done task", status: 1),
+              // //       ]);
+              if (state is TasksLoaded) {
+                var tasks = state.tasks;
+                List<Task> allTasks = [];
+                List<Task> doneTasks = [];
+
+                print(allTasks);
+                for (var task in tasks) {
+                  if (task.status == 2) {
+                    doneTasks.add(task);
+                  } else {
+                    allTasks.add(task);
+                  }
+                }
+                return TasksList(tasks: allTasks, doneTasks: doneTasks);
               } else if (state is TasksLoading) {
                 return Center(child: CircularProgressIndicator());
               } else {

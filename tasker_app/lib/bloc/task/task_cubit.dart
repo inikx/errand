@@ -9,7 +9,7 @@ part 'task_state.dart';
 
 class TaskCubit extends Cubit<TaskState> {
   final TaskRepository repository;
-  TaskCubit({required this.repository}) : super(TaskInitial());
+  TaskCubit(this.repository) : super(TaskInitial());
 
   void fetchTasks() {
     emit(TasksLoading());
@@ -25,34 +25,28 @@ class TaskCubit extends Cubit<TaskState> {
     });
   }
 
-  void addTask(String title, DateTime? date, String? description, int status,
-      int user_id, int project_id) {
-    emit(TaskCreating());
+  void update_task(int id, String title, DateTime? date, String? description,
+      int? status, int? userId, int? projectId) {
     repository
-        .addTask(title, date, description, status, user_id, project_id)
+        .update_task(id, title, date, description, status, userId, projectId)
         .then((response) {
       if (response.statusCode == 200) {
-        emit(TaskCreated());
-        emit(TaskInitial());
-      } else {
-        emit(TasksCreatingError());
-      }
-    });
-  }
-
-  void update_task(int id, String title, DateTime date, String description,
-      int status, int user_id, int project_id) {
-    emit(TaskUpdating());
-    repository
-        .update_task(id, title, date, description, status, user_id, project_id)
-        .then((response) {
-      if (response.statusCode == 200) {
-        emit(TaskUpdated());
-        emit(TaskInitial());
+        if (state is TasksLoaded) {
+          var currentTasks = state.tasks;
+          emit(TaskUpdated());
+          emit(TasksLoaded(tasks: currentTasks));
+        }
       } else {
         emit(TaskUpdatingError());
       }
     });
+  }
+
+  addTaskToState(Task task) {
+    final currentState = state;
+    final tasks = currentState.tasks;
+    tasks.add(task);
+    emit(TasksLoaded(tasks: tasks));
   }
 
   void remove_task(int id) {

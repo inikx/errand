@@ -4,6 +4,7 @@ import 'dart:math';
 
 import 'package:tasker_app/bloc/add%20task/add_task_cubit.dart';
 import 'package:tasker_app/bloc/task/task_cubit.dart';
+import 'package:tasker_app/constants/locator.dart';
 import 'package:tasker_app/data/services/task/network_service.dart';
 import 'package:tasker_app/data/services/task/repository.dart';
 import 'package:tasker_app/presentation/widgets/snackbars/exception_widget.dart';
@@ -11,15 +12,12 @@ import 'package:tasker_app/presentation/widgets/snackbars/success_widget.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 Future<dynamic> AddTaskBottomSheet(BuildContext context) {
-  var repository = TaskRepository(networkService: TaskNetworkService());
   return showModalBottomSheet(
     isScrollControlled: true,
     context: context,
     backgroundColor: Colors.transparent,
-    builder: (context) => BlocProvider(
-      create: (context) => AddTaskCubit(repository: repository),
-      child: BottomSheet(),
-    ),
+    builder: (context) =>
+        BlocProvider.value(value: getIt<AddTaskCubit>(), child: BottomSheet()),
   );
 }
 

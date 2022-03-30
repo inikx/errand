@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:tasker_app/constants/locator.dart';
 import 'package:tasker_app/route.dart';
 
-void main() {
+void main() async {
   Paint.enableDithering = true;
+  await setupLocator();
   runApp(ErrandApp(router: AppRouter()));
 }
 

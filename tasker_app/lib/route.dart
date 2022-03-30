@@ -5,6 +5,7 @@ import 'package:tasker_app/bloc/login/login_cubit.dart';
 import 'package:tasker_app/bloc/projects/projects_cubit.dart';
 import 'package:tasker_app/bloc/register/register_cubit.dart';
 import 'package:tasker_app/bloc/task/task_cubit.dart';
+import 'package:tasker_app/constants/locator.dart';
 import 'package:tasker_app/constants/strings.dart';
 import 'package:tasker_app/data/services/authentication/network_service.dart';
 import 'package:tasker_app/data/services/authentication/repository.dart';
@@ -24,37 +25,20 @@ import 'package:tasker_app/presentation/pages/project_details.dart';
 import 'package:tasker_app/presentation/pages/registration.dart';
 
 class AppRouter {
-  late LoginRepository loginRepository;
-  late RegisterRepository registerRepository;
-  late TaskRepository taskRepository;
-  late AuthenticationRepository authecticationRepository;
-  late ProjectRepository projectsRepository;
-
-  AppRouter() {
-    loginRepository = LoginRepository(networkService: LoginNetworkService());
-    registerRepository =
-        RegisterRepository(networkService: RegisterNetworkService());
-    taskRepository = TaskRepository(networkService: TaskNetworkService());
-    projectsRepository =
-        ProjectRepository(networkService: ProjectNetworkService());
-    authecticationRepository = AuthenticationRepository(
-        networkService: AuthenticationNetworkService());
-  }
   Route? generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case AUTH:
         return CupertinoPageRoute(
           builder: (_) => BlocProvider(
             create: (context) =>
-                AuthenticationCubit(repository: authecticationRepository)
-                  ..auth(),
+                AuthenticationCubit(getIt<AuthenticationRepository>())..auth(),
             child: AuthenticationPage(),
           ),
         );
       case LOGIN:
         return CupertinoPageRoute(
           builder: (_) => BlocProvider(
-            create: (context) => LogInCubit(repository: loginRepository),
+            create: (context) => LogInCubit(getIt<LoginRepository>()),
             child: const LogInPage(),
           ),
         );
@@ -63,12 +47,10 @@ class AppRouter {
           builder: (_) => MultiBlocProvider(
             providers: [
               BlocProvider(
-                create: (context) => TaskCubit(repository: taskRepository),
+                create: (context) => getIt<TaskCubit>()..fetchTasks(),
               ),
               BlocProvider(
-                create: (context) =>
-                    ProjectsCubit(repository: projectsRepository)
-                      ..fetchProjects(),
+                create: (context) => getIt<ProjectsCubit>()..fetchProjects(),
               )
             ],
             child: HomePage(),
@@ -77,7 +59,7 @@ class AppRouter {
       case REGISTER:
         return CupertinoPageRoute(
           builder: (_) => BlocProvider(
-            create: (context) => RegisterCubit(repository: registerRepository),
+            create: (context) => RegisterCubit(getIt<RegisterRepository>()),
             child: const RegistrationPage(),
           ),
         );
@@ -87,7 +69,7 @@ class AppRouter {
           builder: (_) => MultiBlocProvider(
             providers: [
               BlocProvider(
-                create: (context) => TaskCubit(repository: taskRepository),
+                create: (context) => getIt<TaskCubit>()..fetchTasks(),
               ),
             ],
             child: ProjectDetails(id: args.id, title: args.title),

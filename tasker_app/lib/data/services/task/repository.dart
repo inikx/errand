@@ -5,20 +5,18 @@ import 'package:tasker_app/data/services/task/network_service.dart';
 
 class TaskRepository {
   final TaskNetworkService networkService;
-  TaskRepository({required this.networkService});
+  TaskRepository(this.networkService);
 
-  Future<Response> addTask(String title, DateTime? date, String? description,
-      int status, int? user_id, int? project_id) async {
-    return await networkService.addTask(
-        title, date, description, status, user_id, project_id);
+  Future<Response> addTask(Task task) async {
+    return await networkService.addTask(task);
   }
 
   Future<Response> get_all_tasks() async {
     return await networkService.get_all_tasks();
   }
 
-  Future<Response> update_task(int id, String title, DateTime date,
-      String description, int status, int user_id, int project_id) async {
+  Future<Response> update_task(int id, String title, DateTime? date,
+      String? description, int? status, int? user_id, int? project_id) async {
     return await networkService.update_task(
         id, title, date, description, status, user_id, project_id);
   }

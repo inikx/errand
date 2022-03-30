@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:tasker_app/bloc/task/task_cubit.dart';
 import 'package:tasker_app/data/models/task.dart';
 import 'package:tasker_app/data/services/task/repository.dart';
 
@@ -6,7 +7,8 @@ part 'add_task_state.dart';
 
 class AddTaskCubit extends Cubit<AddTaskState> {
   final TaskRepository repository;
-  AddTaskCubit({required this.repository})
+  final TaskCubit taskCubit;
+  AddTaskCubit(this.repository, this.taskCubit)
       : super(AddTaskInitial(task: Task(date: DateTime.now())));
 
   void updateTitle(String title) {
@@ -39,13 +41,11 @@ class AddTaskCubit extends Cubit<AddTaskState> {
   void addTask(Task task) {
     final currentState = state;
     emit(AddingTask());
-    repository
-        .addTask(task.title, task.date, task.description, task.status,
-            task.user_id, task.project_id)
-        .then((response) {
+    repository.addTask(task).then((response) {
       if (response.statusCode == 200) {
         emit(AddingTaskSuccess());
         emit(AddTaskInitial());
+        taskCubit.addTaskToState(task);
       } else if (response.statusCode == 400) {
         emit(AddingTaskError(task: currentState.task));
       }

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 class Task {
+  int id;
   String title;
   DateTime? date;
   String? description;
@@ -10,6 +11,7 @@ class Task {
   int? project_id;
 
   Task({
+    this.id = -1,
     this.title = "",
     required this.date,
     this.description = "",
@@ -20,6 +22,7 @@ class Task {
   });
 
   Task copyWith({
+    int? id,
     String? title,
     DateTime? date,
     String? description,
@@ -29,6 +32,7 @@ class Task {
     int? project_id,
   }) {
     return Task(
+      id: id ?? this.id,
       title: title ?? this.title,
       date: date ?? this.date,
       description: description ?? this.description,
@@ -41,6 +45,7 @@ class Task {
 
   Map<String, dynamic> toMap() {
     return {
+      'id': id,
       'title': title,
       'date': date?.millisecondsSinceEpoch,
       'description': description,
@@ -53,6 +58,7 @@ class Task {
 
   factory Task.fromMap(Map<String, dynamic> map) {
     return Task(
+      id: map['id']?.toInt() ?? 0,
       title: map['title'] ?? '',
       date: map['date'] != null
           ? DateTime.fromMillisecondsSinceEpoch(map['date'])
@@ -69,6 +75,7 @@ class Task {
 
   factory Task.fromJson(Map<String, dynamic> json) {
     return Task(
+      id: json["id"] ?? null,
       title: json["title"],
       date: json["date"] != null ? DateTime.parse(json["date"]) : null,
       description: json["description"] ?? null,
@@ -81,7 +88,7 @@ class Task {
 
   @override
   String toString() {
-    return 'Task(title: $title, date: $date, description: $description, status: $status, creator_id: $creator_id, user_id: $user_id, project_id: $project_id)';
+    return 'Task(id: $id, title: $title, date: $date, description: $description, status: $status, creator_id: $creator_id, user_id: $user_id, project_id: $project_id)';
   }
 
   @override
@@ -89,6 +96,7 @@ class Task {
     if (identical(this, other)) return true;
 
     return other is Task &&
+        other.id == id &&
         other.title == title &&
         other.date == date &&
         other.description == description &&
@@ -100,7 +108,8 @@ class Task {
 
   @override
   int get hashCode {
-    return title.hashCode ^
+    return id.hashCode ^
+        title.hashCode ^
         date.hashCode ^
         description.hashCode ^
         status.hashCode ^
