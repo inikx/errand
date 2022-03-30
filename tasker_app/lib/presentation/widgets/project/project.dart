@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tasker_app/bloc/task/task_cubit.dart';
 import 'package:tasker_app/constants/strings.dart';
 import 'package:tasker_app/data/models/project.dart';
+import 'package:tasker_app/data/models/task.dart';
+import 'package:tasker_app/presentation/widgets/task/tasks_list.dart';
 import 'package:tasker_app/route.dart';
 
 class ProjectWidget extends StatelessWidget {
@@ -9,6 +13,7 @@ class ProjectWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    BlocProvider.of<TaskCubit>(context).fetchTasks();
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 0, 20, 20),
       child: SizedBox(
@@ -18,7 +23,8 @@ class ProjectWidget extends StatelessWidget {
             borderRadius: BorderRadius.circular(20),
             onTap: () {
               Navigator.pushNamed(context, PROJECT_DETAILS,
-                  arguments: ProjectDetailsScreenArguments(project.id));
+                  arguments:
+                      ProjectDetailsScreenArguments(project.id, project.title));
             },
             child: Stack(children: [
               Ink(
@@ -50,13 +56,39 @@ class ProjectWidget extends StatelessWidget {
                                 fontWeight: FontWeight.bold)),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
-                          children: const [
-                            Text("7/9", //project task count
-                                style: TextStyle(
-                                    fontFamily: 'Rubik',
-                                    color: Colors.white,
-                                    fontSize: 43,
-                                    fontWeight: FontWeight.w100)),
+                          children: [
+                            BlocBuilder<TaskCubit, TaskState>(
+                                builder: (context, state) {
+                              if (state is TasksLoaded && project.id != -1) {
+                                TasksList taskCount = TasksList(
+                                    tasks: state.tasks
+                                        .where((task) =>
+                                            task.project_id == project.id)
+                                        .toList(),
+                                    doneTasks: [
+                                      Task(
+                                          date: DateTime.now(),
+                                          title: "done task",
+                                          status: 1),
+                                    ]);
+
+                                String allTasksCount =
+                                    taskCount.tasks.length.toString();
+                                String doneTasksCount =
+                                    taskCount.doneTasks.length.toString();
+                                return Text("$doneTasksCount/$allTasksCount",
+                                    style: TextStyle(
+                                        fontFamily: 'Rubik',
+                                        color: Colors.white,
+                                        fontSize: 43,
+                                        fontWeight: FontWeight.w100));
+                              } else if (state is TasksLoading) {
+                                return Center(
+                                    child: CircularProgressIndicator());
+                              } else {
+                                return Center(child: Text("Error"));
+                              }
+                            })
                           ],
                         ),
                       ],

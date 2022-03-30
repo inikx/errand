@@ -6,7 +6,8 @@ import 'package:tasker_app/presentation/widgets/bottom_sheets/task.dart';
 import 'package:tasker_app/presentation/widgets/task/tasks_list.dart';
 
 class MyTasks extends StatelessWidget {
-  const MyTasks({Key? key}) : super(key: key);
+  int project_id;
+  MyTasks({Key? key, required this.project_id}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -45,10 +46,18 @@ class MyTasks extends StatelessWidget {
           height: MediaQuery.of(context).size.height * 0.54, //?
           child: BlocBuilder<TaskCubit, TaskState>(
             builder: (context, state) {
-              if (state is TasksLoaded) {
+              if (state is TasksLoaded && project_id == -1) {
                 return TasksList(tasks: state.tasks, doneTasks: [
                   Task(date: DateTime.now(), title: "done task", status: 1),
                 ]);
+              } else if (state is TasksLoaded && project_id != -1) {
+                return TasksList(
+                    tasks: state.tasks
+                        .where((task) => task.project_id == project_id)
+                        .toList(),
+                    doneTasks: [
+                      Task(date: DateTime.now(), title: "done task", status: 1),
+                    ]);
               } else if (state is TasksLoading) {
                 return Center(child: CircularProgressIndicator());
               } else {

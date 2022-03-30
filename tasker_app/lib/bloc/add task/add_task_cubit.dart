@@ -18,6 +18,15 @@ class AddTaskCubit extends Cubit<AddTaskState> {
     }
   }
 
+  void updateProject(int project_id) {
+    final currentState = state;
+    if (currentState is AddingTaskDataChanged ||
+        currentState is AddTaskInitial) {
+      emit(AddingTaskDataChanged(
+          task: currentState.task.copyWith(project_id: project_id)));
+    }
+  }
+
   void updateDescription(String description) {
     final currentState = state;
     if (currentState is AddingTaskDataChanged ||

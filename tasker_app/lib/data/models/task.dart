@@ -16,7 +16,7 @@ class Task {
     this.status = 0,
     this.creator_id = -1,
     this.user_id = null,
-    this.project_id = null,
+    this.project_id = -1,
   });
 
   Task copyWith({
@@ -61,7 +61,7 @@ class Task {
       status: map['status']?.toInt() ?? 0,
       creator_id: map['creator_id']?.toInt() ?? 0,
       user_id: map['user_id']?.toInt(),
-      project_id: map['project_id']?.toInt(),
+      project_id: map['project_id']?.toInt() ?? 0,
     );
   }
 
@@ -75,7 +75,7 @@ class Task {
       status: json["status"] ?? null,
       creator_id: json["creator_id"] ?? null,
       user_id: json["user_id"] ?? null,
-      project_id: json["titproject_idle"] ?? null,
+      project_id: json["project_id"] ?? null,
     );
   }
 

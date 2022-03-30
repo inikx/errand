@@ -84,8 +84,13 @@ class AppRouter {
       case PROJECT_DETAILS:
         final args = settings.arguments as ProjectDetailsScreenArguments;
         return CupertinoPageRoute(
-          builder: (_) => ProjectDetails(
-            id: args.id,
+          builder: (_) => MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (context) => TaskCubit(repository: taskRepository),
+              ),
+            ],
+            child: ProjectDetails(id: args.id, title: args.title),
           ),
         );
       case PROFILE:
@@ -100,6 +105,7 @@ class AppRouter {
 
 class ProjectDetailsScreenArguments {
   final int id;
+  final String title;
 
-  ProjectDetailsScreenArguments(this.id);
+  ProjectDetailsScreenArguments(this.id, this.title);
 }
