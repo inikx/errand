@@ -7,8 +7,7 @@ part 'authentication_state.dart';
 
 class AuthenticationCubit extends Cubit<AuthenticationState> {
   final AuthenticationRepository repository;
-  AuthenticationCubit({required this.repository})
-      : super(AuthenticationInitial());
+  AuthenticationCubit(this.repository) : super(AuthenticationInitial());
 
   void auth() {
     emit(AuthenticationChecking());

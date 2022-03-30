@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tasker_app/bloc/add%20task/add_task_cubit.dart';
 import 'package:tasker_app/bloc/task/task_cubit.dart';
+import 'package:tasker_app/constants/locator.dart';
 import 'package:tasker_app/data/models/task.dart';
 
 class TaskWidget extends StatelessWidget {
@@ -27,7 +29,7 @@ class TaskWidget extends StatelessWidget {
                       splashColor: Colors.transparent,
                       highlightColor: Colors.transparent,
                       onPressed: () {
-                        BlocProvider.of<TaskCubit>(context).update_task(
+                        getIt<TaskCubit>().update_task(
                             task.id,
                             task.title,
                             task.date,

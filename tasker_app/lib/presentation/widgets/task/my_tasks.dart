@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tasker_app/bloc/task/task_cubit.dart';
+import 'package:tasker_app/constants/locator.dart';
 import 'package:tasker_app/data/models/task.dart';
 import 'package:tasker_app/presentation/widgets/bottom_sheets/task.dart';
 import 'package:tasker_app/presentation/widgets/task/tasks_list.dart';
@@ -58,14 +59,7 @@ class MyTasks extends StatelessWidget {
                     allTasks.add(task);
                   }
                 }
-                print("ALL TASKS");
-                print(allTasks);
-                print("DONE TASKS");
-                print(doneTasks);
-                return BlocProvider.value(
-                  value: BlocProvider.of<TaskCubit>(context),
-                  child: TasksList(tasks: allTasks, doneTasks: doneTasks),
-                );
+                return TasksList(tasks: allTasks, doneTasks: doneTasks);
               } else if (state is TasksLoading) {
                 return Center(child: CircularProgressIndicator());
               } else {

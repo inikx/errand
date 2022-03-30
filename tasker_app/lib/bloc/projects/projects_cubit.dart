@@ -9,7 +9,7 @@ part 'projects_state.dart';
 
 class ProjectsCubit extends Cubit<ProjectsState> {
   final ProjectRepository repository;
-  ProjectsCubit({required this.repository}) : super(ProjectsInitial());
+  ProjectsCubit(this.repository) : super(ProjectsInitial());
 
   void fetchProjects() {
     emit(ProjectsLoading());

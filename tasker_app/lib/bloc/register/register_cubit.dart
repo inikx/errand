@@ -8,8 +8,7 @@ part 'register_state.dart';
 class RegisterCubit extends Cubit<RegisterState> {
   final RegisterRepository? repository;
 
-  RegisterCubit({required this.repository})
-      : super(RegisterInitial(data: RegisterData()));
+  RegisterCubit(this.repository) : super(RegisterInitial(data: RegisterData()));
 
   void updateUsername(String username) {
     final currentState = state;

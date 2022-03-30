@@ -9,7 +9,7 @@ part 'task_state.dart';
 
 class TaskCubit extends Cubit<TaskState> {
   final TaskRepository repository;
-  TaskCubit({required this.repository}) : super(TaskInitial());
+  TaskCubit(this.repository) : super(TaskInitial());
 
   void fetchTasks() {
     emit(TasksLoading());
@@ -21,21 +21,6 @@ class TaskCubit extends Cubit<TaskState> {
         emit(TasksLoaded(tasks: tasks));
       } else {
         emit(TasksLoadingError());
-      }
-    });
-  }
-
-  void addTask(String title, DateTime? date, String? description, int status,
-      int userId, int projectId) {
-    emit(TaskCreating());
-    repository
-        .addTask(title, date, description, status, userId, projectId)
-        .then((response) {
-      if (response.statusCode == 200) {
-        emit(TaskCreated());
-        emit(TaskInitial());
-      } else {
-        emit(TasksCreatingError());
       }
     });
   }
@@ -55,6 +40,13 @@ class TaskCubit extends Cubit<TaskState> {
         emit(TaskUpdatingError());
       }
     });
+  }
+
+  addTaskToState(Task task) {
+    final currentState = state;
+    final tasks = currentState.tasks;
+    tasks.add(task);
+    emit(TasksLoaded(tasks: tasks));
   }
 
   void remove_task(int id) {
