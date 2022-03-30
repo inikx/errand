@@ -4,6 +4,7 @@ import 'package:tasker_app/bloc/add%20task/add_task_cubit.dart';
 import 'package:tasker_app/bloc/task/task_cubit.dart';
 import 'package:tasker_app/constants/locator.dart';
 import 'package:tasker_app/data/models/task.dart';
+import 'package:tasker_app/route.dart';
 
 class TaskWidget extends StatelessWidget {
   Task task;

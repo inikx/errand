@@ -19,7 +19,15 @@ class ProjectsCubit extends Cubit<ProjectsState> {
         List<Project> projects =
             rawProjects.map((project) => Project.fromJson((project))).toList();
         emit(ProjectsLoaded(projects: projects));
-      } else {}
+      } else {
+        emit(ProjectsLoadingErrror());
+      }
     });
+  }
+
+  addNewProject(Project project) {
+    final projects = state.projects;
+    projects.add(project);
+    emit(ProjectsLoaded(projects: projects));
   }
 }

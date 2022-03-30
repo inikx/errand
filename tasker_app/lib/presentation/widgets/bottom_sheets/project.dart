@@ -3,20 +3,23 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tasker_app/bloc/project%20creating/project_creating_cubit.dart';
+import 'package:tasker_app/bloc/projects/projects_cubit.dart';
 import 'package:tasker_app/constants/locator.dart';
+import 'package:tasker_app/data/services/project/repository.dart';
+import 'package:tasker_app/presentation/widgets/snackbars/success_widget.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
-class AddProjectBottomSheet extends StatelessWidget {
-  const AddProjectBottomSheet({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => getIt<ProjectCreatingCubit>(),
+Future<dynamic> AddProjectBottomSheet(BuildContext context) {
+  return showModalBottomSheet(
+    isScrollControlled: true,
+    context: context,
+    backgroundColor: Colors.transparent,
+    builder: (context) => BlocProvider(
+      create: (context) => ProjectCreatingCubit(
+          getIt<ProjectRepository>(), getIt<ProjectsCubit>()),
       child: BottomSheet(),
-    );
-  }
+    ),
+  );
 }
 
 class BottomSheet extends StatelessWidget {
@@ -30,6 +33,10 @@ class BottomSheet extends StatelessWidget {
       listener: (context, state) {
         switch (state.runtimeType) {
           case ProjectCreated:
+            showTopSnackBar(
+              context,
+              const SuccessSnackbar(info: "Проект успешно создан!"),
+            );
             Navigator.pop(context);
         }
       },

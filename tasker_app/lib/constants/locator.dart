@@ -52,5 +52,6 @@ Future<void> setupLocator() async {
   getIt.registerSingleton(ProjectsCubit(getIt<ProjectRepository>()));
 
   // Create Project
-  getIt.registerSingleton(ProjectCreatingCubit(getIt<ProjectRepository>()));
+  getIt.registerSingleton(
+      ProjectCreatingCubit(getIt<ProjectRepository>(), getIt<ProjectsCubit>()));
 }

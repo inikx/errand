@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tasker_app/bloc/task/task_cubit.dart';
-import 'package:tasker_app/presentation/widgets/task/my_tasks.dart';
 import 'package:tasker_app/presentation/widgets/wallpaper.dart';
+
+import '../../bloc/project_tasks/project_tasks_cubit.dart';
 
 class ProjectDetails extends StatelessWidget {
   int id;
@@ -15,7 +15,7 @@ class ProjectDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    BlocProvider.of<TaskCubit>(context).fetchTasks();
+    BlocProvider.of<ProjectTasksCubit>(context).fetchTasks(id);
     return Scaffold(
       body: Stack(children: [
         Wallpaper(),
@@ -69,7 +69,7 @@ class ProjectDetails extends StatelessWidget {
               //     ),
               //   ),
               // ),
-              MyTasks(project_id: id),
+              //MyTasks(project_id: id),
             ],
           )),
         )),

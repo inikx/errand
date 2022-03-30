@@ -13,7 +13,6 @@ class ProjectWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    BlocProvider.of<TaskCubit>(context).fetchTasks();
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 0, 20, 20),
       child: SizedBox(
@@ -63,14 +62,14 @@ class ProjectWidget extends StatelessWidget {
                                 TasksList taskCount = TasksList(
                                     tasks: state.tasks
                                         .where((task) =>
-                                            task.project_id == project.id)
+                                            task.project_id == project.id &&
+                                            task.status != 2)
                                         .toList(),
-                                    doneTasks: [
-                                      Task(
-                                          date: DateTime.now(),
-                                          title: "done task",
-                                          status: 1),
-                                    ]);
+                                    doneTasks: state.tasks
+                                        .where((task) =>
+                                            task.project_id == project.id &&
+                                            task.status == 2)
+                                        .toList());
 
                                 String allTasksCount =
                                     taskCount.tasks.length.toString();

@@ -71,4 +71,17 @@ class TaskNetworkService {
 
     return response;
   }
+
+  get_all_project_tasks(int project_id) async {
+    String? token = await storage.read(key: 'token');
+    final response = await http.get(
+      Uri.parse('$BASE_URL/api/task/all/project/$project_id'),
+      headers: {
+        "Content-Type": "application/json",
+        "x-access-token": token.toString()
+      },
+    );
+
+    return response;
+  }
 }

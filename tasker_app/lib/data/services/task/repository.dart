@@ -24,4 +24,8 @@ class TaskRepository {
   Future<Response> delete_task(int id) async {
     return await networkService.delete_task(id);
   }
+
+  Future<Response> get_all_project_tasks(int project_id) async {
+    return await networkService.get_all_project_tasks(project_id);
+  }
 }

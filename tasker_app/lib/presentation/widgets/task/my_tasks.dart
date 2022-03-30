@@ -7,8 +7,7 @@ import 'package:tasker_app/presentation/widgets/bottom_sheets/task.dart';
 import 'package:tasker_app/presentation/widgets/task/tasks_list.dart';
 
 class MyTasks extends StatelessWidget {
-  int project_id;
-  MyTasks({Key? key, required this.project_id}) : super(key: key);
+  MyTasks({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

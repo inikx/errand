@@ -177,9 +177,7 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ],
                       ),
-                      _TasksIsPressed
-                          ? MyTasks(project_id: -1)
-                          : const MyProjects(),
+                      _TasksIsPressed ? MyTasks() : const MyProjects(),
                     ]))),
       ],
     ));

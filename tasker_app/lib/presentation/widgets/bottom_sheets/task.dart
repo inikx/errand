@@ -16,8 +16,11 @@ Future<dynamic> AddTaskBottomSheet(BuildContext context) {
     isScrollControlled: true,
     context: context,
     backgroundColor: Colors.transparent,
-    builder: (context) =>
-        BlocProvider.value(value: getIt<AddTaskCubit>(), child: BottomSheet()),
+    builder: (context) => BlocProvider(
+      create: (context) =>
+          AddTaskCubit(getIt<TaskRepository>(), getIt<TaskCubit>()),
+      child: BottomSheet(),
+    ),
   );
 }
 

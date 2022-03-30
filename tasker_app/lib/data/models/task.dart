@@ -18,7 +18,7 @@ class Task {
     this.status = 0,
     this.creator_id = -1,
     this.user_id = null,
-    this.project_id = -1,
+    this.project_id = null,
   });
 
   Task copyWith({

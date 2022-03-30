@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tasker_app/bloc/authentication/authentication_cubit.dart';
 import 'package:tasker_app/bloc/login/login_cubit.dart';
+import 'package:tasker_app/bloc/project_tasks/project_tasks_cubit.dart';
 import 'package:tasker_app/bloc/projects/projects_cubit.dart';
 import 'package:tasker_app/bloc/register/register_cubit.dart';
 import 'package:tasker_app/bloc/task/task_cubit.dart';
@@ -43,6 +44,10 @@ class AppRouter {
           ),
         );
       case HOME:
+        getIt.unregister<TaskCubit>();
+        getIt.unregister<ProjectsCubit>();
+        getIt.registerSingleton(TaskCubit(getIt<TaskRepository>()));
+        getIt.registerSingleton(ProjectsCubit(getIt<ProjectRepository>()));
         return CupertinoPageRoute(
           builder: (_) => MultiBlocProvider(
             providers: [
@@ -69,7 +74,7 @@ class AppRouter {
           builder: (_) => MultiBlocProvider(
             providers: [
               BlocProvider(
-                create: (context) => getIt<TaskCubit>()..fetchTasks(),
+                create: (context) => ProjectTasksCubit(getIt<TaskRepository>()),
               ),
             ],
             child: ProjectDetails(id: args.id, title: args.title),

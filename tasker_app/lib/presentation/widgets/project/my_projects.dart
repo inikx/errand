@@ -35,15 +35,7 @@ class MyProjects extends StatelessWidget {
             children: [
               IconButton(
                   onPressed: () {
-                    showModalBottomSheet(
-                      isScrollControlled: true,
-                      context: context,
-                      backgroundColor: Colors.transparent,
-                      builder: (context) => BlocProvider(
-                        create: (context) => getIt<ProjectCreatingCubit>(),
-                        child: AddProjectBottomSheet(),
-                      ),
-                    );
+                    AddProjectBottomSheet(context);
                   },
                   icon: const Icon(Icons.add, color: Colors.white)),
               IconButton(

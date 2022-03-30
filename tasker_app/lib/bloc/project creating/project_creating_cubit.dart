@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
+import 'package:tasker_app/bloc/projects/projects_cubit.dart';
 import 'package:tasker_app/data/models/project.dart';
 import 'package:tasker_app/data/services/project/repository.dart';
 
@@ -7,7 +10,8 @@ part 'project_creating_state.dart';
 
 class ProjectCreatingCubit extends Cubit<ProjectCreatingState> {
   final ProjectRepository repository;
-  ProjectCreatingCubit(this.repository)
+  final ProjectsCubit projectCubit;
+  ProjectCreatingCubit(this.repository, this.projectCubit)
       : super(ProjectCreatingInitial(data: Project()));
 
   void updateTitle(String title) {
@@ -24,6 +28,9 @@ class ProjectCreatingCubit extends Cubit<ProjectCreatingState> {
     repository.create_project(title).then((response) {
       if (response.statusCode == 200) {
         emit(ProjectCreated());
+        var rawProject = jsonDecode(response.body);
+        Project project = Project.fromJson(rawProject);
+        projectCubit.addNewProject(project);
         emit(ProjectCreatingInitial(data: Project()));
       } else {
         emit(ProjectCreatingError());
