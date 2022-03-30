@@ -1,19 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:tasker_app/constants/strings.dart';
+import 'package:tasker_app/data/models/project.dart';
+import 'package:tasker_app/route.dart';
 
 class ProjectWidget extends StatelessWidget {
-  const ProjectWidget({Key? key}) : super(key: key);
+  final Project project;
+  const ProjectWidget({Key? key, required this.project}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(0, 0, 10, 10),
+      padding: const EdgeInsets.fromLTRB(0, 0, 20, 20),
       child: SizedBox(
         child: Material(
           color: Colors.transparent,
           child: InkWell(
             borderRadius: BorderRadius.circular(20),
             onTap: () {
-              //open project
+              Navigator.pushNamed(context, PROJECT_DETAILS,
+                  arguments: ProjectDetailsScreenArguments(project.id));
             },
             child: Stack(children: [
               Ink(
@@ -36,9 +41,9 @@ class ProjectWidget extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text("Диплом", //project title
+                        Text(project.title,
                             overflow: TextOverflow.visible,
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontFamily: 'Rubik',
                                 color: Colors.white,
                                 fontSize: 21,

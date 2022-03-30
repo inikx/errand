@@ -10,6 +10,7 @@ const getProjects = async (req, res) => {
             {
                 where: {
                     user_id: req.user.user_id,
+                    status:1,
                 },
                 include: [
                     { model: User, required: true },
@@ -38,7 +39,7 @@ const createProject = async (req, res) => {
         const addUserToProject = new UsersInProject({
             project_id: project.id,
             user_id: req.user.user_id,
-            status: 0,
+            status: 1,
         });
 
         addUserToProject.save();

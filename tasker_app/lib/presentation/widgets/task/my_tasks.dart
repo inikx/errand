@@ -50,7 +50,7 @@ class MyTasks extends StatelessWidget {
                   Task(date: DateTime.now(), title: "done task", status: 1),
                 ]);
               } else if (state is TasksLoading) {
-                return CircularProgressIndicator();
+                return Center(child: CircularProgressIndicator());
               } else {
                 return Center(child: Text("Error"));
               }

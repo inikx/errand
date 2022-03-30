@@ -14,10 +14,12 @@ class ProjectsCubit extends Cubit<ProjectsState> {
   void fetchProjects() {
     emit(ProjectsLoading());
     repository.get_all_projects().then((response) {
-      emit(ProjectsLoaded(
-          data: jsonDecode(response.body)
-              .map((project) => Project.fromJson(project))
-              .toList()));
+      if (response.statusCode == 200) {
+        var rawProjects = jsonDecode(response.body) as List;
+        List<Project> projects =
+            rawProjects.map((project) => Project.fromJson((project))).toList();
+        emit(ProjectsLoaded(projects: projects));
+      } else {}
     });
   }
 }

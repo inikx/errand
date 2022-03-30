@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tasker_app/bloc/project%20creating/project_creating_cubit.dart';
+import 'package:tasker_app/bloc/projects/projects_cubit.dart';
+import 'package:tasker_app/data/services/project/network_service.dart';
+import 'package:tasker_app/data/services/project/repository.dart';
 import 'package:tasker_app/presentation/widgets/bottom_sheets/project.dart';
 import 'package:tasker_app/presentation/widgets/project/projects_list.dart';
 import 'dart:math';
@@ -8,6 +13,7 @@ class MyProjects extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    BlocProvider.of<ProjectsCubit>(context).fetchProjects();
     return Column(children: [
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -20,9 +26,7 @@ class MyProjects extends StatelessWidget {
                     fontSize: 18,
                     fontWeight: FontWeight.bold)),
             IconButton(
-                onPressed: () {
-                  //notifications button
-                },
+                onPressed: () {},
                 icon: const Icon(Icons.notifications_outlined,
                     color: Colors.white)),
           ]),
@@ -34,7 +38,12 @@ class MyProjects extends StatelessWidget {
                       isScrollControlled: true,
                       context: context,
                       backgroundColor: Colors.transparent,
-                      builder: (context) => AddProjectBottomSheet(),
+                      builder: (context) => BlocProvider(
+                        create: (context) => ProjectCreatingCubit(
+                            repository: ProjectRepository(
+                                networkService: ProjectNetworkService())),
+                        child: AddProjectBottomSheet(),
+                      ),
                     );
                   },
                   icon: const Icon(Icons.add, color: Colors.white)),
@@ -51,7 +60,16 @@ class MyProjects extends StatelessWidget {
       SizedBox(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height * 0.4,
-          child: const ProjectsList()),
+          child: BlocBuilder<ProjectsCubit, ProjectsState>(
+            builder: (context, state) {
+              switch (state.runtimeType) {
+                case ProjectsLoaded:
+                  return ProjectsList(projects: state.projects);
+                default:
+                  return Center(child: CircularProgressIndicator());
+              }
+            },
+          )),
     ]);
   }
 }
