@@ -15,10 +15,8 @@ class TaskRepository {
     return await networkService.get_all_tasks();
   }
 
-  Future<Response> update_task(int id, String title, DateTime? date,
-      String? description, int? status, int? user_id, int? project_id) async {
-    return await networkService.update_task(
-        id, title, date, description, status, user_id, project_id);
+  Future<Response> update_task(Task task) async {
+    return await networkService.update_task(task);
   }
 
   Future<Response> delete_task(int id) async {

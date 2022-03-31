@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:bloc/bloc.dart';
 import 'package:tasker_app/bloc/task/task_cubit.dart';
 import 'package:tasker_app/data/models/task.dart';
@@ -43,9 +45,10 @@ class AddTaskCubit extends Cubit<AddTaskState> {
     emit(AddingTask());
     repository.addTask(task).then((response) {
       if (response.statusCode == 200) {
+        var newTask = jsonDecode(response.body);
         emit(AddingTaskSuccess());
         emit(AddTaskInitial());
-        taskCubit.addTaskToState(task);
+        taskCubit.addTaskToState(Task.fromJson(newTask));
       } else if (response.statusCode == 400) {
         emit(AddingTaskError(task: currentState.task));
       }

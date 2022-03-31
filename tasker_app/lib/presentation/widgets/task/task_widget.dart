@@ -30,14 +30,14 @@ class TaskWidget extends StatelessWidget {
                       splashColor: Colors.transparent,
                       highlightColor: Colors.transparent,
                       onPressed: () {
-                        getIt<TaskCubit>().update_task(
-                            task.id,
-                            task.title,
-                            task.date,
-                            task.description,
-                            task.status == 2 ? 1 : 2,
-                            task.user_id,
-                            task.project_id);
+                        getIt<TaskCubit>().update_task(Task(
+                            id: task.id,
+                            title: task.title,
+                            date: task.date,
+                            description: task.description,
+                            status: task.status == 2 ? 1 : 2,
+                            user_id: task.user_id,
+                            project_id: task.project_id));
                       },
                       icon: Icon(
                           task.status == 2

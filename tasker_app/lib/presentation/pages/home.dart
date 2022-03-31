@@ -1,6 +1,8 @@
+import 'package:assorted_layout_widgets/assorted_layout_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
+import 'package:sizer/sizer.dart';
 import 'package:tasker_app/constants/strings.dart';
 import 'package:tasker_app/presentation/widgets/project/my_projects.dart';
 import 'package:tasker_app/presentation/widgets/task/my_tasks.dart';
@@ -42,7 +44,9 @@ class _HomePageState extends State<HomePage> {
         const Wallpaper(),
         SafeArea(
             child: Container(
-                padding: const EdgeInsets.fromLTRB(30, 30, 30, 0),
+                width: 100.w,
+                height: 100.h,
+                padding: Pad(top: 30, horizontal: 30),
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [

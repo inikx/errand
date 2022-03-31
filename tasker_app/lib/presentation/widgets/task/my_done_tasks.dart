@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tasker_app/data/models/task.dart';
-import 'package:tasker_app/presentation/widgets/task/task.dart';
+import 'package:tasker_app/presentation/widgets/task/task_widget.dart';
 
 class MyDoneTasks extends StatelessWidget {
   List<Task> tasks;

@@ -58,7 +58,9 @@ class ProjectWidget extends StatelessWidget {
                           children: [
                             BlocBuilder<TaskCubit, TaskState>(
                                 builder: (context, state) {
-                              if (state is TasksLoaded && project.id != -1) {
+                              if ((state is TasksLoaded ||
+                                      state is TaskUpdated) &&
+                                  project.id != -1) {
                                 TasksList taskCount = TasksList(
                                     tasks: state.tasks
                                         .where((task) =>

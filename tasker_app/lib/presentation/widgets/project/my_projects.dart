@@ -5,7 +5,7 @@ import 'package:tasker_app/bloc/projects/projects_cubit.dart';
 import 'package:tasker_app/constants/locator.dart';
 import 'package:tasker_app/data/services/project/network_service.dart';
 import 'package:tasker_app/data/services/project/repository.dart';
-import 'package:tasker_app/presentation/widgets/bottom_sheets/project.dart';
+import 'package:tasker_app/presentation/widgets/bottom_sheets/project_bottom_sheet.dart';
 import 'package:tasker_app/presentation/widgets/project/projects_list.dart';
 import 'dart:math';
 
