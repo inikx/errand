@@ -77,7 +77,10 @@ class ProjectWidget extends StatelessWidget {
                                     taskCount.tasks.length.toString();
                                 String doneTasksCount =
                                     taskCount.doneTasks.length.toString();
-                                return Text("$doneTasksCount/$allTasksCount",
+                                return Text(
+                                    allTasksCount != doneTasksCount
+                                        ? "$doneTasksCount/$allTasksCount"
+                                        : "",
                                     style: TextStyle(
                                         fontFamily: 'Rubik',
                                         color: Colors.white,

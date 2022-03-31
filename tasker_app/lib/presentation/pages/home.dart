@@ -46,7 +46,7 @@ class _HomePageState extends State<HomePage> {
             child: Container(
                 width: 100.w,
                 height: 100.h,
-                padding: Pad(top: 30, horizontal: 30),
+                padding: const Pad(top: 30, horizontal: 30),
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
