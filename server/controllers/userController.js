@@ -39,6 +39,14 @@ const register = async (req, res) => {
     }
 };
 
+const authenticate = async (req, res) => {
+    try {
+        res.status(200).json("authenticated!");
+    } catch (error) {
+        console.error(error);
+    }
+};
+
 const login = async (req, res) => {
     try {
         const { username, password } = req.body;
@@ -75,4 +83,5 @@ const login = async (req, res) => {
 module.exports = {
     register,
     login,
+    authenticate
 };
