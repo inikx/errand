@@ -3,7 +3,7 @@ import 'package:tasker_app/data/services/register/network_service.dart';
 
 class RegisterRepository {
   final RegisterNetworkService networkService;
-  RegisterRepository({required this.networkService});
+  RegisterRepository(this.networkService);
 
   Future<Response> registerUser(
       String username, String email, String password) async {

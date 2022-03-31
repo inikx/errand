@@ -9,7 +9,6 @@ class RegisterNetworkService {
         headers: {"Content-Type": "application/json"},
         body: jsonEncode(
             {"username": username, "email": email, "password": password}));
-    print(response.body);
     return response;
   }
 }

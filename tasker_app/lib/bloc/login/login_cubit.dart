@@ -1,4 +1,3 @@
-
 import 'package:bloc/bloc.dart';
 import 'package:tasker_app/data/models/login.dart';
 import 'package:tasker_app/data/services/login/repository.dart';
@@ -7,8 +6,7 @@ part 'login_state.dart';
 
 class LogInCubit extends Cubit<LogInState> {
   final LoginRepository repository;
-  LogInCubit({required this.repository})
-      : super(LogInInitial(data: LogInData()));
+  LogInCubit(this.repository) : super(LogInInitial(data: LogInData()));
 
   void updateUsername(String username) {
     final currentState = state;
@@ -30,10 +28,7 @@ class LogInCubit extends Cubit<LogInState> {
           if (response.statusCode == 200 || response.statusCode == 201)
             {emit(LoggedIn())}
           else if (response.statusCode == 400)
-            {
-              emit(LogInError(
-                  data: currentState.data))
-            }
+            {emit(LogInError(data: currentState.data))}
         });
   }
 

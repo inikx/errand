@@ -5,7 +5,7 @@ import 'package:tasker_app/data/services/project/network_service.dart';
 
 class ProjectRepository {
   final ProjectNetworkService networkService;
-  ProjectRepository({required this.networkService});
+  ProjectRepository(this.networkService);
 
   Future<Response> create_project(String title) async {
     return await networkService.create_project(title);

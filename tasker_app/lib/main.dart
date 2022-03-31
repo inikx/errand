@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:tasker_app/constants/locator.dart';
 import 'package:tasker_app/route.dart';
+import 'package:sizer/sizer.dart';
 
-void main() {
+void main() async {
   Paint.enableDithering = true;
+  await setupLocator();
   runApp(ErrandApp(router: AppRouter()));
 }
 
@@ -12,13 +15,19 @@ class ErrandApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Errand',
-      theme: ThemeData(
-        fontFamily: 'Rubik',
-      ),
-      onGenerateRoute: router.generateRoute,
-    );
+    return Sizer(builder: (context, orientation, deviceType) {
+      return MaterialApp(
+        initialRoute: "/auth",
+        debugShowCheckedModeBanner: false,
+        title: 'Errand',
+        theme: ThemeData(
+            fontFamily: 'Rubik',
+            primaryColor: const Color(0xff7A79CD),
+            focusColor: const Color(0xff7A79CD),
+            colorScheme: ColorScheme.fromSwatch()
+                .copyWith(primary: const Color(0xff7A79CD))),
+        onGenerateRoute: router.generateRoute,
+      );
+    });
   }
 }

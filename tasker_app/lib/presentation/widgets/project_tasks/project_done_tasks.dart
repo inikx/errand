@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:tasker_app/data/models/task.dart';
-import 'package:tasker_app/presentation/widgets/task.dart';
+import 'package:tasker_app/presentation/widgets/project_tasks/project_task_widget.dart';
 
-class MyDoneTasks extends StatelessWidget {
+class ProjectDoneTasks extends StatelessWidget {
   List<Task> tasks;
-  MyDoneTasks({Key? key, required this.tasks}) : super(key: key);
+  ProjectDoneTasks({Key? key, required this.tasks}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -26,10 +26,10 @@ class MyDoneTasks extends StatelessWidget {
                   fontWeight: FontWeight.normal,
                 ),
               ),
-              children: tasks.map((task) => TaskWidget(task: task)).toList(),
+              children:
+                  tasks.map((task) => ProjectTaskWidget(task: task)).toList(),
             ),
           ),
         ]);
   }
-  
 }
