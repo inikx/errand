@@ -25,7 +25,12 @@ const getAllTasks = async (req, res) => {
             res.status(200).json(cachedData);
         } else {
             const tasks = await Task.findAll({
-                where: { user_id: req.user.user_id },
+                where: {
+                    [Op.or]: [
+                        { user_id: req.user.user_id },
+                        { creator_id: req.user.user_id },
+                    ],
+                },
             });
             if (tasks) {
                 await redis.saveWithTtl(cacheKey, tasks, 300);
@@ -39,27 +44,74 @@ const getAllTasks = async (req, res) => {
     }
 };
 
+const getAllTasksByProjectId = async (req, res) => {
+    try {
+            const tasks = await Task.findAll({
+                where: {
+		    project_id:req.params.id,
+                    [Op.or]: [
+                        { user_id: req.user.user_id },
+                        { creator_id: req.user.user_id },
+                    ],
+                },
+            });
+            if (tasks) {
+                //await redis.saveWithTtl(cacheKey, tasks, 300);
+                res.status(200).json(tasks);
+            } else {
+                res.status(404).json("tasks not found");
+            }
+        
+    } catch (error) {
+        console.error(error);
+    }
+};
+
+const getTaskById = async (req, res) => {
+    try {
+        const task_id = req.params.id;
+        const task = await Task.findOne({
+            where: { id: task_id},
+        });
+        if(task) {
+            res.status(200).json(task);
+        } else {
+            res.status(404).json("task not found");
+        }
+    } catch (error) {
+        console.error(error);
+    }
+};
 const createTask = async (req, res) => {
     try {
-        const { title, date, status, project_id, creator_id, user_id } =
-            req.body;
+        const {
+            title,
+            description,
+            date,
+            status,
+            project_id,
+            creator_id,
+            user_id,
+        } = req.body;
         const cacheKey = `user_tasks_${req.user.user_id}`;
         if (!(project_id && user_id)) {
             var task = new Task({
                 title,
+                description,
                 date,
                 status,
                 project_id,
-                creator_id,
+                creator_id: req.user.user_id,
                 user_id: creator_id,
             });
         } else {
             var task = new Task({
                 title,
+                description,
                 date,
                 status,
                 project_id,
-                creator_id,
+                creator_id: req.user.user_id,
                 user_id,
             });
         }
@@ -74,17 +126,25 @@ const createTask = async (req, res) => {
 
 const updateTask = async (req, res) => {
     try {
+	const cacheKey = `user_tasks_${req.user.user_id}`;
         const { id, title, status, project_id, creator_id, user_id } = req.body;
         const task = await Task.findOne({
-            where: { id: id, user_id: req.user.user_id },
+            where: {
+                id: id,
+                [Op.or]: [
+                    { user_id: req.user.user_id },
+                    { creator_id: req.user.user_id },
+                ],
+            },
         });
         if (task) {
             await Task.update(
                 { title, status, project_id, creator_id, user_id },
                 { where: { id } }
             );
-
-            res.status(200).json("task updated successfully");
+		await redis.del(cacheKey);
+		var updatedTask = await Task.findOne({where:{id}})
+            res.status(200).json(updatedTask);
         } else {
             res.status(404).json("task not found");
         }
@@ -118,4 +178,5 @@ module.exports = {
     createTask,
     updateTask,
     removeTask,
+    getAllTasksByProjectId 
 };

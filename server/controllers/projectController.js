@@ -10,6 +10,7 @@ const getProjects = async (req, res) => {
             {
                 where: {
                     user_id: req.user.user_id,
+                    status:1,
                 },
                 include: [
                     { model: User, required: true },
@@ -34,15 +35,15 @@ const createProject = async (req, res) => {
             creator: req.user.username,
         });
 
-        await project.save();
+        var projectttt = await project.save();
         const addUserToProject = new UsersInProject({
             project_id: project.id,
             user_id: req.user.user_id,
-            status: 0,
+            status: 1,
         });
 
         addUserToProject.save();
-        res.status(200).json("project successfully created");
+        res.status(200).json(projectttt.dataValues);
     } catch (error) {
         console.error(error);
     }
@@ -104,6 +105,8 @@ const addUserToProject = async (req, res) => {
         console.error(error);
     }
 };
+
+
 
 const removeProject = async (req, res) => {
     try {
