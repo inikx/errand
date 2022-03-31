@@ -1,46 +1,52 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'dart:math';
 
-import 'package:tasker_app/bloc/add_task/add_task_cubit.dart';
-import 'package:tasker_app/bloc/task/task_cubit.dart';
-import 'package:tasker_app/constants/locator.dart';
-import 'package:tasker_app/data/services/task/network_service.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
+
+import 'package:tasker_app/bloc/add_project_task/add_project_task_cubit.dart';
+import 'package:tasker_app/bloc/project_tasks/project_tasks_cubit.dart';
 import 'package:tasker_app/data/services/task/repository.dart';
 import 'package:tasker_app/presentation/widgets/snackbars/exception_widget.dart';
 import 'package:tasker_app/presentation/widgets/snackbars/success_widget.dart';
-import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
-Future<dynamic> AddTaskBottomSheet(BuildContext context) {
+import '../../../constants/locator.dart';
+
+Future<dynamic> AddProjectTaskBottomSheet(
+    BuildContext context, int project_id) {
   return showModalBottomSheet(
     isScrollControlled: true,
     context: context,
     backgroundColor: Colors.transparent,
     builder: (context) => BlocProvider(
-      create: (context) =>
-          AddTaskCubit(getIt<TaskRepository>(), getIt<TaskCubit>()),
-      child: BottomSheet(),
+      create: (context) => AddProjectTaskCubit(
+          getIt<TaskRepository>(), getIt<ProjectTasksCubit>()),
+      child: BottomSheet(
+        project_id: project_id,
+      ),
     ),
   );
 }
 
 class BottomSheet extends StatelessWidget {
+  final int project_id;
   const BottomSheet({
     Key? key,
+    required this.project_id,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<AddTaskCubit, AddTaskState>(
+    return BlocListener<AddProjectTaskCubit, AddProjectTaskState>(
       listener: (context, state) {
         switch (state.runtimeType) {
-          case AddingTaskSuccess:
+          case AddProjectTaskSuccess:
             showTopSnackBar(
               context,
               const SuccessSnackbar(info: "Задача успешно добавлена!"),
             );
             return;
-          case AddingTaskError:
+          case AddProjectTaskError:
             showTopSnackBar(
               context,
               const ErrorSnackbar(info: "Не удалось добавить задачу"),
@@ -82,10 +88,10 @@ class BottomSheet extends StatelessWidget {
                   fontFamily: 'Rubik',
                   fontWeight: FontWeight.bold),
             ),
-            BlocBuilder<AddTaskCubit, AddTaskState>(
+            BlocBuilder<AddProjectTaskCubit, AddProjectTaskState>(
               builder: (context, state) {
                 switch (state.runtimeType) {
-                  case AddingTask:
+                  case AddProjectTask:
                     return CircularProgressIndicator();
                   default:
                     return Column(
@@ -105,7 +111,7 @@ class BottomSheet extends StatelessWidget {
                                 child: TextField(
                                   onChanged: (String value) async {
                                     context
-                                        .read<AddTaskCubit>()
+                                        .read<AddProjectTaskCubit>()
                                         .updateTitle(value);
                                   },
                                   style: const TextStyle(
@@ -137,7 +143,7 @@ class BottomSheet extends StatelessWidget {
                               child: TextField(
                                 onChanged: (String value) async {
                                   context
-                                      .read<AddTaskCubit>()
+                                      .read<AddProjectTaskCubit>()
                                       .updateDescription(value);
                                 },
                                 style: const TextStyle(
@@ -194,8 +200,13 @@ class BottomSheet extends StatelessWidget {
                                   style: TextStyle(
                                       fontFamily: 'Rubik', fontSize: 16)),
                               onPressed: () async {
-                                BlocProvider.of<AddTaskCubit>(context).addTask(
-                                    context.read<AddTaskCubit>().state.task);
+                                var task = context
+                                    .read<AddProjectTaskCubit>()
+                                    .state
+                                    .task
+                                    .copyWith(project_id: project_id);
+                                BlocProvider.of<AddProjectTaskCubit>(context)
+                                    .addTask(task);
                               },
                               style: ButtonStyle(
                                   backgroundColor: MaterialStateProperty.all(

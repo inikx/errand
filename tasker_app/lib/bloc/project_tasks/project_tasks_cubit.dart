@@ -25,4 +25,38 @@ class ProjectTasksCubit extends Cubit<ProjectTasksState> {
       }
     });
   }
+
+  void update_task(Task task) {
+    repository.update_task(task).then((response) {
+      if (response.statusCode == 200) {
+        if (state is ProjectTasksLoaded || state is ProjectTasksUpdated) {
+          var currentTasks = state.tasks;
+          currentTasks.removeWhere((stateTask) => stateTask.id == task.id);
+          currentTasks.add(task);
+          emit(ProjectTasksUpdated(currentTasks));
+        }
+      } else {
+        emit(ProjectTasksError());
+      }
+    });
+  }
+
+  addTaskToState(Task task) {
+    final currentState = state;
+    final tasks = currentState.tasks;
+    tasks.add(task);
+    emit(ProjectTasksLoaded(tasks));
+  }
+
+  // void remove_task(int id) {
+  //   emit(TaskRemoving());
+  //   repository.delete_task(id).then((response) {
+  //     if (response.statusCode == 200) {
+  //       emit(TaskRemoved());
+  //       emit(TaskInitial());
+  //     } else {
+  //       emit(TaskRemovingError());
+  //     }
+  //   });
+  // }
 }

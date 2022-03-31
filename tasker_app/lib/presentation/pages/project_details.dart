@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tasker_app/presentation/widgets/project_tasks/project_tasks.dart';
 import 'package:tasker_app/presentation/widgets/wallpaper.dart';
 
 import '../../bloc/project_tasks/project_tasks_cubit.dart';
@@ -49,27 +50,7 @@ class ProjectDetails extends StatelessWidget {
                   ),
                 ],
               ),
-              // Container(
-              //   decoration: BoxDecoration(
-              //       color: const Color(0xffC4C4C4).withOpacity(0.15),
-              //       borderRadius: BorderRadius.circular(8)),
-              //   width: 330,
-              //   height: 55,
-              //   child: Center(
-              //     child: Padding(
-              //       padding: const EdgeInsets.fromLTRB(20, 4, 20, 5),
-              //       child: Text(
-              //         "desc",
-              //         //project description value
-              //         style: const TextStyle(
-              //             color: Colors.white,
-              //             fontFamily: 'Rubik',
-              //             fontSize: 14),
-              //       ),
-              //     ),
-              //   ),
-              // ),
-              //MyTasks(project_id: id),
+              ProjectTasks(project_id: id)
             ],
           )),
         )),

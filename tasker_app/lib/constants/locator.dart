@@ -1,5 +1,5 @@
 import 'package:get_it/get_it.dart';
-import 'package:tasker_app/bloc/add%20task/add_task_cubit.dart';
+import 'package:tasker_app/bloc/add_task/add_task_cubit.dart';
 import 'package:tasker_app/bloc/authentication/authentication_cubit.dart';
 import 'package:tasker_app/bloc/login/login_cubit.dart';
 import 'package:tasker_app/bloc/project%20creating/project_creating_cubit.dart';

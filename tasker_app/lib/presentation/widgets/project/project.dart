@@ -73,13 +73,11 @@ class ProjectWidget extends StatelessWidget {
                                             task.status == 2)
                                         .toList());
 
-                                String allTasksCount =
-                                    taskCount.tasks.length.toString();
-                                String doneTasksCount =
-                                    taskCount.doneTasks.length.toString();
+                                var allTasksCount = taskCount.tasks.length;
+                                var doneTasksCount = taskCount.doneTasks.length;
                                 return Text(
                                     allTasksCount != doneTasksCount
-                                        ? "$doneTasksCount/$allTasksCount"
+                                        ? '${doneTasksCount}/${allTasksCount + doneTasksCount}'
                                         : "",
                                     style: TextStyle(
                                         fontFamily: 'Rubik',

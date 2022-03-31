@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tasker_app/bloc/add_task/add_task_cubit.dart';
-import 'package:tasker_app/bloc/task/task_cubit.dart';
-import 'package:tasker_app/constants/locator.dart';
+import 'package:tasker_app/bloc/project_tasks/project_tasks_cubit.dart';
 import 'package:tasker_app/data/models/task.dart';
-import 'package:tasker_app/route.dart';
 
-class TaskWidget extends StatelessWidget {
+import '../../../constants/locator.dart';
+
+class ProjectTaskWidget extends StatelessWidget {
   Task task;
-  TaskWidget({Key? key, required this.task}) : super(key: key);
+  ProjectTaskWidget({Key? key, required this.task}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +28,7 @@ class TaskWidget extends StatelessWidget {
                       splashColor: Colors.transparent,
                       highlightColor: Colors.transparent,
                       onPressed: () {
-                        getIt<TaskCubit>().update_task(Task(
+                        getIt<ProjectTasksCubit>().update_task(Task(
                             id: task.id,
                             title: task.title,
                             date: task.date,

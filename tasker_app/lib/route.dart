@@ -69,12 +69,16 @@ class AppRouter {
           ),
         );
       case PROJECT_DETAILS:
+        if (getIt.isRegistered<ProjectTasksCubit>()) {
+          getIt.unregister<ProjectTasksCubit>();
+        }
+        getIt.registerSingleton(ProjectTasksCubit(getIt<TaskRepository>()));
         final args = settings.arguments as ProjectDetailsScreenArguments;
         return CupertinoPageRoute(
           builder: (_) => MultiBlocProvider(
             providers: [
               BlocProvider(
-                create: (context) => ProjectTasksCubit(getIt<TaskRepository>()),
+                create: (context) => getIt<ProjectTasksCubit>(),
               ),
             ],
             child: ProjectDetails(id: args.id, title: args.title),

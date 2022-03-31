@@ -1,7 +1,9 @@
 part of 'project_tasks_cubit.dart';
 
 @immutable
-abstract class ProjectTasksState {}
+abstract class ProjectTasksState {
+  late List<Task> tasks;
+}
 
 class ProjectTasksInitial extends ProjectTasksState {}
 
@@ -10,6 +12,14 @@ class ProjectTasksLoaded extends ProjectTasksState {
 
   ProjectTasksLoaded(this.tasks);
 }
+
+class ProjectTasksUpdated extends ProjectTasksState {
+  final List<Task> tasks;
+
+  ProjectTasksUpdated(this.tasks);
+}
+
+class ProjectTasksError extends ProjectTasksState {}
 
 class ProjectTasksLoading extends ProjectTasksState {}
 

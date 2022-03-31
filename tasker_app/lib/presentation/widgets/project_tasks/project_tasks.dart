@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tasker_app/bloc/task/task_cubit.dart';
-import 'package:tasker_app/constants/locator.dart';
-import 'package:tasker_app/data/models/task.dart';
-import 'package:tasker_app/presentation/widgets/bottom_sheets/task_bottom_sheet.dart';
-import 'package:tasker_app/presentation/widgets/task/tasks_list.dart';
+import 'package:tasker_app/bloc/project_tasks/project_tasks_cubit.dart';
+import 'package:tasker_app/presentation/widgets/bottom_sheets/project_task_bottom_sheet.dart';
+import 'package:tasker_app/presentation/widgets/project_tasks/project_tasks_list.dart';
 
-class MyTasks extends StatelessWidget {
-  MyTasks({Key? key}) : super(key: key);
+import '../../../data/models/task.dart';
+
+class ProjectTasks extends StatelessWidget {
+  final int project_id;
+  const ProjectTasks({Key? key, required this.project_id}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    BlocProvider.of<TaskCubit>(context).fetchTasks();
     return Column(children: [
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          const Text("Мои задачи",
+          const Text("Задачи проекта",
               style: TextStyle(
                   fontFamily: 'Rubik',
                   color: Colors.white,
@@ -26,7 +26,7 @@ class MyTasks extends StatelessWidget {
             children: [
               IconButton(
                   onPressed: () {
-                    AddTaskBottomSheet(context);
+                    AddProjectTaskBottomSheet(context, project_id);
                   },
                   icon: const Icon(Icons.add, color: Colors.white)),
               IconButton(
@@ -42,9 +42,9 @@ class MyTasks extends StatelessWidget {
       const SizedBox(height: 10),
       SizedBox(
           width: MediaQuery.of(context).size.width,
-          child: BlocBuilder<TaskCubit, TaskState>(
+          child: BlocBuilder<ProjectTasksCubit, ProjectTasksState>(
             builder: (context, state) {
-              if (state is TasksLoaded || state is TaskUpdated) {
+              if (state is ProjectTasksLoaded || state is ProjectTasksUpdated) {
                 var tasks = state.tasks;
                 List<Task> allTasks = [];
                 List<Task> doneTasks = [];
@@ -56,8 +56,8 @@ class MyTasks extends StatelessWidget {
                     allTasks.add(task);
                   }
                 }
-                return TasksList(tasks: allTasks, doneTasks: doneTasks);
-              } else if (state is TasksLoading) {
+                return ProjectTasksList(tasks: allTasks, doneTasks: doneTasks);
+              } else if (state is ProjectTasksLoading) {
                 return Center(child: CircularProgressIndicator());
               } else {
                 return Center(child: Text("Error"));
