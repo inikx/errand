@@ -35,15 +35,31 @@ const createProject = async (req, res) => {
             creator: req.user.username,
         });
 
-        await project.save();
+        var projectttt = await project.save();
         const addUserToProject = new UsersInProject({
             project_id: project.id,
             user_id: req.user.user_id,
             status: 1,
         });
 
-        addUserToProject.save();
-        res.status(200).json("project successfully created");
+        await addUserToProject.save();
+        const users = req.body.users;
+        if (users) {
+            for (var user of users) {
+                let userFromDb = await User.findOne({
+                    where: { username: user },
+                });
+                if (userFromDb) {
+                    let newUserToProject = new UsersInProject({
+                        project_id: project.id,
+                        user_id: userFromDb.id,
+                        status: 1,
+                    });
+                    await newUserToProject.save();
+                }
+            }
+        }
+        res.status(200).json(projectttt.dataValues);
     } catch (error) {
         console.error(error);
     }

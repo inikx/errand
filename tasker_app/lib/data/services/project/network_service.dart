@@ -5,16 +5,16 @@ import 'package:tasker_app/constants/storage.dart';
 import 'package:tasker_app/constants/strings.dart';
 
 class ProjectNetworkService {
-  create_project(String title) async {
+  create_project(String title, List<String> users) async {
     String? token = await storage.read(key: 'token');
+    print(users);
+    print(title);
     final response = await http.post(Uri.parse('$BASE_URL/api/project/create'),
         headers: {
           "Content-Type": "application/json",
           "x-access-token": token.toString()
         },
-        body: jsonEncode({
-          "title": title,
-        }));
+        body: jsonEncode({"title": title, "users": users}));
 
     return response;
   }
@@ -60,13 +60,12 @@ class ProjectNetworkService {
 
   add_user_to_project(int user_id, int project_id) async {
     String? token = await storage.read(key: 'token');
-    final response = await http
-        .post(Uri.parse('$BASE_URL/api/project/add/user'), headers: {
-      "Content-Type": "application/json",
-      "x-access-token": token.toString()
-    }, body: jsonEncode({
-      "user_id": user_id,
-      "project_id": project_id
-    }));
+    final response = await http.post(
+        Uri.parse('$BASE_URL/api/project/add/user'),
+        headers: {
+          "Content-Type": "application/json",
+          "x-access-token": token.toString()
+        },
+        body: jsonEncode({"user_id": user_id, "project_id": project_id}));
   }
 }

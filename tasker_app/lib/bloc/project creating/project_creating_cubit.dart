@@ -12,26 +12,31 @@ class ProjectCreatingCubit extends Cubit<ProjectCreatingState> {
   final ProjectRepository repository;
   final ProjectsCubit projectCubit;
   ProjectCreatingCubit(this.repository, this.projectCubit)
-      : super(ProjectCreatingInitial(data: Project()));
+      : super(ProjectCreatingInitial(data: Project(), users: []));
 
   void updateTitle(String title) {
     final currentState = state;
-    if (currentState is ProjectCreatingDataChanged ||
-        currentState is ProjectCreatingInitial) {
-      emit(ProjectCreatingDataChanged(
-          data: currentState.data.copyWith(title: title)));
-    }
+    emit(ProjectCreatingDataChanged(
+        data: currentState.data.copyWith(title: title),
+        users: currentState.users));
   }
 
-  void createProject(String title) {
+  void updateUsers(String username) {
+    final currentState = state;
+    currentState.users.add(username);
+    emit(ProjectCreatingDataChanged(
+        data: currentState.data, users: currentState.users));
+  }
+
+  void createProject(String title, List<String> users) {
     emit(ProjectCreating());
-    repository.create_project(title).then((response) {
+    repository.create_project(title, users).then((response) {
       if (response.statusCode == 200) {
         emit(ProjectCreated());
         var rawProject = jsonDecode(response.body);
         Project project = Project.fromJson(rawProject);
         projectCubit.addNewProject(project);
-        emit(ProjectCreatingInitial(data: Project()));
+        emit(ProjectCreatingInitial(data: Project(), users: []));
       } else {
         emit(ProjectCreatingError());
       }

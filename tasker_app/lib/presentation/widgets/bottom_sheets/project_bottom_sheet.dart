@@ -1,13 +1,16 @@
 import 'dart:math';
 
+import 'package:assorted_layout_widgets/assorted_layout_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sizer/sizer.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
+
 import 'package:tasker_app/bloc/project%20creating/project_creating_cubit.dart';
 import 'package:tasker_app/bloc/projects/projects_cubit.dart';
 import 'package:tasker_app/constants/locator.dart';
 import 'package:tasker_app/data/services/project/repository.dart';
 import 'package:tasker_app/presentation/widgets/snackbars/success_widget.dart';
-import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 Future<dynamic> AddProjectBottomSheet(BuildContext context) {
   return showModalBottomSheet(
@@ -29,6 +32,8 @@ class BottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var controller = TextEditingController();
+    var scrollController = ScrollController();
     return BlocListener<ProjectCreatingCubit, ProjectCreatingState>(
       listener: (context, state) {
         switch (state.runtimeType) {
@@ -91,6 +96,7 @@ class BottomSheet extends StatelessWidget {
                           context
                               .read<ProjectCreatingCubit>()
                               .updateTitle(value);
+                          print(value);
                         },
                         style: const TextStyle(
                             color: Colors.white,
@@ -158,14 +164,64 @@ class BottomSheet extends StatelessWidget {
                         icon: const Icon(Icons.add,
                             size: 20, color: Colors.white),
                         onPressed: () {
-                          print('Добавление участника успешно работает!');
+                          context
+                              .read<ProjectCreatingCubit>()
+                              .updateUsers(controller.text);
                         },
                       ),
                     ),
                   ],
                 ),
               ),
-              const PersonToProject(),
+              Container(
+                  decoration: BoxDecoration(
+                      color: const Color(0xffC4C4C4).withOpacity(0.15),
+                      borderRadius: BorderRadius.circular(8)),
+                  width: 330,
+                  height: 55,
+                  child: Center(
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(20, 4, 20, 5),
+                      child: TextField(
+                        controller: controller,
+                        style: const TextStyle(
+                            color: Colors.white,
+                            fontFamily: 'Rubik',
+                            fontSize: 14),
+                        cursorColor: Colors.white,
+                        decoration: const InputDecoration(
+                            border: InputBorder.none,
+                            labelStyle: TextStyle(
+                              color: Color(0x80FFFFFF),
+                              fontFamily: 'Rubik',
+                            ),
+                            hintText: 'никнейм нового участника',
+                            hintStyle: TextStyle(color: Colors.grey)),
+                      ),
+                    ),
+                  )),
+              Padding(
+                padding: const Pad(top: 20),
+                child: SizedBox(
+                  height: 18.h,
+                  child: SingleChildScrollView(
+                    controller: scrollController,
+                    physics: const BouncingScrollPhysics(),
+                    child:
+                        BlocBuilder<ProjectCreatingCubit, ProjectCreatingState>(
+                      builder: (context, state) {
+                        return Column(
+                          children: state.users
+                              .map((u) => PersonToProject(
+                                    username: u,
+                                  ))
+                              .toList(),
+                        );
+                      },
+                    ),
+                  ),
+                ),
+              ),
               Container(
                 width: 270,
                 height: 50,
@@ -175,11 +231,13 @@ class BottomSheet extends StatelessWidget {
                         style: TextStyle(fontFamily: 'Rubik', fontSize: 16)),
                     onPressed: () async {
                       BlocProvider.of<ProjectCreatingCubit>(context)
-                          .createProject(context
-                              .read<ProjectCreatingCubit>()
-                              .state
-                              .data
-                              .title);
+                          .createProject(
+                              context
+                                  .read<ProjectCreatingCubit>()
+                                  .state
+                                  .data
+                                  .title,
+                              context.read<ProjectCreatingCubit>().state.users);
                     },
                     style: ButtonStyle(
                         backgroundColor:
@@ -199,8 +257,10 @@ class BottomSheet extends StatelessWidget {
 }
 
 class PersonToProject extends StatelessWidget {
+  final String username;
   const PersonToProject({
     Key? key,
+    required this.username,
   }) : super(key: key);
 
   @override
@@ -230,30 +290,13 @@ class PersonToProject extends StatelessWidget {
             ),
             Container(
               margin: EdgeInsets.only(right: 70),
-              child: Column(
-                textDirection: TextDirection.ltr,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Владик',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 14,
-                        fontFamily: 'Rubik',
-                        fontWeight: FontWeight.bold),
-                  ),
-                  Container(
-                    // margin: const EdgeInsets.only(top: 17),
-                    child: const Text(
-                      'bigboyvladick@gmail.com',
-                      style: TextStyle(
-                          color: Colors.grey,
-                          fontSize: 12,
-                          fontFamily: 'Rubik',
-                          fontWeight: FontWeight.normal),
-                    ),
-                  ),
-                ],
+              child: Text(
+                username,
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 14,
+                    fontFamily: 'Rubik',
+                    fontWeight: FontWeight.bold),
               ),
             ),
             IconButton(

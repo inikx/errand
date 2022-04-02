@@ -7,8 +7,8 @@ class ProjectRepository {
   final ProjectNetworkService networkService;
   ProjectRepository(this.networkService);
 
-  Future<Response> create_project(String title) async {
-    return await networkService.create_project(title);
+  Future<Response> create_project(String title, List<String> users) async {
+    return await networkService.create_project(title, users);
   }
 
   Future<Response> get_all_projects() async {
