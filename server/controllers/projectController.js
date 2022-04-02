@@ -10,7 +10,7 @@ const getProjects = async (req, res) => {
             {
                 where: {
                     user_id: req.user.user_id,
-                    status:1,
+                    status: 1,
                 },
                 include: [
                     { model: User, required: true },
@@ -109,13 +109,11 @@ const addUserToProject = async (req, res) => {
 const removeProject = async (req, res) => {
     try {
         const { project_id } = req.body;
-        const cacheKey = `user_projects_${req.user.user_id}`;
         const project = await Project.findOne({
             where: { id: project_id, user_id: req.user.user_id },
         });
         if (project) {
             await Project.destroy({ where: { id: project_id } });
-            await redis.del(cacheKey);
             res.status(200).json("project removed successfully");
         } else {
             res.status(404).json("project not found");

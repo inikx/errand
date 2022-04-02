@@ -19,11 +19,6 @@ const getTask = async (req, res) => {
 
 const getAllTasks = async (req, res) => {
     try {
-        const cacheKey = `user_tasks_${req.user.user_id}`;
-        const cachedData = await redis.get(cacheKey);
-        if (cachedData) {
-            res.status(200).json(cachedData);
-        } else {
             const tasks = await Task.findAll({
                 where: {
                     [Op.or]: [
@@ -33,17 +28,54 @@ const getAllTasks = async (req, res) => {
                 },
             });
             if (tasks) {
-                await redis.saveWithTtl(cacheKey, tasks, 300);
                 res.status(200).json(tasks);
             } else {
                 res.status(404).json("tasks not found");
             }
-        }
+        
     } catch (error) {
         console.error(error);
     }
 };
 
+const getAllTasksByProjectId = async (req, res) => {
+    try {
+            const tasks = await Task.findAll({
+                where: {
+		    project_id:req.params.id,
+                    [Op.or]: [
+                        { user_id: req.user.user_id },
+                        { creator_id: req.user.user_id },
+                    ],
+                },
+            });
+            if (tasks) {
+            
+                res.status(200).json(tasks);
+            } else {
+                res.status(404).json("tasks not found");
+            }
+        
+    } catch (error) {
+        console.error(error);
+    }
+};
+
+const getTaskById = async (req, res) => {
+    try {
+        const task_id = req.params.id;
+        const task = await Task.findOne({
+            where: { id: task_id},
+        });
+        if(task) {
+            res.status(200).json(task);
+        } else {
+            res.status(404).json("task not found");
+        }
+    } catch (error) {
+        console.error(error);
+    }
+};
 const createTask = async (req, res) => {
     try {
         const {
@@ -55,7 +87,7 @@ const createTask = async (req, res) => {
             creator_id,
             user_id,
         } = req.body;
-        const cacheKey = `user_tasks_${req.user.user_id}`;
+
         if (!(project_id && user_id)) {
             var task = new Task({
                 title,
@@ -79,7 +111,7 @@ const createTask = async (req, res) => {
         }
 
         await task.save();
-        await redis.del(cacheKey);
+
         res.status(200).json(task);
     } catch (error) {
         console.error(error);
@@ -88,6 +120,7 @@ const createTask = async (req, res) => {
 
 const updateTask = async (req, res) => {
     try {
+
         const { id, title, status, project_id, creator_id, user_id } = req.body;
         const task = await Task.findOne({
             where: {
@@ -99,12 +132,12 @@ const updateTask = async (req, res) => {
             },
         });
         if (task) {
-            var updatedtask = await Task.update(
+            await Task.update(
                 { title, status, project_id, creator_id, user_id },
-                { where: { id } }
-            );
+                { where: { id } })
 
-            res.status(200).json(updatedtask);
+		var updatedTask = await Task.findOne({where:{id}})
+            res.status(200).json(updatedTask);
         } else {
             res.status(404).json("task not found");
         }
@@ -116,13 +149,13 @@ const updateTask = async (req, res) => {
 const removeTask = async (req, res) => {
     try {
         const { task_id } = req.body;
-        const cacheKey = `user_tasks_${req.user.user_id}`;
+
         const task = await Task.findOne({
             where: { id: task_id, user_id: req.user.user_id },
         });
         if (task) {
             await Task.destroy({ where: { id: task_id } });
-            await redis.del(cacheKey);
+
             res.status(200).json("task removed successfully");
         } else {
             res.status(404).json("task not found");
@@ -138,4 +171,6 @@ module.exports = {
     createTask,
     updateTask,
     removeTask,
+    getAllTasksByProjectId,
+    getTaskById
 };
