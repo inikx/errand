@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:tasker_app/bloc/project_tasks/project_tasks_cubit.dart';
+import 'package:tasker_app/bloc/task/task_cubit.dart';
 import 'package:tasker_app/data/models/task.dart';
 import 'package:tasker_app/data/services/task/repository.dart';
 
@@ -11,8 +12,9 @@ part 'add_project_task_state.dart';
 class AddProjectTaskCubit extends Cubit<AddProjectTaskState> {
   final TaskRepository repository;
   final ProjectTasksCubit projectTaskCubit;
+  final TaskCubit taskCubit;
 
-  AddProjectTaskCubit(this.repository, this.projectTaskCubit)
+  AddProjectTaskCubit(this.repository, this.projectTaskCubit, this.taskCubit)
       : super(AddProjectTaskInitial(task: Task(date: DateTime.now())));
 
   void updateTitle(String title) {
@@ -51,6 +53,7 @@ class AddProjectTaskCubit extends Cubit<AddProjectTaskState> {
         emit(AddProjectTaskSuccess());
         emit(AddProjectTaskInitial());
         projectTaskCubit.addTaskToState(Task.fromJson(newTask));
+        taskCubit.addTaskToState(Task.fromJson(newTask));
       } else if (response.statusCode == 400) {
         emit(AddProjectTaskError(task: currentState.task));
       }

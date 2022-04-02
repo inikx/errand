@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tasker_app/bloc/task/task_cubit.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import 'package:tasker_app/bloc/add_project_task/add_project_task_cubit.dart';
@@ -19,8 +20,8 @@ Future<dynamic> AddProjectTaskBottomSheet(
     context: context,
     backgroundColor: Colors.transparent,
     builder: (context) => BlocProvider(
-      create: (context) => AddProjectTaskCubit(
-          getIt<TaskRepository>(), getIt<ProjectTasksCubit>()),
+      create: (context) => AddProjectTaskCubit(getIt<TaskRepository>(),
+          getIt<ProjectTasksCubit>(), getIt<TaskCubit>()),
       child: BottomSheet(
         project_id: project_id,
       ),

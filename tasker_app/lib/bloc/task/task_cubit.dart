@@ -40,6 +40,13 @@ class TaskCubit extends Cubit<TaskState> {
     });
   }
 
+  updateTaskInState(Task task) {
+    var currentTasks = state.tasks;
+    currentTasks.removeWhere((stateTask) => stateTask.id == task.id);
+    currentTasks.add(task);
+    emit(TaskUpdated(tasks: currentTasks));
+  }
+
   addTaskToState(Task task) {
     final currentState = state;
     final tasks = currentState.tasks;

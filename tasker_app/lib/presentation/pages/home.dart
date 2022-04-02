@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:sizer/sizer.dart';
+import 'package:tasker_app/constants/storage.dart';
 import 'package:tasker_app/constants/strings.dart';
 import 'package:tasker_app/presentation/widgets/project/my_projects.dart';
 import 'package:tasker_app/presentation/widgets/task/my_tasks.dart';
@@ -62,24 +63,32 @@ class _HomePageState extends State<HomePage> {
                                   Container(
                                     //margin: const EdgeInsets.only(top: 50),
                                     child: Row(
-                                      children: const [
+                                      children: [
                                         Text(
                                           'Привет, ',
                                           style: TextStyle(
                                             fontFamily: 'Rubik',
                                             color: Colors.white,
                                             fontSize: 28,
-                                            fontWeight: FontWeight.bold,
                                           ),
                                         ),
-                                        Text(
-                                          'ВладЫк',
-                                          style: TextStyle(
-                                              fontFamily: 'Rubik',
-                                              color: Color(0xff7A79CD),
-                                              fontSize: 28,
-                                              fontWeight: FontWeight.w300),
-                                        ), //add profile name
+                                        FutureBuilder(
+                                            future: getUsername(),
+                                            builder: (context, snapshot) {
+                                              return snapshot.data == null
+                                                  ? CircularProgressIndicator()
+                                                  : Text(
+                                                      snapshot.data.toString(),
+                                                      style: TextStyle(
+                                                        fontFamily: 'Rubik',
+                                                        color:
+                                                            Color(0xff7A79CD),
+                                                        fontSize: 28,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                      ),
+                                                    );
+                                            }),
                                         Text(
                                           '!',
                                           style: TextStyle(
@@ -186,4 +195,10 @@ class _HomePageState extends State<HomePage> {
       ],
     ));
   }
+}
+
+Future<String?> getUsername() async {
+  String? username = await storage.read(key: 'username');
+
+  return username;
 }

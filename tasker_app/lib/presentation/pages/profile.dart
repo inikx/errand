@@ -68,28 +68,40 @@ class Profile extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Container(
-                    margin: const EdgeInsets.only(top: 20),
-                    child: const Text(
-                      'Владик',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 30,
-                          fontFamily: 'Rubik',
-                          fontWeight: FontWeight.normal),
-                    ),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.only(top: 5),
-                    child: const Text(
-                      'bigboyvlad@kreml.ru',
-                      style: TextStyle(
-                          color: Color(0xff80ffffff),
-                          fontSize: 16,
-                          fontFamily: 'Rubik',
-                          fontWeight: FontWeight.normal),
-                    ),
-                  ),
+                  FutureBuilder(
+                      future: getUserInfo(1),
+                      builder: (context, snapshot) {
+                        return snapshot.data == null
+                            ? CircularProgressIndicator()
+                            : Container(
+                                margin: const EdgeInsets.only(top: 20),
+                                child: Text(
+                                  snapshot.data.toString(),
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 30,
+                                      fontFamily: 'Rubik',
+                                      fontWeight: FontWeight.normal),
+                                ),
+                              );
+                      }),
+                  FutureBuilder(
+                      future: getUserInfo(2),
+                      builder: (context, snapshot) {
+                        return snapshot.data == null
+                            ? CircularProgressIndicator()
+                            : Container(
+                                margin: const EdgeInsets.only(top: 5),
+                                child: Text(
+                                  snapshot.data.toString(),
+                                  style: TextStyle(
+                                      color: Color(0xff80ffffff),
+                                      fontSize: 16,
+                                      fontFamily: 'Rubik',
+                                      fontWeight: FontWeight.normal),
+                                ),
+                              );
+                      }),
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Container(
@@ -261,4 +273,11 @@ class Profile extends StatelessWidget {
       ),
     );
   }
+}
+
+Future<String?> getUserInfo(int n) async {
+  String? username = await storage.read(key: 'username');
+  String? email = await storage.read(key: 'email');
+
+  return n == 1 ? username : email;
 }

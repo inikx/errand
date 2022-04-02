@@ -10,7 +10,9 @@ part 'project_tasks_state.dart';
 
 class ProjectTasksCubit extends Cubit<ProjectTasksState> {
   final TaskRepository repository;
-  ProjectTasksCubit(this.repository) : super(ProjectTasksInitial());
+  final TaskCubit taskCubit;
+  ProjectTasksCubit(this.repository, this.taskCubit)
+      : super(ProjectTasksInitial());
 
   void fetchTasks(int project_id) {
     emit(ProjectTasksLoading());
@@ -33,6 +35,7 @@ class ProjectTasksCubit extends Cubit<ProjectTasksState> {
           var currentTasks = state.tasks;
           currentTasks.removeWhere((stateTask) => stateTask.id == task.id);
           currentTasks.add(task);
+          taskCubit.updateTaskInState(task);
           emit(ProjectTasksUpdated(currentTasks));
         }
       } else {
