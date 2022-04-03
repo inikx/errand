@@ -68,4 +68,15 @@ class ProjectNetworkService {
         },
         body: jsonEncode({"user_id": user_id, "project_id": project_id}));
   }
+
+  getProjectUsers(int projectId) async {
+    String? token = await storage.read(key: 'token');
+    final response = await http
+        .get(Uri.parse('$BASE_URL/api/project/users/$projectId'), headers: {
+      "Content-Type": "application/json",
+      "x-access-token": token.toString()
+    });
+    print(response.body);
+    return response;
+  }
 }

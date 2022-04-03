@@ -1,8 +1,10 @@
 import 'dart:math';
 
+import 'package:assorted_layout_widgets/assorted_layout_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tasker_app/bloc/task/task_cubit.dart';
+import 'package:tasker_app/data/services/project/repository.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import 'package:tasker_app/bloc/add_project_task/add_project_task_cubit.dart';
@@ -20,8 +22,11 @@ Future<dynamic> AddProjectTaskBottomSheet(
     context: context,
     backgroundColor: Colors.transparent,
     builder: (context) => BlocProvider(
-      create: (context) => AddProjectTaskCubit(getIt<TaskRepository>(),
-          getIt<ProjectTasksCubit>(), getIt<TaskCubit>()),
+      create: (context) => AddProjectTaskCubit(
+          getIt<TaskRepository>(),
+          getIt<ProjectRepository>(),
+          getIt<ProjectTasksCubit>(),
+          getIt<TaskCubit>()),
       child: BottomSheet(
         project_id: project_id,
       ),
@@ -38,6 +43,8 @@ class BottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.read<AddProjectTaskCubit>().getProjectUsers(project_id);
+    final controller = ScrollController();
     return BlocListener<AddProjectTaskCubit, AddProjectTaskState>(
       listener: (context, state) {
         switch (state.runtimeType) {
@@ -162,36 +169,79 @@ class BottomSheet extends StatelessWidget {
                                     hintStyle: TextStyle(color: Colors.grey)),
                               ),
                             )),
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(30, 30, 30, 30),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              IconButton(
-                                  icon: const Icon(
-                                    Icons.calendar_today_rounded,
-                                    size: 35,
-                                    color: Colors.grey,
-                                  ),
-                                  onPressed: () => print('Календарь работает')),
-                              IconButton(
-                                  icon: const Icon(
-                                    Icons.notification_add_rounded,
-                                    size: 35,
-                                    color: Colors.grey,
-                                  ),
-                                  onPressed: () =>
-                                      print('Уведомления работают')),
-                              IconButton(
-                                  icon: const Icon(
-                                    Icons.format_color_fill_rounded,
-                                    size: 35,
-                                    color: Colors.grey,
-                                  ),
-                                  onPressed: () => print('Заливка работает')),
-                            ],
-                          ),
-                        ),
+                        // Padding(
+                        //   padding: const EdgeInsets.fromLTRB(30, 30, 30, 30),
+                        //   child: Row(
+                        //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        //     children: [
+                        //       IconButton(
+                        //           icon: const Icon(
+                        //             Icons.calendar_today_rounded,
+                        //             size: 35,
+                        //             color: Colors.grey,
+                        //           ),
+                        //           onPressed: () => print('Календарь работает')),
+                        //       IconButton(
+                        //           icon: const Icon(
+                        //             Icons.notification_add_rounded,
+                        //             size: 35,
+                        //             color: Colors.grey,
+                        //           ),
+                        //           onPressed: () =>
+                        //               print('Уведомления работают')),
+                        //       IconButton(
+                        //           icon: const Icon(
+                        //             Icons.format_color_fill_rounded,
+                        //             size: 35,
+                        //             color: Colors.grey,
+                        //           ),
+                        //           onPressed: () => print('Заливка работает')),
+                        //     ],
+                        //   ),
+                        // ),
+                        SingleChildScrollView(
+                            physics: const BouncingScrollPhysics(),
+                            padding: Pad(horizontal: 30, top: 20),
+                            controller: controller,
+                            child: Row(
+                                children: state.users
+                                    .map((user) => Padding(
+                                          padding: const Pad(horizontal: 5),
+                                          child: ElevatedButton(
+                                              style: ButtonStyle(
+                                                  backgroundColor:
+                                                      state.task.user_id == user.id
+                                                          ? MaterialStateProperty.all(
+                                                              const Color(
+                                                                  0xff7A79CD))
+                                                          : MaterialStateProperty.all(
+                                                              Colors.white),
+                                                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                                      RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            20),
+                                                  ))),
+                                              onPressed: () {
+                                                context
+                                                    .read<AddProjectTaskCubit>()
+                                                    .updateUser(user.id);
+                                              },
+                                              child: Text(user.username,
+                                                  style: TextStyle(
+                                                      fontFamily: 'Rubik',
+                                                      color: state.task.user_id == user.id
+                                                          ? Colors.white
+                                                          : Colors.black,
+                                                      fontSize:
+                                                          state.task.user_id == user.id
+                                                              ? 12
+                                                              : 10,
+                                                      fontWeight: state.task.user_id == user.id
+                                                          ? FontWeight.bold
+                                                          : FontWeight.normal))),
+                                        ))
+                                    .toList())),
                         Container(
                           width: 270,
                           height: 50,

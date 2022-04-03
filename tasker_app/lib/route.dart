@@ -72,8 +72,8 @@ class AppRouter {
         if (getIt.isRegistered<ProjectTasksCubit>()) {
           getIt.unregister<ProjectTasksCubit>();
         }
-        getIt.registerSingleton(
-            ProjectTasksCubit(getIt<TaskRepository>(), getIt<TaskCubit>()));
+        getIt.registerSingleton(ProjectTasksCubit(getIt<TaskRepository>(),
+            getIt<TaskCubit>(), getIt<ProjectRepository>()));
         final args = settings.arguments as ProjectDetailsScreenArguments;
         return CupertinoPageRoute(
           builder: (_) => MultiBlocProvider(

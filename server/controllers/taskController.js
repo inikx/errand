@@ -1,21 +1,8 @@
 const Sequelize = require("sequelize");
 const Task = require("../models/task");
+const User = require("../models/user");
 const redis = require("../connectors/redis");
 const Op = Sequelize.Op;
-
-const getTask = async (req, res) => {
-    try {
-        const { task_id } = req.body;
-        const task = await Task.findOne({ where: { id: task_id } });
-        if (task) {
-            res.status(200).json(task);
-        } else {
-            res.status(404).json("task not found");
-        }
-    } catch (error) {
-        console.error(error);
-    }
-};
 
 const getAllTasks = async (req, res) => {
     try {
@@ -80,6 +67,7 @@ const createTask = async (req, res) => {
             project_id,
             creator_id,
             user_id,
+            username,
         } = req.body;
 
         if (!(project_id && user_id)) {
@@ -93,6 +81,14 @@ const createTask = async (req, res) => {
                 user_id: creator_id,
             });
         } else {
+            let userId = null;
+            if (username) {
+                let user = User.findOne({ where: { username: username } });
+                if (user) {
+                    userId = user.id;
+                }
+            }
+
             var task = new Task({
                 title,
                 description,
@@ -100,7 +96,7 @@ const createTask = async (req, res) => {
                 status,
                 project_id,
                 creator_id: req.user.user_id,
-                user_id,
+                user_id: userId,
             });
         }
 
@@ -160,7 +156,6 @@ const removeTask = async (req, res) => {
 };
 
 module.exports = {
-    getTask,
     getAllTasks,
     createTask,
     updateTask,

@@ -35,7 +35,12 @@ class User {
 
   String toJson() => json.encode(toMap());
 
-  factory User.fromJson(String source) => User.fromMap(json.decode(source));
+  factory User.fromJson(Map<String, dynamic> json) {
+    return User(
+      id: json["id"] ?? null,
+      username: json["username"],
+    );
+  }
 
   @override
   String toString() => 'User(id: $id, username: $username)';
@@ -43,10 +48,8 @@ class User {
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
-  
-    return other is User &&
-      other.id == id &&
-      other.username == username;
+
+    return other is User && other.id == id && other.username == username;
   }
 
   @override

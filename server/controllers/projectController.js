@@ -28,6 +28,28 @@ const getProjects = async (req, res) => {
     }
 };
 
+const getAllProjectUsers = async (req, res) => {
+    try {
+        const projectUsers = await UsersInProject.findAll(
+            {
+                where: {
+                    project_id: req.params.id,
+                },
+                include: [{ model: User, required: true }],
+            },
+            { raw: true }
+        );
+
+	console.log(projectUsers);
+        const mappedUsers = projectUsers.map((project) => {
+            return { id: project.user.id, username: project.user.username };
+        });
+        res.status(200).json(mappedUsers);
+    } catch (error) {
+        console.error(error);
+    }
+};
+
 const createProject = async (req, res) => {
     try {
         const project = new Project({
@@ -145,4 +167,5 @@ module.exports = {
     updateProject,
     addUserToProject,
     removeProject,
+    getAllProjectUsers
 };

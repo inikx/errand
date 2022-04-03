@@ -23,7 +23,11 @@ class ProjectRepository {
     return await networkService.delete_project(id);
   }
 
-  Future<Response> add_user_to_project(int user_id, int project_id) async {
-    return await networkService.add_user_to_project(user_id, project_id);
+  Future<Response> add_user_to_project(int userId, int projectId) async {
+    return await networkService.add_user_to_project(userId, projectId);
+  }
+
+  Future<Response> getProjectUsers(int projectId) async {
+    return await networkService.getProjectUsers(projectId);
   }
 }
