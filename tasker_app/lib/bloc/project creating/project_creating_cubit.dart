@@ -32,9 +32,9 @@ class ProjectCreatingCubit extends Cubit<ProjectCreatingState> {
     emit(ProjectCreating());
     repository.create_project(title, users).then((response) {
       if (response.statusCode == 200) {
-        emit(ProjectCreated());
         var rawProject = jsonDecode(response.body);
         Project project = Project.fromJson(rawProject);
+        emit(ProjectCreated(users: []));
         projectCubit.addNewProject(project);
         emit(ProjectCreatingInitial(data: Project(), users: []));
       } else {

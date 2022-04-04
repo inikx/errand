@@ -24,4 +24,7 @@ class ProjectCreating extends ProjectCreatingState {}
 
 class ProjectCreatingError extends ProjectCreatingState {}
 
-class ProjectCreated extends ProjectCreatingState {}
+class ProjectCreated extends ProjectCreatingState {
+  final List<String> users;
+  ProjectCreated({required this.users});
+}

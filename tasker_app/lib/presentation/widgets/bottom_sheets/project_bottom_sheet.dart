@@ -96,7 +96,6 @@ class BottomSheet extends StatelessWidget {
                           context
                               .read<ProjectCreatingCubit>()
                               .updateTitle(value);
-                          print(value);
                         },
                         style: const TextStyle(
                             color: Colors.white,
@@ -114,32 +113,6 @@ class BottomSheet extends StatelessWidget {
                       ),
                     ),
                   )),
-              // Container(
-              //     margin: const EdgeInsets.only(top: 30),
-              //     decoration: BoxDecoration(
-              //         color: const Color(0xffC4C4C4).withOpacity(0.15),
-              //         borderRadius: BorderRadius.circular(8)),
-              //     width: 330,
-              //     height: 100,
-              //     child: Padding(
-              //       padding: const EdgeInsets.fromLTRB(20, 4, 20, 5),
-              //       child: TextField(
-              //         onChanged: (String value) async {
-              //           //описаниезадачи
-              //         },
-              //         style: const TextStyle(
-              //             color: Colors.white, fontFamily: 'Rubik', fontSize: 14),
-              //         cursorColor: Colors.white,
-              //         decoration: const InputDecoration(
-              //             border: InputBorder.none,
-              //             labelStyle: TextStyle(
-              //               color: Color(0x80FFFFFF),
-              //               fontFamily: 'Rubik',
-              //             ),
-              //             hintText: 'Введите описание',
-              //             hintStyle: TextStyle(color: Colors.grey)),
-              //       ),
-              //     )),
               Padding(
                 padding: const EdgeInsets.fromLTRB(30, 20, 30, 10),
                 child: Stack(
@@ -210,13 +183,18 @@ class BottomSheet extends StatelessWidget {
                     child:
                         BlocBuilder<ProjectCreatingCubit, ProjectCreatingState>(
                       builder: (context, state) {
-                        return Column(
-                          children: state.users
-                              .map((u) => PersonToProject(
-                                    username: u,
-                                  ))
-                              .toList(),
-                        );
+                        if (state is ProjectCreatingInitial ||
+                            state is ProjectCreatingDataChanged) {
+                          return Column(
+                            children: state.users
+                                .map((u) => PersonToProject(
+                                      username: u,
+                                    ))
+                                .toList(),
+                          );
+                        } else {
+                          return Container();
+                        }
                       },
                     ),
                   ),
