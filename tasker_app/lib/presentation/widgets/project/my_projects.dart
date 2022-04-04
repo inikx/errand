@@ -55,7 +55,8 @@ class MyProjects extends StatelessWidget {
             builder: (context, state) {
               switch (state.runtimeType) {
                 case ProjectsLoaded:
-                  return ProjectsList(projects: state.projects);
+                  return ProjectsList(
+                      projects: state.projects, openProject: true);
                 default:
                   return Center(child: CircularProgressIndicator());
               }

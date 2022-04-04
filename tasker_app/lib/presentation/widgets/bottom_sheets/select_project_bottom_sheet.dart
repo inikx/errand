@@ -62,15 +62,32 @@ class BottomSheet extends StatelessWidget {
             borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
         child: Center(
             child: Column(children: [
-          Transform.rotate(
-            angle: 90 * pi / 180,
-            child: IconButton(
-                icon: const Icon(
-                  Icons.arrow_forward_ios_sharp,
-                  size: 20,
-                  color: Colors.grey,
+          Stack(
+            children: [
+              Center(
+                child: Transform.rotate(
+                  angle: 90 * pi / 180,
+                  child: IconButton(
+                      icon: const Icon(
+                        Icons.arrow_forward_ios_sharp,
+                        size: 20,
+                        color: Colors.grey,
+                      ),
+                      onPressed: () => Navigator.pop(context)),
                 ),
-                onPressed: () => Navigator.pop(context)),
+              ),
+              Positioned(
+                  right: 10,
+                  child: TextButton(
+                      onPressed: () {
+                        //!сбрасывать проект
+                        Navigator.pop(context);
+                      },
+                      child: Text(
+                        "Cбросить",
+                        style: TextStyle(color: Colors.grey),
+                      )))
+            ],
           ),
           const Text(
             'Выбрать проект',
@@ -89,7 +106,8 @@ class BottomSheet extends StatelessWidget {
                   builder: (context, state) {
                     switch (state.runtimeType) {
                       case ProjectsLoaded:
-                        return ProjectsList(projects: state.projects);
+                        return ProjectsList(
+                            projects: state.projects, openProject: false);
                       default:
                         return Center(child: CircularProgressIndicator());
                     }

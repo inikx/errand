@@ -13,7 +13,10 @@ import 'package:tasker_app/route.dart';
 
 class ProjectWidget extends StatelessWidget {
   final Project project;
-  const ProjectWidget({Key? key, required this.project}) : super(key: key);
+  final openProject;
+  const ProjectWidget(
+      {Key? key, required this.project, required this.openProject})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,9 +28,13 @@ class ProjectWidget extends StatelessWidget {
           child: InkWell(
             borderRadius: BorderRadius.circular(20),
             onTap: () {
-              Navigator.pushNamed(context, PROJECT_DETAILS,
-                  arguments:
-                      ProjectDetailsScreenArguments(project.id, project.title));
+              if (openProject == true) {
+                Navigator.pushNamed(context, PROJECT_DETAILS,
+                    arguments: ProjectDetailsScreenArguments(
+                        project.id, project.title));
+              } else {
+                Navigator.pop(context, [project.id, project.title]);
+              }
             },
             onLongPress: () {
               deleteProjectDialog(context);

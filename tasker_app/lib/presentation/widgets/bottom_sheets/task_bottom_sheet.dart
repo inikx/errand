@@ -10,7 +10,7 @@ import 'package:tasker_app/constants/locator.dart';
 import 'package:tasker_app/data/services/project/repository.dart';
 import 'package:tasker_app/data/services/task/network_service.dart';
 import 'package:tasker_app/data/services/task/repository.dart';
-import 'package:tasker_app/presentation/widgets/bottom_sheets/projects_list_bottom_sheet.dart';
+import 'package:tasker_app/presentation/widgets/bottom_sheets/select_project_bottom_sheet.dart';
 import 'package:tasker_app/presentation/widgets/snackbars/exception_widget.dart';
 import 'package:tasker_app/presentation/widgets/snackbars/success_widget.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
@@ -35,6 +35,7 @@ class BottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<Object> taskProject = [0, "Проект"];
     return BlocListener<AddTaskCubit, AddTaskState>(
       listener: (context, state) {
         switch (state.runtimeType) {
@@ -198,43 +199,43 @@ class BottomSheet extends StatelessWidget {
                                 ElevatedButton(
                                     style: ButtonStyle(
                                         backgroundColor:
-                                            MaterialStateProperty.all(
-                                                const Color(0xff7A79CD)),
-                                        // state.task.user_id == user.id
-                                        //     ? MaterialStateProperty.all(
-                                        //         const Color(
-                                        //             0xff7A79CD))
-                                        //     : MaterialStateProperty.all(
-                                        //         Colors.white),
+                                            state.task.project_id != null
+                                                ? MaterialStateProperty.all(
+                                                    const Color(0xff7A79CD))
+                                                : MaterialStateProperty.all(
+                                                    Colors.white),
                                         shape: MaterialStateProperty.all<
                                                 RoundedRectangleBorder>(
                                             RoundedRectangleBorder(
                                           borderRadius:
                                               BorderRadius.circular(20),
                                         ))),
-                                    onPressed: () {
-                                      SelectProjectBottomSheet(context);
-
-                                      // context
-                                      //     .read<AddProjectTaskCubit>()
-                                      //     .updateUser(user.id);
+                                    onPressed: () async {
+                                      //!null check
+                                      taskProject =
+                                          await SelectProjectBottomSheet(
+                                              context);
+                                      context
+                                          .read<AddTaskCubit>()
+                                          .updateProject(int.parse(
+                                              taskProject[0].toString()));
                                     },
-                                    child: Text(
-                                      "Проект",
-                                      //user.username,
-                                      // style: TextStyle(
-                                      //     fontFamily: 'Rubik',
-                                      //     color: state.task.user_id == user.id
-                                      //         ? Colors.white
-                                      //         : Colors.black,
-                                      //     fontSize:
-                                      //         state.task.user_id == user.id
-                                      //             ? 12
-                                      //             : 10,
-                                      //     fontWeight: state.task.user_id == user.id
-                                      //         ? FontWeight.bold
-                                      //         : FontWeight.normal)
-                                    )),
+                                    child: Text(taskProject[1].toString(),
+                                        //!название проекта сбрасывается если нажать на ввод названия задачи/описания а project_title в task не хранится
+                                        //state.task.project_id.toString(),
+                                        style: TextStyle(
+                                            fontFamily: 'Rubik',
+                                            color: state.task.project_id != null
+                                                ? Colors.white
+                                                : Colors.black,
+                                            fontSize:
+                                                state.task.project_id != null
+                                                    ? 12
+                                                    : 10,
+                                            fontWeight:
+                                                state.task.project_id != null
+                                                    ? FontWeight.bold
+                                                    : FontWeight.normal))),
                               ]),
                         ),
                         Container(
@@ -248,6 +249,7 @@ class BottomSheet extends StatelessWidget {
                               onPressed: () async {
                                 BlocProvider.of<AddTaskCubit>(context).addTask(
                                     context.read<AddTaskCubit>().state.task);
+                                Navigator.pop(context);
                               },
                               style: ButtonStyle(
                                   backgroundColor: MaterialStateProperty.all(

@@ -5,11 +5,11 @@ import 'package:tasker_app/data/models/project.dart';
 import 'package:tasker_app/presentation/widgets/project/project.dart';
 
 class ProjectsList extends StatelessWidget {
+  final bool openProject;
   final List<Project> projects;
-  const ProjectsList({
-    Key? key,
-    required this.projects,
-  }) : super(key: key);
+  const ProjectsList(
+      {Key? key, required this.projects, required this.openProject})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +21,8 @@ class ProjectsList extends StatelessWidget {
         physics: const BouncingScrollPhysics(),
         controller: controller,
         children: projects
-            .map((project) => ProjectWidget(project: project))
+            .map((project) =>
+                ProjectWidget(project: project, openProject: openProject))
             .toList());
   }
 }
