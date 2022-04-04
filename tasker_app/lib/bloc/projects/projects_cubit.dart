@@ -30,4 +30,16 @@ class ProjectsCubit extends Cubit<ProjectsState> {
     projects.add(project);
     emit(ProjectsLoaded(projects: projects));
   }
+
+  deleteProject(int project_id) {
+    repository.delete_project(project_id).then((response) {
+      if (response.statusCode == 200) {
+        final projects = state.projects;
+        projects.removeWhere((project) => project.id == project_id);
+        emit(ProjectsLoaded(projects: projects));
+      } else {
+        emit(ProjectsLoadingErrror());
+      }
+    });
+  }
 }
