@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tasker_app/bloc/add_project_task/add_project_task_cubit.dart';
 import 'dart:math';
 
 import 'package:tasker_app/bloc/add_task/add_task_cubit.dart';
+import 'package:tasker_app/bloc/project_tasks/project_tasks_cubit.dart';
 import 'package:tasker_app/bloc/task/task_cubit.dart';
 import 'package:tasker_app/constants/locator.dart';
+import 'package:tasker_app/data/services/project/repository.dart';
 import 'package:tasker_app/data/services/task/network_service.dart';
 import 'package:tasker_app/data/services/task/repository.dart';
+import 'package:tasker_app/presentation/widgets/bottom_sheets/projects_list_bottom_sheet.dart';
 import 'package:tasker_app/presentation/widgets/snackbars/exception_widget.dart';
 import 'package:tasker_app/presentation/widgets/snackbars/success_widget.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
@@ -155,40 +159,88 @@ class BottomSheet extends StatelessWidget {
                                     hintStyle: TextStyle(color: Colors.grey)),
                               ),
                             )),
+
+                        // Padding(
+                        //   padding: const EdgeInsets.fromLTRB(30, 30, 30, 30),
+                        //   child: Row(
+                        //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        //     children: [
+                        //       IconButton(
+                        //           icon: const Icon(
+                        //             Icons.calendar_today_rounded,
+                        //             size: 35,
+                        //             color: Colors.grey,
+                        //           ),
+                        //           onPressed: () => print('Календарь работает')),
+                        //       IconButton(
+                        //           icon: const Icon(
+                        //             Icons.notification_add_rounded,
+                        //             size: 35,
+                        //             color: Colors.grey,
+                        //           ),
+                        //           onPressed: () =>
+                        //               print('Уведомления работают')),
+                        //       IconButton(
+                        //           icon: const Icon(
+                        //             Icons.format_color_fill_rounded,
+                        //             size: 35,
+                        //             color: Colors.grey,
+                        //           ),
+                        //           onPressed: () => print('Заливка работает')),
+                        //     ],
+                        //   ),
+                        // ),
                         Padding(
-                          padding: const EdgeInsets.fromLTRB(30, 30, 30, 30),
+                          padding: const EdgeInsets.fromLTRB(30, 20, 0, 0),
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              IconButton(
-                                  icon: const Icon(
-                                    Icons.calendar_today_rounded,
-                                    size: 35,
-                                    color: Colors.grey,
-                                  ),
-                                  onPressed: () => print('Календарь работает')),
-                              IconButton(
-                                  icon: const Icon(
-                                    Icons.notification_add_rounded,
-                                    size: 35,
-                                    color: Colors.grey,
-                                  ),
-                                  onPressed: () =>
-                                      print('Уведомления работают')),
-                              IconButton(
-                                  icon: const Icon(
-                                    Icons.format_color_fill_rounded,
-                                    size: 35,
-                                    color: Colors.grey,
-                                  ),
-                                  onPressed: () => print('Заливка работает')),
-                            ],
-                          ),
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                ElevatedButton(
+                                    style: ButtonStyle(
+                                        backgroundColor:
+                                            MaterialStateProperty.all(
+                                                const Color(0xff7A79CD)),
+                                        // state.task.user_id == user.id
+                                        //     ? MaterialStateProperty.all(
+                                        //         const Color(
+                                        //             0xff7A79CD))
+                                        //     : MaterialStateProperty.all(
+                                        //         Colors.white),
+                                        shape: MaterialStateProperty.all<
+                                                RoundedRectangleBorder>(
+                                            RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                        ))),
+                                    onPressed: () {
+                                      SelectProjectBottomSheet(context);
+
+                                      // context
+                                      //     .read<AddProjectTaskCubit>()
+                                      //     .updateUser(user.id);
+                                    },
+                                    child: Text(
+                                      "Проект",
+                                      //user.username,
+                                      // style: TextStyle(
+                                      //     fontFamily: 'Rubik',
+                                      //     color: state.task.user_id == user.id
+                                      //         ? Colors.white
+                                      //         : Colors.black,
+                                      //     fontSize:
+                                      //         state.task.user_id == user.id
+                                      //             ? 12
+                                      //             : 10,
+                                      //     fontWeight: state.task.user_id == user.id
+                                      //         ? FontWeight.bold
+                                      //         : FontWeight.normal)
+                                    )),
+                              ]),
                         ),
                         Container(
                           width: 270,
                           height: 50,
-                          margin: const EdgeInsets.only(top: 30),
+                          margin: const EdgeInsets.only(top: 20),
                           child: ElevatedButton(
                               child: const Text('Создать задачу',
                                   style: TextStyle(
