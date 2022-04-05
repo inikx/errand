@@ -22,12 +22,26 @@ class AddTaskCubit extends Cubit<AddTaskState> {
     }
   }
 
-  void updateProject(int project_id) {
+  void updateProject(List<dynamic> projectData) {
     final currentState = state;
     if (currentState is AddingTaskDataChanged ||
         currentState is AddTaskInitial) {
       emit(AddingTaskDataChanged(
-          task: currentState.task.copyWith(project_id: project_id)));
+          task: currentState.task.copyWith(
+              project_id: projectData[0] != null
+                  ? int.parse(projectData[0].toString())
+                  : null,
+              project_title:
+                  projectData[1] != null ? projectData[1] : "Проект")));
+    }
+  }
+
+  void dropProject() {
+    final currentState = state;
+    if (currentState is AddingTaskDataChanged ||
+        currentState is AddTaskInitial) {
+      emit(AddingTaskDataChanged(
+          task: currentState.task.copyWith(project_id: -1, project_title: "")));
     }
   }
 

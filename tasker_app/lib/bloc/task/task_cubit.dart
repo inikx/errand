@@ -55,11 +55,11 @@ class TaskCubit extends Cubit<TaskState> {
   }
 
   void remove_task(int id) {
-    emit(TaskRemoving());
+    final tasks = state.tasks;
     repository.delete_task(id).then((response) {
       if (response.statusCode == 200) {
-        emit(TaskRemoved());
-        emit(TaskInitial());
+        tasks.removeWhere((element) => element.id == id);
+        emit(TasksLoaded(tasks: tasks));
       } else {
         emit(TaskRemovingError());
       }
