@@ -251,13 +251,26 @@ class BottomSheet extends StatelessWidget {
                                   style: TextStyle(
                                       fontFamily: 'Rubik', fontSize: 16)),
                               onPressed: () async {
-                                var task = context
+                                if (context
                                     .read<AddProjectTaskCubit>()
                                     .state
                                     .task
-                                    .copyWith(project_id: project_id);
-                                BlocProvider.of<AddProjectTaskCubit>(context)
-                                    .addTask(task);
+                                    .title
+                                    .isEmpty) {
+                                  showTopSnackBar(
+                                      context,
+                                      const ErrorSnackbar(
+                                          info:
+                                              "Название не может быть пустым!"));
+                                } else {
+                                  var task = context
+                                      .read<AddProjectTaskCubit>()
+                                      .state
+                                      .task
+                                      .copyWith(project_id: project_id);
+                                  BlocProvider.of<AddProjectTaskCubit>(context)
+                                      .addTask(task);
+                                }
                               },
                               style: ButtonStyle(
                                   backgroundColor: MaterialStateProperty.all(

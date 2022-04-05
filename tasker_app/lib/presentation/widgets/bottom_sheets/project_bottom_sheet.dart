@@ -4,6 +4,7 @@ import 'package:assorted_layout_widgets/assorted_layout_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
+import 'package:tasker_app/presentation/widgets/snackbars/exception_widget.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import 'package:tasker_app/bloc/project%20creating/project_creating_cubit.dart';
@@ -208,14 +209,29 @@ class BottomSheet extends StatelessWidget {
                     child: const Text('Создать проект',
                         style: TextStyle(fontFamily: 'Rubik', fontSize: 16)),
                     onPressed: () async {
-                      BlocProvider.of<ProjectCreatingCubit>(context)
-                          .createProject(
-                              context
-                                  .read<ProjectCreatingCubit>()
-                                  .state
-                                  .data
-                                  .title,
-                              context.read<ProjectCreatingCubit>().state.users);
+                      if (context
+                          .read<ProjectCreatingCubit>()
+                          .state
+                          .data
+                          .title
+                          .isEmpty) {
+                        showTopSnackBar(
+                            context,
+                            const ErrorSnackbar(
+                                info: "Название не может быть пустым!"));
+                      } else {
+                        BlocProvider.of<ProjectCreatingCubit>(context)
+                            .createProject(
+                                context
+                                    .read<ProjectCreatingCubit>()
+                                    .state
+                                    .data
+                                    .title,
+                                context
+                                    .read<ProjectCreatingCubit>()
+                                    .state
+                                    .users);
+                      }
                     },
                     style: ButtonStyle(
                         backgroundColor:
