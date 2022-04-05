@@ -1,3 +1,4 @@
+import 'package:assorted_layout_widgets/assorted_layout_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tasker_app/bloc/add_project_task/add_project_task_cubit.dart';
@@ -16,13 +17,17 @@ import 'package:tasker_app/presentation/widgets/snackbars/success_widget.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 Future<dynamic> AddTaskBottomSheet(BuildContext context) {
+  if (getIt.isRegistered<AddTaskCubit>()) {
+    getIt.unregister<AddTaskCubit>();
+  }
+  getIt.registerSingleton(
+      AddTaskCubit(getIt<TaskRepository>(), getIt<TaskCubit>()));
   return showModalBottomSheet(
     isScrollControlled: true,
     context: context,
     backgroundColor: Colors.transparent,
     builder: (context) => BlocProvider(
-      create: (context) =>
-          AddTaskCubit(getIt<TaskRepository>(), getIt<TaskCubit>()),
+      create: (context) => getIt<AddTaskCubit>(),
       child: BottomSheet(),
     ),
   );
@@ -35,7 +40,6 @@ class BottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<Object> taskProject = [0, "Проект"];
     return BlocListener<AddTaskCubit, AddTaskState>(
       listener: (context, state) {
         switch (state.runtimeType) {
@@ -160,41 +164,10 @@ class BottomSheet extends StatelessWidget {
                                     hintStyle: TextStyle(color: Colors.grey)),
                               ),
                             )),
-
-                        // Padding(
-                        //   padding: const EdgeInsets.fromLTRB(30, 30, 30, 30),
-                        //   child: Row(
-                        //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        //     children: [
-                        //       IconButton(
-                        //           icon: const Icon(
-                        //             Icons.calendar_today_rounded,
-                        //             size: 35,
-                        //             color: Colors.grey,
-                        //           ),
-                        //           onPressed: () => print('Календарь работает')),
-                        //       IconButton(
-                        //           icon: const Icon(
-                        //             Icons.notification_add_rounded,
-                        //             size: 35,
-                        //             color: Colors.grey,
-                        //           ),
-                        //           onPressed: () =>
-                        //               print('Уведомления работают')),
-                        //       IconButton(
-                        //           icon: const Icon(
-                        //             Icons.format_color_fill_rounded,
-                        //             size: 35,
-                        //             color: Colors.grey,
-                        //           ),
-                        //           onPressed: () => print('Заливка работает')),
-                        //     ],
-                        //   ),
-                        // ),
                         Padding(
-                          padding: const EdgeInsets.fromLTRB(30, 20, 0, 0),
+                          padding: const Pad(top: 20, horizontal: 30),
                           child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
                                 ElevatedButton(
                                     style: ButtonStyle(
@@ -211,31 +184,39 @@ class BottomSheet extends StatelessWidget {
                                               BorderRadius.circular(20),
                                         ))),
                                     onPressed: () async {
-                                      //!null check
-                                      taskProject =
+                                      var taskProject =
                                           await SelectProjectBottomSheet(
                                               context);
                                       context
                                           .read<AddTaskCubit>()
-                                          .updateProject(int.parse(
-                                              taskProject[0].toString()));
+                                          .updateProject(taskProject);
                                     },
-                                    child: Text(taskProject[1].toString(),
-                                        //!название проекта сбрасывается если нажать на ввод названия задачи/описания а project_title в task не хранится
-                                        //state.task.project_id.toString(),
+                                    child: Text(
+                                        state.task.project_title ?? "Проект",
                                         style: TextStyle(
                                             fontFamily: 'Rubik',
                                             color: state.task.project_id != null
                                                 ? Colors.white
                                                 : Colors.black,
-                                            fontSize:
-                                                state.task.project_id != null
-                                                    ? 12
-                                                    : 10,
+                                            fontSize: state.task.project_id != null
+                                                ? 12
+                                                : 10,
                                             fontWeight:
                                                 state.task.project_id != null
                                                     ? FontWeight.bold
                                                     : FontWeight.normal))),
+                                TextButton(
+                                    onPressed: () {
+                                      context
+                                          .read<AddTaskCubit>()
+                                          .dropProject();
+                                    },
+                                    child: Text(
+                                      "Cбросить",
+                                      style: TextStyle(
+                                          color: Color.fromARGB(
+                                              255, 245, 136, 128)),
+                                    ))
                               ]),
                         ),
                         Container(

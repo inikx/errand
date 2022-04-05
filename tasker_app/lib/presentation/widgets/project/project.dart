@@ -13,7 +13,7 @@ import 'package:tasker_app/route.dart';
 
 class ProjectWidget extends StatelessWidget {
   final Project project;
-  final openProject;
+  final bool openProject;
   const ProjectWidget(
       {Key? key, required this.project, required this.openProject})
       : super(key: key);
@@ -70,41 +70,48 @@ class ProjectWidget extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            BlocBuilder<TaskCubit, TaskState>(
-                                builder: (context, state) {
-                              if ((state is TasksLoaded ||
-                                      state is TaskUpdated) &&
-                                  project.id != -1) {
-                                TasksList taskCount = TasksList(
-                                    tasks: state.tasks
-                                        .where((task) =>
-                                            task.project_id == project.id &&
-                                            task.status != 2)
-                                        .toList(),
-                                    doneTasks: state.tasks
-                                        .where((task) =>
-                                            task.project_id == project.id &&
-                                            task.status == 2)
-                                        .toList());
+                            openProject
+                                ? BlocBuilder<TaskCubit, TaskState>(
+                                    builder: (context, state) {
+                                    if ((state is TasksLoaded ||
+                                            state is TaskUpdated) &&
+                                        project.id != -1) {
+                                      TasksList taskCount = TasksList(
+                                          tasks: state.tasks
+                                              .where((task) =>
+                                                  task.project_id ==
+                                                      project.id &&
+                                                  task.status != 2)
+                                              .toList(),
+                                          doneTasks: state.tasks
+                                              .where((task) =>
+                                                  task.project_id ==
+                                                      project.id &&
+                                                  task.status == 2)
+                                              .toList());
 
-                                var allTasksCount = taskCount.tasks.length;
-                                var doneTasksCount = taskCount.doneTasks.length;
-                                return Text(
-                                    allTasksCount != doneTasksCount
-                                        ? '${doneTasksCount}/${allTasksCount + doneTasksCount}'
-                                        : "",
-                                    style: TextStyle(
-                                        fontFamily: 'Rubik',
-                                        color: Colors.white,
-                                        fontSize: 43,
-                                        fontWeight: FontWeight.w100));
-                              } else if (state is TasksLoading) {
-                                return Center(
-                                    child: CircularProgressIndicator());
-                              } else {
-                                return Center(child: Text("Error"));
-                              }
-                            })
+                                      var allTasksCount =
+                                          taskCount.tasks.length;
+                                      var doneTasksCount =
+                                          taskCount.doneTasks.length;
+
+                                      return Text(
+                                          allTasksCount != doneTasksCount
+                                              ? '${doneTasksCount}/${allTasksCount + doneTasksCount}'
+                                              : "",
+                                          style: TextStyle(
+                                              fontFamily: 'Rubik',
+                                              color: Colors.white,
+                                              fontSize: 43,
+                                              fontWeight: FontWeight.w100));
+                                    } else if (state is TasksLoading) {
+                                      return Center(
+                                          child: CircularProgressIndicator());
+                                    } else {
+                                      return Center(child: Text("Error"));
+                                    }
+                                  })
+                                : Container()
                           ],
                         ),
                       ],

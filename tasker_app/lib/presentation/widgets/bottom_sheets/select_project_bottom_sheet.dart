@@ -24,9 +24,6 @@ Future<dynamic> SelectProjectBottomSheet(BuildContext context) {
     builder: (_) => MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => TaskCubit(getIt<TaskRepository>()),
-        ),
-        BlocProvider(
           create: (context) => ProjectsCubit(getIt<ProjectRepository>()),
         )
       ],
@@ -43,7 +40,6 @@ class BottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     BlocProvider.of<ProjectsCubit>(context).fetchProjects();
-    BlocProvider.of<TaskCubit>(context).fetchTasks();
     var controller = TextEditingController();
     var scrollController = ScrollController();
     return Container(
@@ -76,17 +72,6 @@ class BottomSheet extends StatelessWidget {
                       onPressed: () => Navigator.pop(context)),
                 ),
               ),
-              Positioned(
-                  right: 10,
-                  child: TextButton(
-                      onPressed: () {
-                        //!сбрасывать проект
-                        Navigator.pop(context);
-                      },
-                      child: Text(
-                        "Cбросить",
-                        style: TextStyle(color: Colors.grey),
-                      )))
             ],
           ),
           const Text(

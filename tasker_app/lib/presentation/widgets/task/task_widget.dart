@@ -21,7 +21,9 @@ class TaskWidget extends StatelessWidget {
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
           child: InkWell(
             borderRadius: BorderRadius.circular(8),
-            onTap: () {},
+            onLongPress: () {
+              getIt<TaskCubit>().remove_task(task.id);
+            },
             child: SizedBox(
               height: 50,
               child: Row(
