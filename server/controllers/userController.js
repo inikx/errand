@@ -12,13 +12,14 @@ const register = async (req, res) => {
         var user = await User.findOne({
             where: { [Op.or]: [{ username: username }, { email: email }] },
         });
-        var nickname_filter = /^[A-Za-z0-9]+([A-Za-z0-9]*|[._-]?[A-Za-z0-9]+)*$/;
+        var nickname_filter =
+            /^[A-Za-z0-9]+([A-Za-z0-9]*|[._-]?[A-Za-z0-9]+)*$/;
         if (user) {
             res.status(409).json("user already exists");
             return;
         }
-        if (!nickname_filter.test(username)){
-            res.status(409).json({errors: "vi dolbaeb"});
+        if (!nickname_filter.test(username)) {
+            res.status(409).json({ errors: "vi dolbaeb" });
             return;
         }
         const errors = validationResult(req);
@@ -71,6 +72,8 @@ const login = async (req, res) => {
             // return user
             res.status(200).json({
                 token,
+                username: user.username,
+                email: user.email,
             });
             return;
         }
@@ -83,5 +86,5 @@ const login = async (req, res) => {
 module.exports = {
     register,
     login,
-    authenticate
+    authenticate,
 };

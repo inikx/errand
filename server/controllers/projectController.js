@@ -40,7 +40,6 @@ const getAllProjectUsers = async (req, res) => {
             { raw: true }
         );
 
-	console.log(projectUsers);
         const mappedUsers = projectUsers.map((project) => {
             return { id: project.user.id, username: project.user.username };
         });
@@ -148,13 +147,16 @@ const removeProject = async (req, res) => {
     try {
         const { project_id } = req.body;
         const project = await Project.findOne({
-            where: { id: project_id, user_id: req.user.user_id },
+            where: { id: project_id, creator: req.user.username },
         });
         if (project) {
             await Project.destroy({ where: { id: project_id } });
             res.status(200).json("project removed successfully");
         } else {
-            res.status(404).json("project not found");
+            await UsersInProject.destroy({
+                where: { project_id, user_id: req.user.user_id },
+            });
+            res.status(200).json("project removed successfully");
         }
     } catch (error) {
         console.error(error);
@@ -167,5 +169,5 @@ module.exports = {
     updateProject,
     addUserToProject,
     removeProject,
-    getAllProjectUsers
+    getAllProjectUsers,
 };

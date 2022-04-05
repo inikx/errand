@@ -141,7 +141,7 @@ const removeTask = async (req, res) => {
         const { task_id } = req.body;
 
         const task = await Task.findOne({
-            where: { id: task_id, user_id: req.user.user_id },
+            where: { id: task_id, creator_id: req.user.user_id },
         });
         if (task) {
             await Task.destroy({ where: { id: task_id } });

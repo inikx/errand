@@ -4,10 +4,11 @@ const userController = require("../controllers/userController");
 const auth = require("../middleware/jvt");
 const { body, validationResult } = require("express-validator");
 
+// Get user from database
 router.post(
     "/register",
     body("email").isEmail(),
-    body("username").isLength({ min: 5, max: 25 }),
+    body("username").isLength({ min: 5, max: 12 }),
     body("password").isLength({ min: 5, max: 25 }),
     userController.register
 );
