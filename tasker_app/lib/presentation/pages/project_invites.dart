@@ -68,33 +68,42 @@ class ProjectWidget extends StatelessWidget {
                 })
           },
           child: SizedBox(
+            width: MediaQuery.of(context).size.width,
             height: 50,
             child: Padding(
               padding: const Pad(horizontal: 20),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              child: Stack(
+                alignment: Alignment.center,
                 children: [
-                  Text(project.creator,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                          fontFamily: 'Rubik',
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold)),
+                  Positioned(
+                    left: 0,
+                    width: 80,
+                    child: Text(project.creator,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                            fontFamily: 'Rubik',
+                            color: Color(0xff7A79CD),
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold)),
+                  ),
                   Text("пригласил в проект",
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                           fontFamily: 'Rubik',
-                          color: const Color(0xff7A79CD),
+                          color: Colors.white,
                           fontSize: 14,
                           fontWeight: FontWeight.normal)),
-                  Text(project.title,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                          fontFamily: 'Rubik',
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold)),
+                  Positioned(
+                    right: 0,
+                    width: 60,
+                    child: Text(project.title,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                            fontFamily: 'Rubik',
+                            color: Color(0xff7A79CD),
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold)),
+                  ),
                 ],
               ),
             ),
@@ -116,11 +125,11 @@ class ProjectDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Container(
-          padding: Pad(all: 20),
+          padding: EdgeInsets.fromLTRB(20, 26, 20, 0),
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
-              color: Color.fromARGB(255, 84, 83, 150)),
-          width: 80.w,
+              color: Color(0xff252934)),
+          width: 90.w,
           height: 24.h,
           child: Column(
             children: [
@@ -131,7 +140,7 @@ class ProjectDialog extends StatelessWidget {
                           fontFamily: 'Rubik',
                           color: Colors.white,
                           fontSize: 20,
-                          fontWeight: FontWeight.bold))),
+                          fontWeight: FontWeight.normal))),
               Align(
                   alignment: Alignment.topCenter,
                   child: Row(
@@ -141,12 +150,12 @@ class ProjectDialog extends StatelessWidget {
                           style: const TextStyle(
                               fontFamily: 'Rubik',
                               color: Colors.white,
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold)),
+                              fontSize: 20,
+                              fontWeight: FontWeight.normal)),
                       Text(project.creator,
                           style: const TextStyle(
                               fontFamily: 'Rubik',
-                              color: Color.fromARGB(255, 58, 21, 145),
+                              color: Color(0xFF7A79CD),
                               fontSize: 24,
                               fontWeight: FontWeight.bold)),
                     ],
@@ -160,20 +169,20 @@ class ProjectDialog extends StatelessWidget {
                           style: const TextStyle(
                               fontFamily: 'Rubik',
                               color: Colors.white,
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold)),
+                              fontSize: 20,
+                              fontWeight: FontWeight.normal)),
                       Text(project.title,
                           style: const TextStyle(
                               fontFamily: 'Rubik',
-                              color: Color.fromARGB(255, 58, 21, 145),
+                              color: Color(0xFF7A79CD),
                               fontSize: 24,
                               fontWeight: FontWeight.bold)),
-                      Text(" ?",
+                      Text("?",
                           style: const TextStyle(
                               fontFamily: 'Rubik',
                               color: Colors.white,
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold)),
+                              fontSize: 20,
+                              fontWeight: FontWeight.normal)),
                     ],
                   )),
               Padding(
@@ -184,8 +193,8 @@ class ProjectDialog extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Container(
-                          width: 100,
-                          height: 50,
+                          width: 120,
+                          height: 40,
                           child: ElevatedButton(
                               child: const Text('Принять',
                                   style: TextStyle(
@@ -200,24 +209,31 @@ class ProjectDialog extends StatelessWidget {
                               },
                               style: ButtonStyle(
                                   backgroundColor: MaterialStateProperty.all(
-                                      Color.fromARGB(255, 126, 236, 75)),
+                                      Color(0xFF70AA67)),
                                   shape: MaterialStateProperty.all<
                                           RoundedRectangleBorder>(
                                       RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(15),
+                                    borderRadius: BorderRadius.circular(20),
                                   )))),
                         ),
                         Container(
                           width: 120,
-                          height: 50,
-                          child: TextButton(
-                            child: Text('Отклонить',
+                          height: 40,
+                          child: ElevatedButton(
+                            child: const Text('Отклонить',
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
-                                    decoration: TextDecoration.underline,
-                                    color: Color.fromARGB(255, 219, 64, 64),
+                                    color: Colors.white,
                                     fontFamily: 'Rubik',
                                     fontSize: 16)),
+                            style: ButtonStyle(
+                                backgroundColor: MaterialStateProperty.all(
+                                    Color(0xCCD43232)),
+                                shape: MaterialStateProperty.all<
+                                        RoundedRectangleBorder>(
+                                    RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                ))),
                             onPressed: () async {
                               getIt<ProjectInvitesCubit>()
                                   .updateProject(project, 1);
