@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tasker_app/bloc/project%20creating/project_creating_cubit.dart';
 import 'package:tasker_app/bloc/projects/projects_cubit.dart';
 import 'package:tasker_app/constants/locator.dart';
+import 'package:tasker_app/constants/strings.dart';
 import 'package:tasker_app/data/services/project/network_service.dart';
 import 'package:tasker_app/data/services/project/repository.dart';
 import 'package:tasker_app/presentation/widgets/bottom_sheets/project_bottom_sheet.dart';
@@ -27,7 +28,9 @@ class MyProjects extends StatelessWidget {
                     fontSize: 18,
                     fontWeight: FontWeight.bold)),
             IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushNamed(context, PROJECT_INVITES);
+                },
                 icon: const Icon(Icons.notifications_outlined,
                     color: Colors.white)),
           ]),

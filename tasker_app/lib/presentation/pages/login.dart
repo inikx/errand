@@ -82,23 +82,6 @@ class LogInPage extends StatelessWidget {
                                       decoration: TextDecoration.underline,
                                     )),
                               )),
-                          Container(
-                              margin: const EdgeInsets.only(top: 29),
-                              child: GestureDetector(
-                                onTap: () {
-                                  Navigator.pushNamed(context, HOME);
-                                },
-                                child: const Text(
-                                    'ДЛЯ РАЗРАБОТЧИКОВ - НА ДОМАШНЮЮ СТРАНИЦУ',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      fontFamily: 'Rubik',
-                                      color: Color(0xff908FEC),
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.normal,
-                                      decoration: TextDecoration.underline,
-                                    )),
-                              )),
                         ],
                       ),
                       Container(

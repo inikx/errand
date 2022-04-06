@@ -44,6 +44,7 @@ class Project {
     return Project(
       id: json['id'],
       title: json["title"],
+      creator: json["creator"],
     );
   }
 

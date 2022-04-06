@@ -15,6 +15,10 @@ class ProjectRepository {
     return await networkService.get_all_projects();
   }
 
+  Future<Response> getAllInvites() async {
+    return await networkService.getAllInvites();
+  }
+
   Future<Response> update_project(int id, String title) async {
     return await networkService.update_project(id, title);
   }
@@ -29,5 +33,9 @@ class ProjectRepository {
 
   Future<Response> getProjectUsers(int projectId) async {
     return await networkService.getProjectUsers(projectId);
+  }
+
+  update(Project project, int status) async {
+    return await networkService.updateStatus(project.id, status);
   }
 }

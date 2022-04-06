@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tasker_app/bloc/authentication/authentication_cubit.dart';
 import 'package:tasker_app/bloc/login/login_cubit.dart';
+import 'package:tasker_app/bloc/project_invites/project_invites_cubit.dart';
 import 'package:tasker_app/bloc/project_tasks/project_tasks_cubit.dart';
 import 'package:tasker_app/bloc/projects/projects_cubit.dart';
 import 'package:tasker_app/bloc/register/register_cubit.dart';
@@ -23,6 +24,7 @@ import 'package:tasker_app/presentation/pages/home.dart';
 import 'package:tasker_app/presentation/pages/login.dart';
 import 'package:tasker_app/presentation/pages/profile.dart';
 import 'package:tasker_app/presentation/pages/project_details.dart';
+import 'package:tasker_app/presentation/pages/project_invites.dart';
 import 'package:tasker_app/presentation/pages/registration.dart';
 
 class AppRouter {
@@ -68,10 +70,17 @@ class AppRouter {
             child: const RegistrationPage(),
           ),
         );
+      case PROJECT_INVITES:
+        return CupertinoPageRoute(
+          builder: (_) => BlocProvider(
+            create: (context) => getIt<ProjectInvitesCubit>(),
+            child: const ProjectInvitesPage(),
+          ),
+        );
       case PROJECT_DETAILS:
-        if (getIt.isRegistered<ProjectTasksCubit>()) {
+        if (getIt.isRegistered<ProjectTasksCubit>())
           getIt.unregister<ProjectTasksCubit>();
-        }
+
         getIt.registerSingleton(ProjectTasksCubit(getIt<TaskRepository>(),
             getIt<TaskCubit>(), getIt<ProjectRepository>()));
         final args = settings.arguments as ProjectDetailsScreenArguments;

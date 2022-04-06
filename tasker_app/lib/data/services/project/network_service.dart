@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 
 import 'package:tasker_app/constants/storage.dart';
 import 'package:tasker_app/constants/strings.dart';
+import 'package:tasker_app/data/models/project.dart';
 
 class ProjectNetworkService {
   create_project(String title, List<String> users) async {
@@ -30,6 +31,18 @@ class ProjectNetworkService {
       },
     );
 
+    return response;
+  }
+
+  getAllInvites() async {
+    String? token = await storage.read(key: 'token');
+    final response = await http.get(
+      Uri.parse('$BASE_URL/api/project/invites/all'),
+      headers: {
+        "Content-Type": "application/json",
+        "x-access-token": token.toString()
+      },
+    );
     return response;
   }
 
@@ -77,6 +90,18 @@ class ProjectNetworkService {
       "x-access-token": token.toString()
     });
     print(response.body);
+    return response;
+  }
+
+  updateStatus(int project_id, int status) async {
+    String? token = await storage.read(key: 'token');
+    final response = await http.post(
+        Uri.parse('$BASE_URL/api/project/update/invite'),
+        headers: {
+          "Content-Type": "application/json",
+          "x-access-token": token.toString()
+        },
+        body: jsonEncode({"project_id": project_id, "status": status}));
     return response;
   }
 }

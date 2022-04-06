@@ -3,6 +3,7 @@ import 'package:tasker_app/bloc/add_task/add_task_cubit.dart';
 import 'package:tasker_app/bloc/authentication/authentication_cubit.dart';
 import 'package:tasker_app/bloc/login/login_cubit.dart';
 import 'package:tasker_app/bloc/project%20creating/project_creating_cubit.dart';
+import 'package:tasker_app/bloc/project_invites/project_invites_cubit.dart';
 import 'package:tasker_app/bloc/projects/projects_cubit.dart';
 import 'package:tasker_app/bloc/register/register_cubit.dart';
 import 'package:tasker_app/bloc/task/task_cubit.dart';
@@ -54,4 +55,6 @@ Future<void> setupLocator() async {
   // Create Project
   getIt.registerSingleton(
       ProjectCreatingCubit(getIt<ProjectRepository>(), getIt<ProjectsCubit>()));
+
+  getIt.registerSingleton(ProjectInvitesCubit(getIt<ProjectRepository>()));
 }
