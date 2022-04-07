@@ -33,10 +33,10 @@ class ProjectTasksCubit extends Cubit<ProjectTasksState> {
   }
 
   void update_task(Task task) {
+    var currentTasks = state.tasks;
     taskRepository.update_task(task).then((response) {
       if (response.statusCode == 200) {
         if (state is ProjectTasksLoaded || state is ProjectTasksUpdated) {
-          var currentTasks = state.tasks;
           currentTasks.removeWhere((stateTask) => stateTask.id == task.id);
           currentTasks.add(task);
           taskCubit.updateTaskInState(task);
@@ -44,6 +44,7 @@ class ProjectTasksCubit extends Cubit<ProjectTasksState> {
         }
       } else {
         emit(ProjectTasksError());
+        emit(ProjectTasksUpdated(currentTasks));
       }
     });
   }

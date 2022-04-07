@@ -26,10 +26,10 @@ class TaskCubit extends Cubit<TaskState> {
   }
 
   void update_task(Task task) {
+    var currentTasks = state.tasks;
     repository.update_task(task).then((response) {
       if (response.statusCode == 200) {
         if (state is TasksLoaded || state is TaskUpdated) {
-          var currentTasks = state.tasks;
           currentTasks.removeWhere((stateTask) => stateTask.id == task.id);
           currentTasks.add(task);
           emit(TaskUpdated(tasks: currentTasks));
@@ -62,6 +62,7 @@ class TaskCubit extends Cubit<TaskState> {
         emit(TasksLoaded(tasks: tasks));
       } else {
         emit(TaskRemovingError());
+        emit(TasksLoaded(tasks: tasks));
       }
     });
   }
