@@ -71,6 +71,11 @@ class AppRouter {
           ),
         );
       case PROJECT_INVITES:
+        if (getIt.isRegistered<ProjectInvitesCubit>())
+          getIt.unregister<ProjectInvitesCubit>();
+
+        getIt
+            .registerSingleton(ProjectInvitesCubit(getIt<ProjectRepository>()));
         return CupertinoPageRoute(
           builder: (_) => BlocProvider(
             create: (context) => getIt<ProjectInvitesCubit>(),

@@ -37,7 +37,11 @@ class ProjectWidget extends StatelessWidget {
               }
             },
             onLongPress: () {
-              deleteProjectDialog(context);
+              showDialog(
+                  builder: (context) {
+                    return ProjectDialog(project: project);
+                  },
+                  context: context);
             },
             child: Stack(children: [
               Ink(
@@ -177,10 +181,7 @@ class ProjectWidget extends StatelessWidget {
                               child: const Text('Удалить проект',
                                   style: TextStyle(
                                       fontFamily: 'Rubik', fontSize: 16)),
-                              onPressed: () async {
-                                getIt<ProjectsCubit>()
-                                    .deleteProject(project.id);
-                              },
+                              onPressed: () async {},
                               style: ButtonStyle(
                                   backgroundColor: MaterialStateProperty.all(
                                       Color.fromARGB(255, 241, 100, 75)),
@@ -218,5 +219,119 @@ class ProjectWidget extends StatelessWidget {
             ),
           );
         });
+  }
+}
+
+class ProjectDialog extends StatelessWidget {
+  final Project project;
+  const ProjectDialog({
+    Key? key,
+    required this.project,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Container(
+          padding: EdgeInsets.fromLTRB(20, 26, 20, 0),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              color: Color(0xff252934)),
+          width: 90.w,
+          height: 22.h,
+          child: Column(
+            children: [
+              Align(
+                  alignment: Alignment.topCenter,
+                  child: Text("Вы уверены что хотите удалить",
+                      style: const TextStyle(
+                          fontFamily: 'Rubik',
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.normal))),
+              Align(
+                  alignment: Alignment.topCenter,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text("проект ",
+                          style: const TextStyle(
+                              fontFamily: 'Rubik',
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.normal)),
+                      Text(project.title,
+                          style: const TextStyle(
+                              fontFamily: 'Rubik',
+                              color: Color(0xFF7A79CD),
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold)),
+                      Text("?",
+                          style: const TextStyle(
+                              fontFamily: 'Rubik',
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.normal)),
+                    ],
+                  )),
+              Padding(
+                padding: const Pad(top: 20),
+                child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Container(
+                          width: 120,
+                          height: 40,
+                          child: ElevatedButton(
+                            child: const Text('Удалить',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                    fontFamily: 'Rubik',
+                                    fontSize: 16)),
+                            style: ButtonStyle(
+                                backgroundColor: MaterialStateProperty.all(
+                                    Color(0xCCD43232)),
+                                shape: MaterialStateProperty.all<
+                                        RoundedRectangleBorder>(
+                                    RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                ))),
+                            onPressed: () async {
+                              getIt<ProjectsCubit>().deleteProject(project.id);
+                              Navigator.pop(context);
+                            },
+                          ),
+                        ),
+                        Container(
+                          width: 120,
+                          height: 40,
+                          child: ElevatedButton(
+                              child: const Text('Оставить',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                      fontFamily: 'Rubik',
+                                      fontSize: 16)),
+                              onPressed: () async {
+                                Navigator.pop(context);
+                              },
+                              style: ButtonStyle(
+                                  backgroundColor: MaterialStateProperty.all(
+                                      Color(0xFF70AA67)),
+                                  shape: MaterialStateProperty.all<
+                                          RoundedRectangleBorder>(
+                                      RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                  )))),
+                        ),
+                      ],
+                    )),
+              ),
+            ],
+          )),
+    );
   }
 }

@@ -187,9 +187,11 @@ class BottomSheet extends StatelessWidget {
                                       var taskProject =
                                           await SelectProjectBottomSheet(
                                               context);
-                                      context
-                                          .read<AddTaskCubit>()
-                                          .updateProject(taskProject);
+                                      if (taskProject != null) {
+                                        context
+                                            .read<AddTaskCubit>()
+                                            .updateProject(taskProject);
+                                      }
                                     },
                                     child: Text(
                                         state.task.project_title ?? "Проект",

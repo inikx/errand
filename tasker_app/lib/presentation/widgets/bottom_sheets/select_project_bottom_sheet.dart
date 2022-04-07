@@ -40,7 +40,6 @@ class BottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     BlocProvider.of<ProjectsCubit>(context).fetchProjects();
-    var controller = TextEditingController();
     var scrollController = ScrollController();
     return Container(
         height: MediaQuery.of(context).copyWith().size.height * (3 / 4),
