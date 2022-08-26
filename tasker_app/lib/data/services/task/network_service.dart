@@ -3,10 +3,10 @@ import 'package:http/http.dart' as http;
 
 import 'package:tasker_app/constants/storage.dart';
 import 'package:tasker_app/constants/strings.dart';
+import 'package:tasker_app/data/models/task.dart';
 
 class TaskNetworkService {
-  create_task(String title, DateTime date, String description, int status,
-      int user_id, int project_id) async {
+  addTask(Task task) async {
     String? token = await storage.read(key: 'token');
     final response = await http.post(Uri.parse('$BASE_URL/api/task/create'),
         headers: {
@@ -14,12 +14,12 @@ class TaskNetworkService {
           "x-access-token": token.toString()
         },
         body: jsonEncode({
-          "title": title,
-          "date": date,
-          "description": description,
-          "status": status,
-          "user_id": user_id,
-          "project_id": project_id
+          "title": task.title,
+          "date": task.date.toString(),
+          "description": task.description,
+          "status": task.status,
+          "user_id": task.user_id,
+          "project_id": task.project_id
         }));
 
     return response;
@@ -39,8 +39,7 @@ class TaskNetworkService {
     return response;
   }
 
-  update_task(int id, String title, DateTime date, String description,
-      int status, int user_id, int project_id) async {
+  update_task(Task task) async {
     String? token = await storage.read(key: 'token');
     final response = await http.put(Uri.parse('$BASE_URL/api/task/update'),
         headers: {
@@ -48,13 +47,13 @@ class TaskNetworkService {
           "x-access-token": token.toString()
         },
         body: jsonEncode({
-          "id":id,
-          "title": title,
-          "date": date,
-          "description": description,
-          "status": status,
-          "user_id": user_id,
-          "project_id": project_id
+          "id": task.id,
+          "title": task.title,
+          "date": task.date.toString(),
+          "description": task.description,
+          "status": task.status,
+          "user_id": task.user_id,
+          "project_id": task.project_id
         }));
 
     return response;
@@ -69,6 +68,19 @@ class TaskNetworkService {
         },
         body: jsonEncode({"task_id": id}));
 
-    return response;  
+    return response;
+  }
+
+  get_all_project_tasks(int project_id) async {
+    String? token = await storage.read(key: 'token');
+    final response = await http.get(
+      Uri.parse('$BASE_URL/api/task/all/project/$project_id'),
+      headers: {
+        "Content-Type": "application/json",
+        "x-access-token": token.toString()
+      },
+    );
+
+    return response;
   }
 }

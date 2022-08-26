@@ -11,6 +11,8 @@ class LoginNetworkService {
     var jsonResponse = jsonDecode(response.body);
     if (response.statusCode == 200) {
       await storage.write(key: 'token', value: jsonResponse['token']);
+      await storage.write(key: 'username', value: jsonResponse['username']);
+      await storage.write(key: 'email', value: jsonResponse['email']);
     }
     return response;
   }

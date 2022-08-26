@@ -11,13 +11,17 @@ const Task = s.define(
             type: Sequelize.STRING,
             allowNull: false,
         },
+        description: {
+            type: Sequelize.TEXT,
+            allowNull: true,
+        },
         date: {
             // date
             type: Sequelize.DATE,
             allowNull: true,
         },
         status: {
-            type: Sequelize.STRING,
+            type: Sequelize.INTEGER,
             allowNull: false,
         },
     },

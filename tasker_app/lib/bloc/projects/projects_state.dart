@@ -1,7 +1,9 @@
 part of 'projects_cubit.dart';
 
 @immutable
-abstract class ProjectsState {}
+abstract class ProjectsState {
+  late List<Project> projects;
+}
 
 class ProjectsInitial extends ProjectsState {}
 
@@ -9,9 +11,9 @@ class ProjectsInitial extends ProjectsState {}
 class ProjectsLoading extends ProjectsState {}
 
 class ProjectsLoaded extends ProjectsState {
-  List<Project> data;
+  List<Project> projects;
 
-  ProjectsLoaded({required this.data});
+  ProjectsLoaded({required this.projects});
 }
 
 class ProjectsLoadingErrror extends ProjectsState {}

@@ -10,6 +10,7 @@ const getProjects = async (req, res) => {
             {
                 where: {
                     user_id: req.user.user_id,
+                    status: 1,
                 },
                 include: [
                     { model: User, required: true },
@@ -19,9 +20,64 @@ const getProjects = async (req, res) => {
             { raw: true }
         );
         const mappedProjects = projects.map((project) => {
-            return { id: project.project_id, title: project.project.title };
+            return {
+                id: project.project_id,
+                title: project.project.title,
+                creator: project.project.creator,
+            };
         });
         res.status(200).json(mappedProjects);
+    } catch (error) {
+        console.error(error);
+    }
+};
+
+const getInvitedProjects = async (req, res) => {
+    try {
+        const projects = await UsersInProject.findAll(
+            {
+                where: {
+                    user_id: req.user.user_id,
+                    status: 0,
+                },
+                include: [{ model: Project, required: true }],
+            },
+            { raw: true }
+        );
+        if (projects) {
+            const mappedProjects = projects.map((project) => {
+                return {
+                    id: project.project_id,
+                    title: project.project.title,
+                    creator: project.project.creator,
+                };
+            });
+            res.status(200).json(mappedProjects);
+        } else {
+            res.status(404).json("sorry");
+        }
+    } catch (error) {
+        console.error(error);
+    }
+};
+
+const getAllProjectUsers = async (req, res) => {
+    try {
+        const projectUsers = await UsersInProject.findAll(
+            {
+                where: {
+                    project_id: req.params.id,
+                },
+                include: [{ model: User, required: true }],
+            },
+            { raw: true }
+        );
+
+        console.log(projectUsers);
+        const mappedUsers = projectUsers.map((project) => {
+            return { id: project.user.id, username: project.user.username };
+        });
+        res.status(200).json(mappedUsers);
     } catch (error) {
         console.error(error);
     }
@@ -34,14 +90,59 @@ const createProject = async (req, res) => {
             creator: req.user.username,
         });
 
-        await project.save();
+        var projectttt = await project.save();
         const addUserToProject = new UsersInProject({
             project_id: project.id,
             user_id: req.user.user_id,
+            status: 1,
         });
 
-        addUserToProject.save();
-        res.status(200).json("project successfully created");
+        await addUserToProject.save();
+        const users = req.body.users;
+        if (users) {
+            for (var user of users) {
+                let userFromDb = await User.findOne({
+                    where: { username: user },
+                });
+                if (userFromDb) {
+                    let newUserToProject = new UsersInProject({
+                        project_id: project.id,
+                        user_id: userFromDb.id,
+                        status: 0,
+                    });
+                    await newUserToProject.save();
+                }
+            }
+        }
+        res.status(200).json(projectttt.dataValues);
+    } catch (error) {
+        console.error(error);
+    }
+};
+
+const updateProjectInvite = async (req, res) => {
+    try {
+        const { project_id, status } = req.body;
+        const projectInvite = await UsersInProject.findOne({
+            where: { project_id, user_id: req.user.user_id, status: 0 },
+        });
+
+        if (projectInvite) {
+            if (status == 1) {
+                await UsersInProject.update(
+                    { status },
+                    { where: { id: projectInvite.id } }
+                );
+                res.status(200).json("u change invite status invite!");
+            } else {
+                await UsersInProject.destroy({
+                    where: { id: projectInvite.id },
+                });
+                res.status(200).json("you declined invite!");
+            }
+        } else {
+            res.status(403).json("u dont have this project invite(");
+        }
     } catch (error) {
         console.error(error);
     }
@@ -85,6 +186,7 @@ const addUserToProject = async (req, res) => {
                         const userInProject = new UsersInProject({
                             group_id,
                             user_id,
+                            status: 0,
                         });
                         userInProject.save();
                         res.status(200).json("user added");
@@ -106,16 +208,17 @@ const addUserToProject = async (req, res) => {
 const removeProject = async (req, res) => {
     try {
         const { project_id } = req.body;
-        const cacheKey = `user_projects_${req.user.user_id}`;
         const project = await Project.findOne({
-            where: { id: project_id, user_id: req.user.user_id },
+            where: { id: project_id, creator: req.user.username },
         });
         if (project) {
             await Project.destroy({ where: { id: project_id } });
-            await redis.del(cacheKey);
             res.status(200).json("project removed successfully");
         } else {
-            res.status(404).json("project not found");
+            await UsersInProject.destroy({
+                where: { project_id, user_id: req.user.user_id },
+            });
+            res.status(200).json("project removed successfully");
         }
     } catch (error) {
         console.error(error);
@@ -128,4 +231,7 @@ module.exports = {
     updateProject,
     addUserToProject,
     removeProject,
+    getAllProjectUsers,
+    updateProjectInvite,
+    getInvitedProjects,
 };

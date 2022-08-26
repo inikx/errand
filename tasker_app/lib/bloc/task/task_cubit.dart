@@ -9,60 +9,60 @@ part 'task_state.dart';
 
 class TaskCubit extends Cubit<TaskState> {
   final TaskRepository repository;
-  TaskCubit({required this.repository}) : super(TaskInitial());
+  TaskCubit(this.repository) : super(TaskInitial());
 
   void fetchTasks() {
     emit(TasksLoading());
     repository.get_all_tasks().then((response) {
       if (response.statusCode == 200) {
-        emit(TasksLoaded(
-            tasks: jsonDecode(response.body)
-                .map((task) => Task.fromJson(task))
-                .toList()));
+        var rawTasks = jsonDecode(response.body) as List;
+        List<Task> tasks =
+            rawTasks.map((task) => Task.fromJson((task))).toList();
+        emit(TasksLoaded(tasks: tasks));
       } else {
         emit(TasksLoadingError());
       }
     });
   }
 
-  void create_task(String title, DateTime date, String description, int status,
-      int user_id, int project_id) {
-    emit(TaskCreating());
-    repository
-        .create_task(title, date, description, status, user_id, project_id)
-        .then((response) {
+  void update_task(Task task) {
+    var currentTasks = state.tasks;
+    repository.update_task(task).then((response) {
       if (response.statusCode == 200) {
-        emit(TaskCreated());
-        emit(TaskInitial());
-      } else {
-        emit(TasksCreatingError());
-      }
-    });
-  }
-
-  void update_task(int id, String title, DateTime date, String description,
-      int status, int user_id, int project_id) {
-    emit(TaskUpdating());
-    repository
-        .update_task(id, title, date, description, status, user_id, project_id)
-        .then((response) {
-      if (response.statusCode == 200) {
-        emit(TaskUpdated());
-        emit(TaskInitial());
+        if (state is TasksLoaded || state is TaskUpdated) {
+          currentTasks.removeWhere((stateTask) => stateTask.id == task.id);
+          currentTasks.add(task);
+          emit(TaskUpdated(tasks: currentTasks));
+        }
       } else {
         emit(TaskUpdatingError());
       }
     });
   }
 
+  updateTaskInState(Task task) {
+    var currentTasks = state.tasks;
+    currentTasks.removeWhere((stateTask) => stateTask.id == task.id);
+    currentTasks.add(task);
+    emit(TaskUpdated(tasks: currentTasks));
+  }
+
+  addTaskToState(Task task) {
+    final currentState = state;
+    final tasks = currentState.tasks;
+    tasks.add(task);
+    emit(TasksLoaded(tasks: tasks));
+  }
+
   void remove_task(int id) {
-    emit(TaskRemoving());
+    final tasks = state.tasks;
     repository.delete_task(id).then((response) {
       if (response.statusCode == 200) {
-        emit(TaskRemoved());
-        emit(TaskInitial());
+        tasks.removeWhere((element) => element.id == id);
+        emit(TasksLoaded(tasks: tasks));
       } else {
         emit(TaskRemovingError());
+        emit(TasksLoaded(tasks: tasks));
       }
     });
   }
